@@ -1,2 +1,6 @@
 # Documentos fuente: no se publican en el sitio
 *.docx
+
+# malteria/ también existe como repositorio propio (presentacionmalteria);
+# su flujo de publicación no se replica aquí.
+malteria/.github/

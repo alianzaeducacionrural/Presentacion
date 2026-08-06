@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Presentaciones &mdash; Alianza Educación Rural</title>
+<meta name="description" content="Índice de presentaciones e informes publicados por la Alianza Educación Rural. Cada presentación se abre en el navegador, sin descargas.">
+<meta name="theme-color" content="#1F2E1B" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F0D09" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Presentaciones — Alianza Educación Rural">
+<meta property="og:description" content="Índice de presentaciones e informes publicados por la Alianza Educación Rural.">
+<meta property="og:locale" content="es_CO">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231F2E1B'/%3E%3Crect x='6.5' y='8' width='19' height='12.5' rx='2' fill='%23F7F1E1'/%3E%3Crect x='15' y='21.5' width='2' height='3.5' fill='%23F7F1E1'/%3E%3Cpath d='M10 26h12' stroke='%23F7F1E1' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,39 +21,70 @@
     --paper-deep:#EEE3C4;
     --ink:#211A13;
     --forest:#1F2E1B;
-    --forest-deep:#16220F;
     --clay:#A8432B;
     --teal:#2E9A93;
     --muted:#6E6353;
     --rule:#D9C9A0;
-    --rule-soft:#E4D7B4;
-    --display:'Fraunces', serif;
-    --body:'Public Sans', sans-serif;
+    --chip:rgba(31,46,27,.06);
+    --shadow-1:0 1px 0 rgba(33,26,19,.06), 0 12px 28px -18px rgba(33,26,19,.35);
+    --shadow-2:0 2px 0 rgba(33,26,19,.08), 0 20px 38px -18px rgba(33,26,19,.45);
+    --display:'Fraunces', Georgia, serif;
+    --body:'Public Sans', system-ui, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#1A160F;
+      --paper-deep:#12100B;
+      --ink:#F2E9D6;
+      --forest:#9CC08C;
+      --clay:#E8886C;
+      --teal:#5FC7BF;
+      --muted:#A2957F;
+      --rule:#3B3325;
+      --chip:rgba(242,233,214,.07);
+      --shadow-1:0 1px 0 rgba(0,0,0,.4), 0 12px 28px -18px rgba(0,0,0,.9);
+      --shadow-2:0 2px 0 rgba(0,0,0,.5), 0 20px 38px -18px rgba(0,0,0,1);
+    }
   }
 
   *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   html,body{margin:0;min-height:100%;}
   body{
     font-family:var(--body);
     color:var(--ink);
     background:
-      radial-gradient(circle at 15% 10%, rgba(46,154,147,.08), transparent 45%),
-      radial-gradient(circle at 85% 90%, rgba(168,67,43,.08), transparent 45%),
+      radial-gradient(circle at 15% 10%, rgba(46,154,147,.10), transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(168,67,43,.10), transparent 45%),
       var(--paper-deep);
+    background-attachment:fixed;
     -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
   }
-  a{color:var(--ink);text-decoration:none;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  :focus-visible{outline:3px solid var(--clay);outline-offset:3px;}
 
-  .wrap{max-width:1060px;margin:0 auto;padding:4.5rem 2rem 5rem;}
+  .skip{
+    position:absolute;left:-9999px;top:0;
+    background:var(--paper);color:var(--ink);
+    padding:.7rem 1rem;border:1px solid var(--rule);z-index:10;
+  }
+  .skip:focus{left:1rem;top:1rem;}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+  .wrap{max-width:1060px;margin:0 auto;padding:clamp(2.5rem,6vw,4.5rem) clamp(1.1rem,4vw,2rem) 4rem;}
 
   header{
     border-bottom:4px double var(--ink);
     padding-bottom:1.6rem;
-    margin-bottom:2.6rem;
+    margin-bottom:2rem;
   }
   .kicker{
-    font-family:'Fraunces', serif;
-    font-size:.9rem;
+    font-family:var(--display);
+    font-size:.85rem;
+    font-weight:600;
     letter-spacing:.22em;
     text-transform:uppercase;
     color:var(--clay);
@@ -56,74 +95,147 @@
     font-weight:900;
     font-size:clamp(2rem,5vw,3.3rem);
     line-height:1.05;
+    letter-spacing:-.015em;
     margin:0;
   }
   .sub{
     margin:.8rem 0 0;
     color:var(--muted);
-    max-width:56ch;
-    font-size:1.05rem;
-    line-height:1.55;
+    max-width:58ch;
+    font-size:1.02rem;
+    line-height:1.6;
   }
 
+  /* ---------- Barra de control ---------- */
+  .toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:.9rem 1.2rem;
+    margin-bottom:1.6rem;
+  }
   .count{
     font-family:var(--display);
     font-size:.95rem;
     color:var(--muted);
-    margin-bottom:1.4rem;
+    margin:0;
   }
-  .count b{color:var(--forest);}
+  .count b{color:var(--ink);font-weight:700;}
 
+  .search{
+    margin-left:auto;
+    position:relative;
+    flex:1 1 200px;
+    max-width:290px;
+  }
+  .search input{
+    width:100%;
+    font-family:inherit;
+    font-size:.92rem;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:2px;
+    padding:.6rem .8rem .6rem 2.1rem;
+  }
+  .search input::placeholder{color:var(--muted);opacity:.85;}
+  .search input:focus{border-color:var(--clay);}
+  .search svg{
+    position:absolute;left:.7rem;top:50%;transform:translateY(-50%);
+    width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:2;
+    pointer-events:none;
+  }
+  /* La búsqueda sólo aparece cuando el JS la habilita. */
+  .search[hidden]{display:none;}
+
+  /* ---------- Tarjetas ---------- */
   .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
     gap:1.4rem;
+    list-style:none;
+    margin:0;
+    padding:0;
   }
 
   .card{
     display:flex;
     flex-direction:column;
+    height:100%;
     background:var(--paper);
     border:1px solid var(--rule);
-    box-shadow:0 1px 0 rgba(33,26,19,.06), 0 12px 28px -18px rgba(33,26,19,.35);
-    transition:transform .18s ease, box-shadow .18s ease;
+    box-shadow:var(--shadow-1);
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
-  .card:hover{transform:translateY(-4px);box-shadow:0 2px 0 rgba(33,26,19,.08), 0 20px 38px -18px rgba(33,26,19,.45);}
+  .card:hover,.card:focus-visible{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow-2);
+    border-color:var(--clay);
+  }
 
   .thumb{
+    position:relative;
     aspect-ratio:16/10;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:var(--forest);
-    color:var(--paper);
+    background:#1F2E1B;
     overflow:hidden;
   }
   .thumb img{width:100%;height:100%;object-fit:cover;}
   .thumb.plate{background:#fff;padding:1.6rem 1.8rem;}
   .thumb.plate img{object-fit:contain;}
-  .thumb .ph{
+
+  .tag{
+    position:absolute;top:.7rem;left:.7rem;
     font-family:var(--display);
-    font-size:1.2rem;
-    font-weight:700;
-    letter-spacing:.06em;
+    font-size:.68rem;
+    font-weight:600;
+    letter-spacing:.14em;
     text-transform:uppercase;
-    color:rgba(247,241,225,.85);
+    color:#211A13;
+    background:#F7F1E1;
+    border:1px solid rgba(33,26,19,.15);
+    padding:.28rem .55rem;
   }
 
-  .card-body{padding:1.3rem 1.4rem 1.5rem;display:flex;flex-direction:column;gap:.4rem;flex:1;}
-  .card-title{font-family:var(--display);font-weight:700;font-size:1.25rem;line-height:1.2;margin:0;}
-  .card-desc{color:var(--muted);font-size:.92rem;line-height:1.5;margin:0;}
+  .card-body{padding:1.25rem 1.35rem 1.45rem;display:flex;flex-direction:column;gap:.45rem;flex:1;}
+  .card-title{font-family:var(--display);font-weight:700;font-size:1.22rem;line-height:1.2;margin:0;}
+  .card-desc{color:var(--muted);font-size:.92rem;line-height:1.55;margin:0;}
+
+  .card-facts{
+    display:flex;flex-wrap:wrap;gap:.4rem;
+    margin:.5rem 0 0;padding:0;list-style:none;
+  }
+  .card-facts li{
+    font-size:.75rem;
+    letter-spacing:.02em;
+    color:var(--muted);
+    background:var(--chip);
+    border-radius:999px;
+    padding:.24rem .6rem;
+  }
+
   .card-meta{
-    margin-top:auto;
-    padding-top:.7rem;
-    font-family:'Fraunces', serif;
-    font-size:.8rem;
+    margin:auto 0 0;
+    padding-top:.85rem;
+    font-family:var(--display);
+    font-size:.78rem;
+    font-weight:600;
     letter-spacing:.16em;
     text-transform:uppercase;
     color:var(--teal);
+    transition:color .18s ease;
   }
-  .card:hover .card-meta{color:var(--clay);}
+  .card:hover .card-meta,.card:focus-visible .card-meta{color:var(--clay);}
+
+  .empty{
+    display:none;
+    padding:2.5rem 0;
+    color:var(--muted);
+    font-size:.95rem;
+  }
+  .empty.on{display:block;}
 
   footer{
     margin-top:3rem;
@@ -131,44 +243,125 @@
     border-top:2px solid var(--rule);
     color:var(--muted);
     font-size:.85rem;
+    line-height:1.7;
+  }
+  footer a{color:var(--clay);text-decoration:underline;text-underline-offset:3px;}
+  footer code{
+    font-size:.92em;
+    background:var(--chip);
+    padding:.1em .35em;
+    border-radius:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+    .card:hover{transform:none;}
   }
 </style>
 </head>
 <body>
+  <a class="skip" href="#listado">Saltar al listado</a>
+
   <div class="wrap">
     <header>
       <p class="kicker">Alianza Educación Rural</p>
       <h1>Presentaciones</h1>
-      <p class="sub">Índice de presentaciones publicadas. Cada carpeta en este repositorio contiene su propia <code>index.html</code> y se sirve desde GitHub Pages.</p>
+      <p class="sub">Informes y presentaciones publicados para consulta en línea. Cada una se abre directamente en el navegador &mdash; no hay archivos que descargar ni instalar.</p>
     </header>
 
-    <p class="count"><b id="total">0</b> presentaciones</p>
-
-    <div class="grid" id="grid">
-      <a class="card" href="./collective-mining/">
-        <div class="thumb"><img src="./collective-mining/collective-mining-logo.png" alt="Collective Mining"></div>
-        <div class="card-body">
-          <h2 class="card-title">Collective Mining</h2>
-          <p class="card-desc">La Universidad en el Campo &mdash; Institución Educativa Rafael Pombo.</p>
-          <p class="card-meta">Abrir presentación &rarr;</p>
-        </div>
-      </a>
-
-      <a class="card" href="./malteria/">
-        <div class="thumb plate"><img src="./malteria/comite-cafeteros.png" alt="Comité de Cafeteros de Caldas"></div>
-        <div class="card-body">
-          <h2 class="card-title">I.E. Maltería</h2>
-          <p class="card-desc">Informe ejecutivo &mdash; Estado del Modelo de Educación Rural con Escuela Nueva.</p>
-          <p class="card-meta">Abrir presentación &rarr;</p>
-        </div>
-      </a>
+    <div class="toolbar">
+      <p class="count"><b id="total">2</b> <span id="total-label">presentaciones</span></p>
+      <div class="search" id="search-box" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <label class="sr-only" for="q">Buscar presentación</label>
+        <input id="q" type="search" placeholder="Buscar por título o entidad…" autocomplete="off">
+      </div>
     </div>
 
-    <footer>Repositorio: github.com/alianzaeducacionrural/Presentacion &mdash; edita <code>index.html</code> para añadir más presentaciones.</footer>
+    <ul class="grid" id="listado">
+      <li data-search="I.E. Maltería informe ejecutivo escuela nueva comité de cafeteros de caldas manizales educación rural">
+        <a class="card" href="./malteria/">
+          <div class="thumb plate">
+            <img src="./malteria/comite-cafeteros.png" alt="" width="320" height="200" loading="lazy">
+            <span class="tag">Informe</span>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">I.E. Maltería</h2>
+            <p class="card-desc">Informe ejecutivo sobre el estado del Modelo de Educación Rural con Escuela Nueva.</p>
+            <ul class="card-facts">
+              <li>Comité de Cafeteros de Caldas</li>
+              <li>Agosto 2026</li>
+            </ul>
+            <p class="card-meta">Abrir presentación &rarr;</p>
+          </div>
+        </a>
+      </li>
+
+      <li data-search="collective mining universidad en el campo institución educativa rafael pombo marmato caldas">
+        <a class="card" href="./collective-mining/">
+          <div class="thumb">
+            <img src="./collective-mining/collective-mining-logo.png" alt="" width="320" height="200" loading="lazy">
+            <span class="tag">Presentación</span>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Collective Mining</h2>
+            <p class="card-desc">La Universidad en el Campo, en la Institución Educativa Rafael Pombo.</p>
+            <ul class="card-facts">
+              <li>I.E. Rafael Pombo &middot; Marmato</li>
+              <li>Julio 2026</li>
+            </ul>
+            <p class="card-meta">Abrir presentación &rarr;</p>
+          </div>
+        </a>
+      </li>
+    </ul>
+
+    <p class="empty" id="empty">Ninguna presentación coincide con la búsqueda.</p>
+
+    <footer>
+      Publicado con GitHub Pages desde <a href="https://github.com/alianzaeducacionrural/Presentacion">alianzaeducacionrural/Presentacion</a>.<br>
+      Para añadir una presentación: crea una carpeta con su <code>index.html</code> y duplica una tarjeta en el <code>index.html</code> raíz.
+    </footer>
   </div>
 
   <script>
-    document.getElementById('total').textContent = document.querySelectorAll('.card').length;
+    (function(){
+      var items = Array.prototype.slice.call(document.querySelectorAll('#listado > li'));
+      var total = document.getElementById('total');
+      var label = document.getElementById('total-label');
+      var empty = document.getElementById('empty');
+      var box   = document.getElementById('search-box');
+      var input = document.getElementById('q');
+
+      function setCount(n){
+        total.textContent = n;
+        label.textContent = n === 1 ? 'presentación' : 'presentaciones';
+      }
+
+      setCount(items.length);
+
+      // La búsqueda sólo vale la pena cuando hay varias tarjetas.
+      if (items.length < 3) return;
+      box.hidden = false;
+
+      function normalize(s){
+        return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      }
+
+      input.addEventListener('input', function(){
+        var q = normalize(input.value.trim());
+        var shown = 0;
+        items.forEach(function(li){
+          var hay = normalize(li.dataset.search + ' ' + li.textContent);
+          var match = !q || hay.indexOf(q) !== -1;
+          li.hidden = !match;
+          if (match) shown++;
+        });
+        setCount(shown);
+        empty.classList.toggle('on', shown === 0);
+      });
+    })();
   </script>
 </body>
 </html>
