@@ -3,363 +3,471 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Presentaciones &mdash; Alianza Educación Rural</title>
-<meta name="description" content="Índice de presentaciones e informes publicados por la Alianza Educación Rural. Cada presentación se abre en el navegador, sin descargas.">
-<meta name="theme-color" content="#1F2E1B" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0F0D09" media="(prefers-color-scheme: dark)">
+<title>Presentaciones · Alianza Educación Rural</title>
+<meta name="description" content="Repositorio de presentaciones e informes de la Alianza Educación Rural. Se abren en el navegador, sin descargas ni instalaciones.">
+<meta name="theme-color" content="#12583A">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Presentaciones — Alianza Educación Rural">
-<meta property="og:description" content="Índice de presentaciones e informes publicados por la Alianza Educación Rural.">
+<meta property="og:title" content="Presentaciones · Alianza Educación Rural">
+<meta property="og:description" content="Repositorio de presentaciones e informes de la Alianza Educación Rural.">
 <meta property="og:locale" content="es_CO">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231F2E1B'/%3E%3Crect x='6.5' y='8' width='19' height='12.5' rx='2' fill='%23F7F1E1'/%3E%3Crect x='15' y='21.5' width='2' height='3.5' fill='%23F7F1E1'/%3E%3Cpath d='M10 26h12' stroke='%23F7F1E1' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='4' fill='%2312583A'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round'%3E%3Crect x='4' y='5.5' width='16' height='11' rx='1.5'/%3E%3Cpath d='M8.5 19h7M7.5 9.5h6M7.5 12.5h3.5'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F7F1E1;
-    --paper-deep:#EEE3C4;
-    --ink:#211A13;
-    --forest:#1F2E1B;
-    --clay:#A8432B;
-    --teal:#2E9A93;
-    --muted:#6E6353;
-    --rule:#D9C9A0;
-    --chip:rgba(31,46,27,.06);
-    --shadow-1:0 1px 0 rgba(33,26,19,.06), 0 12px 28px -18px rgba(33,26,19,.35);
-    --shadow-2:0 2px 0 rgba(33,26,19,.08), 0 20px 38px -18px rgba(33,26,19,.45);
-    --display:'Fraunces', Georgia, serif;
-    --body:'Public Sans', system-ui, sans-serif;
-  }
+    --verde:#12583A;
+    --verde-hondo:#0C3D28;
+    --verde-claro:#EAF1EC;
 
-  @media (prefers-color-scheme: dark){
-    :root{
-      --paper:#1A160F;
-      --paper-deep:#12100B;
-      --ink:#F2E9D6;
-      --forest:#9CC08C;
-      --clay:#E8886C;
-      --teal:#5FC7BF;
-      --muted:#A2957F;
-      --rule:#3B3325;
-      --chip:rgba(242,233,214,.07);
-      --shadow-1:0 1px 0 rgba(0,0,0,.4), 0 12px 28px -18px rgba(0,0,0,.9);
-      --shadow-2:0 2px 0 rgba(0,0,0,.5), 0 20px 38px -18px rgba(0,0,0,1);
-    }
+    --tinta:#14181B;
+    --tinta-media:#565E58;
+    --papel:#FFFFFF;
+    --papel-2:#F5F7F4;
+    --filete:#D8DED8;
+    --filete-firme:#B9C2B9;
+
+    --ui:'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --barra:64px;
+    --salida:cubic-bezier(.16,1,.3,1);
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  html,body{margin:0;min-height:100%;}
+  html,body{margin:0;}
+  html{min-height:100%;}
   body{
-    font-family:var(--body);
-    color:var(--ink);
-    background:
-      radial-gradient(circle at 15% 10%, rgba(46,154,147,.10), transparent 45%),
-      radial-gradient(circle at 85% 90%, rgba(168,67,43,.10), transparent 45%),
-      var(--paper-deep);
-    background-attachment:fixed;
+    min-height:100vh;
+    display:flex;flex-direction:column;
+    font-family:var(--ui);
+    font-size:16px;
+    line-height:1.5;
+    color:var(--tinta);
+    background:var(--papel-2);
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
   }
-  a{color:inherit;text-decoration:none;}
   img{display:block;max-width:100%;}
-  :focus-visible{outline:3px solid var(--clay);outline-offset:3px;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,p,dl,dd,dt,ul{margin:0;padding:0;}
+  ul{list-style:none;}
+  :focus-visible{outline:2px solid var(--verde);outline-offset:3px;border-radius:2px;}
 
-  .skip{
-    position:absolute;left:-9999px;top:0;
-    background:var(--paper);color:var(--ink);
-    padding:.7rem 1rem;border:1px solid var(--rule);z-index:10;
+  .salto{
+    position:absolute;left:-9999px;top:0;z-index:20;
+    background:var(--papel);color:var(--tinta);
+    padding:.7rem 1rem;border:1px solid var(--filete-firme);
   }
-  .skip:focus{left:1rem;top:1rem;}
-  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+  .salto:focus{left:1rem;top:1rem;}
+  .oculto{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}
 
-  .wrap{max-width:1060px;margin:0 auto;padding:clamp(2.5rem,6vw,4.5rem) clamp(1.1rem,4vw,2rem) 4rem;}
+  .limite{width:100%;max-width:1140px;margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem);}
+  main.limite{flex:1;}
 
-  header{
-    border-bottom:4px double var(--ink);
-    padding-bottom:1.6rem;
-    margin-bottom:2rem;
+  /* ============ Banda institucional ============ */
+  .barra{
+    position:sticky;top:0;z-index:10;
+    background:var(--verde);
+    color:#fff;
+    border-bottom:1px solid var(--verde-hondo);
   }
-  .kicker{
-    font-family:var(--display);
-    font-size:.85rem;
-    font-weight:600;
-    letter-spacing:.22em;
-    text-transform:uppercase;
-    color:var(--clay);
-    margin:0 0 .7rem;
-  }
-  h1{
-    font-family:var(--display);
-    font-weight:900;
-    font-size:clamp(2rem,5vw,3.3rem);
-    line-height:1.05;
-    letter-spacing:-.015em;
-    margin:0;
-  }
-  .sub{
-    margin:.8rem 0 0;
-    color:var(--muted);
-    max-width:58ch;
-    font-size:1.02rem;
-    line-height:1.6;
-  }
-
-  /* ---------- Barra de control ---------- */
-  .toolbar{
-    display:flex;
+  .barra .limite{
+    min-height:var(--barra);
+    display:flex;align-items:center;gap:1.5rem;
+    padding-top:.7rem;padding-bottom:.7rem;
     flex-wrap:wrap;
-    align-items:center;
-    gap:.9rem 1.2rem;
-    margin-bottom:1.6rem;
   }
-  .count{
-    font-family:var(--display);
-    font-size:.95rem;
-    color:var(--muted);
-    margin:0;
+  .sello{display:flex;align-items:center;gap:.7rem;margin-right:auto;}
+  .sello svg{width:26px;height:26px;flex:none;color:#fff;}
+  .sello b{
+    font-weight:600;font-size:.98rem;letter-spacing:-.01em;
+    white-space:nowrap;
   }
-  .count b{color:var(--ink);font-weight:700;}
 
-  .search{
-    margin-left:auto;
-    position:relative;
-    flex:1 1 200px;
-    max-width:290px;
+  .buscador{position:relative;flex:0 1 320px;min-width:190px;}
+  .buscador > svg{
+    position:absolute;left:.8rem;top:50%;transform:translateY(-50%);
+    width:16px;height:16px;color:rgba(255,255,255,.8);pointer-events:none;
   }
-  .search input{
-    width:100%;
-    font-family:inherit;
-    font-size:.92rem;
-    color:var(--ink);
-    background:var(--paper);
-    border:1px solid var(--rule);
-    border-radius:2px;
-    padding:.6rem .8rem .6rem 2.1rem;
+  .buscador input{
+    width:100%;font:inherit;font-size:.92rem;
+    color:#fff;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.34);border-radius:3px;
+    padding:.52rem 2.6rem .52rem 2.4rem;
+    transition:background .15s ease,border-color .15s ease;
   }
-  .search input::placeholder{color:var(--muted);opacity:.85;}
-  .search input:focus{border-color:var(--clay);}
-  .search svg{
-    position:absolute;left:.7rem;top:50%;transform:translateY(-50%);
-    width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:2;
-    pointer-events:none;
+  .buscador input::placeholder{color:rgba(255,255,255,.82);}
+  .buscador input:hover{background:rgba(255,255,255,.18);}
+  .buscador input:focus{
+    background:rgba(0,0,0,.2);
+    border-color:#fff;outline:none;
   }
-  /* La búsqueda sólo aparece cuando el JS la habilita. */
-  .search[hidden]{display:none;}
+  .buscador input::-webkit-search-cancel-button{appearance:none;-webkit-appearance:none;}
+  .buscador kbd{
+    position:absolute;right:.55rem;top:50%;transform:translateY(-50%);
+    font:inherit;font-size:.68rem;font-weight:600;line-height:1;
+    color:rgba(255,255,255,.8);
+    border:1px solid rgba(255,255,255,.4);border-radius:3px;
+    padding:.2rem .35rem;pointer-events:none;
+    transition:opacity .12s ease;
+  }
+  .buscador input:focus ~ kbd,
+  .buscador input:not(:placeholder-shown) ~ kbd{opacity:0;}
 
-  /* ---------- Tarjetas ---------- */
-  .grid{
+  /* ============ Encabezado de página ============ */
+  .portada{padding:clamp(2.4rem,6vw,4rem) 0 clamp(1.6rem,3vw,2.2rem);}
+  h1{
+    font-size:clamp(2.1rem,5.5vw,3.25rem);
+    font-weight:700;letter-spacing:-.03em;line-height:1.02;
+  }
+  .entrada{
+    margin-top:.9rem;max-width:66ch;
+    font-size:clamp(1rem,1.4vw,1.08rem);
+    color:var(--tinta-media);
+  }
+
+  .estado{
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1.4rem;
+    margin-top:1.6rem;padding-top:.85rem;
+    border-top:1px solid var(--filete-firme);
+    font-size:.76rem;font-weight:600;
+    letter-spacing:.11em;text-transform:uppercase;
+    color:var(--tinta-media);
+  }
+  .estado b{color:var(--tinta);font-weight:700;}
+  .estado .limpiar{
+    margin-left:auto;font:inherit;color:var(--verde);
+    background:none;border:none;padding:0;cursor:pointer;
+    text-decoration:underline;text-underline-offset:3px;
+  }
+  .estado .limpiar[hidden]{display:none;}
+
+  /* ============ Pliego de fichas ============ */
+  .pliego{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
-    gap:1.4rem;
-    list-style:none;
-    margin:0;
-    padding:0;
+    grid-template-columns:repeat(auto-fill,minmax(272px,1fr));
+    gap:1px;
+    background:var(--filete);
+    border:1px solid var(--filete);
+    margin-bottom:clamp(2.5rem,6vw,4rem);
   }
+  .pliego[hidden]{display:none;}
+  .pliego > li{background:var(--papel);}
+  .pliego > li[hidden]{display:none;}
 
-  .card{
-    display:flex;
-    flex-direction:column;
-    height:100%;
-    background:var(--paper);
-    border:1px solid var(--rule);
-    box-shadow:var(--shadow-1);
-    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  .ficha{
+    display:flex;flex-direction:column;height:100%;
+    padding:1.15rem 1.25rem 1.3rem;
+    transition:background .16s ease;
   }
-  .card:hover,.card:focus-visible{
-    transform:translateY(-4px);
-    box-shadow:var(--shadow-2);
-    border-color:var(--clay);
-  }
+  a.ficha:hover{background:var(--papel-2);}
 
-  .thumb{
+  .lamina{
     position:relative;
-    aspect-ratio:16/10;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#1F2E1B;
+    aspect-ratio:5/3;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--papel-2);
+    border:1px solid var(--filete);
+    padding:1.3rem;
+    margin-bottom:1.05rem;
     overflow:hidden;
   }
-  .thumb img{width:100%;height:100%;object-fit:cover;}
-  .thumb.plate{background:#fff;padding:1.6rem 1.8rem;}
-  .thumb.plate img{object-fit:contain;}
+  a.ficha:hover .lamina{background:var(--papel);}
+  .lamina img{max-height:100%;width:auto;object-fit:contain;}
 
-  .tag{
-    position:absolute;top:.7rem;left:.7rem;
-    font-family:var(--display);
-    font-size:.68rem;
-    font-weight:600;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:#211A13;
-    background:#F7F1E1;
-    border:1px solid rgba(33,26,19,.15);
-    padding:.28rem .55rem;
+  .clase{
+    position:absolute;top:0;left:0;
+    background:var(--verde);color:#fff;
+    font-size:.63rem;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;
+    padding:.3rem .5rem;
   }
 
-  .card-body{padding:1.25rem 1.35rem 1.45rem;display:flex;flex-direction:column;gap:.45rem;flex:1;}
-  .card-title{font-family:var(--display);font-weight:700;font-size:1.22rem;line-height:1.2;margin:0;}
-  .card-desc{color:var(--muted);font-size:.92rem;line-height:1.55;margin:0;}
-
-  .card-facts{
-    display:flex;flex-wrap:wrap;gap:.4rem;
-    margin:.5rem 0 0;padding:0;list-style:none;
+  .titulo{
+    font-size:1.16rem;font-weight:600;letter-spacing:-.015em;line-height:1.25;
   }
-  .card-facts li{
-    font-size:.75rem;
-    letter-spacing:.02em;
-    color:var(--muted);
-    background:var(--chip);
-    border-radius:999px;
-    padding:.24rem .6rem;
+  .resumen{
+    margin-top:.4rem;
+    font-size:.9rem;color:var(--tinta-media);
   }
 
-  .card-meta{
-    margin:auto 0 0;
-    padding-top:.85rem;
-    font-family:var(--display);
+  .campos{
+    display:grid;grid-template-columns:auto 1fr;gap:.3rem .8rem;
+    margin-top:1rem;padding-top:.85rem;
+    border-top:1px solid var(--filete);
     font-size:.78rem;
-    font-weight:600;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    color:var(--teal);
-    transition:color .18s ease;
   }
-  .card:hover .card-meta,.card:focus-visible .card-meta{color:var(--clay);}
+  .campos dt{
+    font-size:.63rem;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--tinta-media);
+    padding-top:.18rem;
+  }
+  .campos dd{color:var(--tinta);}
 
-  .empty{
+  .abrir{
+    display:flex;align-items:center;gap:.4rem;
+    margin-top:auto;padding-top:1.1rem;
+    font-size:.82rem;font-weight:600;
+    letter-spacing:.02em;color:var(--verde);
+  }
+  .abrir svg{width:15px;height:15px;transition:transform .18s var(--salida);}
+  a.ficha:hover .abrir svg{transform:translateX(4px);}
+
+  /* Nota operativa: no es una publicación, por eso no se cuenta ni se filtra. */
+  .nota{padding:1.15rem 1.25rem 1.3rem;}
+  .nota .marco{
+    height:100%;
+    border:1px dashed var(--filete-firme);
+    padding:1.5rem 1.3rem;
+    display:flex;flex-direction:column;justify-content:center;gap:.5rem;
+  }
+  .nota svg{width:20px;height:20px;color:var(--tinta-media);}
+  .nota h2{font-size:.98rem;font-weight:600;letter-spacing:-.01em;}
+  .nota p{font-size:.85rem;color:var(--tinta-media);}
+  .nota a{
+    align-self:flex-start;margin-top:.25rem;
+    font-size:.82rem;font-weight:600;color:var(--verde);
+    text-decoration:underline;text-underline-offset:3px;
+  }
+  .nota code{
+    font-family:var(--ui);font-weight:600;font-size:.95em;
+    color:var(--tinta);background:var(--verde-claro);
+    padding:.05em .3em;border-radius:2px;
+  }
+
+  .vacio{
     display:none;
-    padding:2.5rem 0;
-    color:var(--muted);
-    font-size:.95rem;
+    padding:3.5rem 1.5rem;text-align:center;
+    background:var(--papel);border:1px solid var(--filete);
+    margin-bottom:clamp(2.5rem,6vw,4rem);
+    color:var(--tinta-media);font-size:.95rem;
   }
-  .empty.on{display:block;}
+  .vacio.activo{display:block;}
+  .vacio b{display:block;color:var(--tinta);font-size:1.05rem;font-weight:600;letter-spacing:-.01em;}
+  .vacio p{margin-top:.35rem;}
+  .vacio button{
+    margin-top:1.1rem;font:inherit;font-size:.85rem;font-weight:600;
+    color:#fff;background:var(--verde);
+    border:1px solid var(--verde);border-radius:3px;
+    padding:.5rem .9rem;cursor:pointer;
+    transition:background .15s ease;
+  }
+  .vacio button:hover{background:var(--verde-hondo);}
 
-  footer{
-    margin-top:3rem;
-    padding-top:1.4rem;
-    border-top:2px solid var(--rule);
-    color:var(--muted);
-    font-size:.85rem;
-    line-height:1.7;
+  /* ============ Pie ============ */
+  .pie{
+    border-top:1px solid var(--filete-firme);
+    background:var(--papel);
   }
-  footer a{color:var(--clay);text-decoration:underline;text-underline-offset:3px;}
-  footer code{
-    font-size:.92em;
-    background:var(--chip);
-    padding:.1em .35em;
-    border-radius:3px;
+  .pie .limite{
+    display:flex;flex-wrap:wrap;gap:.5rem 2rem;
+    padding-top:1.4rem;padding-bottom:2.4rem;
+    font-size:.82rem;color:var(--tinta-media);
+  }
+  .pie a{color:var(--verde);text-decoration:underline;text-underline-offset:3px;}
+
+  /* ============ Movimiento ============ */
+  @media (prefers-reduced-motion: no-preference){
+    .pliego > li{animation:entra .55s var(--salida) backwards;}
+    .pliego > li:nth-child(1){animation-delay:.02s;}
+    .pliego > li:nth-child(2){animation-delay:.09s;}
+    .pliego > li:nth-child(3){animation-delay:.16s;}
+    .pliego > li:nth-child(n+4){animation-delay:.22s;}
+  }
+  @keyframes entra{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:none;}
   }
 
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{transition:none !important;}
-    .card:hover{transform:none;}
+  @media (max-width:560px){
+    .barra .limite{gap:.8rem;}
+    .sello{margin-right:0;width:100%;}
+    .buscador{flex:1 1 100%;}
+    .estado .limpiar{margin-left:0;}
   }
 </style>
 </head>
 <body>
-  <a class="skip" href="#listado">Saltar al listado</a>
+<!--
+  THESIS: un repositorio institucional que se lee como un pliego de fichas
+  técnicas; rechaza la galería de tarjetas flotantes sobre fondo crema.
+  OWN-WORLD: papel blanco, filetes de 1px formando una retícula continua sin
+  sombras, banda verde institucional (#12583A) que sostiene marca y búsqueda,
+  Archivo 400-700, rótulos en versalitas de 11px.
+  STORY: quien llega ve qué hay publicado, de quién es y de cuándo, y entra
+  en un clic; el buscador queda siempre a mano.
+  FIRST VIEWPORT: banda verde fija con sello y buscador; debajo el título a
+  gran escala, la entrada, la línea de estado con el conteo y el pliego de
+  fichas enmarcado.
+  FORM: pliego de fichas. Dirección fijada por el usuario ("institucional
+  claro"), así que no se tiró el dado de concept-seed.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the
+  finish review, the verdict, and DESIGN.md
+-->
+  <a class="salto" href="#pliego">Saltar al listado</a>
 
-  <div class="wrap">
-    <header>
-      <p class="kicker">Alianza Educación Rural</p>
-      <h1>Presentaciones</h1>
-      <p class="sub">Informes y presentaciones publicados para consulta en línea. Cada una se abre directamente en el navegador &mdash; no hay archivos que descargar ni instalar.</p>
-    </header>
+  <header class="barra">
+    <div class="limite">
+      <span class="sello">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <rect x="3" y="4.5" width="18" height="12.5" rx="1.5"/>
+          <path d="M8 20h8M7 9h7M7 12.5h4"/>
+        </svg>
+        <b>Alianza Educación Rural</b>
+      </span>
 
-    <div class="toolbar">
-      <p class="count"><b id="total">2</b> <span id="total-label">presentaciones</span></p>
-      <div class="search" id="search-box" hidden>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        <label class="sr-only" for="q">Buscar presentación</label>
-        <input id="q" type="search" placeholder="Buscar por título o entidad…" autocomplete="off">
+      <div class="buscador">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.5"/><path d="M20 20l-3.8-3.8"/>
+        </svg>
+        <label class="oculto" for="q">Buscar presentación</label>
+        <input id="q" type="search" placeholder="Buscar por título o entidad" autocomplete="off">
+        <kbd>/</kbd>
       </div>
     </div>
+  </header>
 
-    <ul class="grid" id="listado">
-      <li data-search="I.E. Maltería informe ejecutivo escuela nueva comité de cafeteros de caldas manizales educación rural">
-        <a class="card" href="./malteria/">
-          <div class="thumb plate">
-            <img src="./malteria/comite-cafeteros.png" alt="" width="320" height="200" loading="lazy">
-            <span class="tag">Informe</span>
-          </div>
-          <div class="card-body">
-            <h2 class="card-title">I.E. Maltería</h2>
-            <p class="card-desc">Informe ejecutivo sobre el estado del Modelo de Educación Rural con Escuela Nueva.</p>
-            <ul class="card-facts">
-              <li>Comité de Cafeteros de Caldas</li>
-              <li>Agosto 2026</li>
-            </ul>
-            <p class="card-meta">Abrir presentación &rarr;</p>
-          </div>
+  <main class="limite">
+    <div class="portada">
+      <h1>Presentaciones</h1>
+      <p class="entrada">Informes y presentaciones publicados por la Alianza Educación Rural. Se abren directamente en el navegador, en computador o celular: no hay nada que descargar ni instalar.</p>
+
+      <p class="estado">
+        <span><b id="conteo">2</b> <span id="conteo-texto">publicaciones</span></span>
+        <span>Actualizado agosto 2026</span>
+        <button class="limpiar" id="limpiar" type="button" hidden>Quitar filtro</button>
+      </p>
+    </div>
+
+    <ul class="pliego" id="pliego">
+      <li data-buscar="malteria informe ejecutivo escuela nueva comite de cafeteros de caldas manizales educacion rural">
+        <a class="ficha" href="./malteria/">
+          <span class="lamina">
+            <img src="./malteria/comite-cafeteros.png" alt="" width="320" height="192" loading="lazy">
+            <span class="clase">Informe</span>
+          </span>
+          <h2 class="titulo">I.E. Maltería</h2>
+          <p class="resumen">Estado del Modelo de Educación Rural con Escuela Nueva.</p>
+          <dl class="campos">
+            <dt>Entidad</dt><dd>Comité de Cafeteros de Caldas</dd>
+            <dt>Publicado</dt><dd>Agosto 2026</dd>
+          </dl>
+          <span class="abrir">Abrir
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/>
+            </svg>
+          </span>
         </a>
       </li>
 
-      <li data-search="collective mining universidad en el campo institución educativa rafael pombo marmato caldas">
-        <a class="card" href="./collective-mining/">
-          <div class="thumb">
-            <img src="./collective-mining/collective-mining-logo.png" alt="" width="320" height="200" loading="lazy">
-            <span class="tag">Presentación</span>
-          </div>
-          <div class="card-body">
-            <h2 class="card-title">Collective Mining</h2>
-            <p class="card-desc">La Universidad en el Campo, en la Institución Educativa Rafael Pombo.</p>
-            <ul class="card-facts">
-              <li>I.E. Rafael Pombo &middot; Marmato</li>
-              <li>Julio 2026</li>
-            </ul>
-            <p class="card-meta">Abrir presentación &rarr;</p>
-          </div>
+      <li data-buscar="collective mining la universidad en el campo institucion educativa rafael pombo marmato caldas">
+        <a class="ficha" href="./collective-mining/">
+          <span class="lamina">
+            <img src="./collective-mining/collective-mining-logo.png" alt="" width="320" height="192" loading="lazy">
+            <span class="clase">Presentación</span>
+          </span>
+          <h2 class="titulo">Collective Mining</h2>
+          <p class="resumen">La Universidad en el Campo, con la I.E. Rafael Pombo.</p>
+          <dl class="campos">
+            <dt>Entidad</dt><dd>I.E. Rafael Pombo · Marmato</dd>
+            <dt>Publicado</dt><dd>Julio 2026</dd>
+          </dl>
+          <span class="abrir">Abrir
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/>
+            </svg>
+          </span>
         </a>
+      </li>
+
+      <li class="nota" data-fija>
+        <div class="marco">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+            <path d="M12 5.5v13M5.5 12h13"/>
+          </svg>
+          <h2>Añadir una presentación</h2>
+          <p>Crea una carpeta con su <code>index.html</code> y duplica una ficha en el <code>index.html</code> de la raíz.</p>
+          <a href="https://github.com/alianzaeducacionrural/Presentacion">Abrir el repositorio</a>
+        </div>
       </li>
     </ul>
 
-    <p class="empty" id="empty">Ninguna presentación coincide con la búsqueda.</p>
+    <div class="vacio" id="vacio">
+      <b>Sin coincidencias</b>
+      <p>Ninguna publicación coincide con «<span id="vacio-q"></span>».</p>
+      <button type="button" id="vacio-limpiar">Ver todas las publicaciones</button>
+    </div>
+  </main>
 
-    <footer>
-      Publicado con GitHub Pages desde <a href="https://github.com/alianzaeducacionrural/Presentacion">alianzaeducacionrural/Presentacion</a>.<br>
-      Para añadir una presentación: crea una carpeta con su <code>index.html</code> y duplica una tarjeta en el <code>index.html</code> raíz.
-    </footer>
-  </div>
+  <footer class="pie">
+    <div class="limite">
+      <span>Alianza Educación Rural · 2026</span>
+      <span>Publicado con GitHub Pages desde <a href="https://github.com/alianzaeducacionrural/Presentacion">alianzaeducacionrural/Presentacion</a></span>
+    </div>
+  </footer>
 
   <script>
     (function(){
-      var items = Array.prototype.slice.call(document.querySelectorAll('#listado > li'));
-      var total = document.getElementById('total');
-      var label = document.getElementById('total-label');
-      var empty = document.getElementById('empty');
-      var box   = document.getElementById('search-box');
-      var input = document.getElementById('q');
+      var pliego  = document.getElementById('pliego');
+      var todas   = Array.prototype.slice.call(pliego.children);
+      var fichas  = todas.filter(function(li){ return !li.hasAttribute('data-fija'); });
+      var nota    = pliego.querySelector('[data-fija]');
+      var input   = document.getElementById('q');
+      var conteo  = document.getElementById('conteo');
+      var texto   = document.getElementById('conteo-texto');
+      var vacio   = document.getElementById('vacio');
+      var vacioQ  = document.getElementById('vacio-q');
+      var limpiar = document.getElementById('limpiar');
+      var reponer = document.getElementById('vacio-limpiar');
 
-      function setCount(n){
-        total.textContent = n;
-        label.textContent = n === 1 ? 'presentación' : 'presentaciones';
+      function marcar(n){
+        conteo.textContent = n;
+        texto.textContent  = n === 1 ? 'publicación' : 'publicaciones';
       }
 
-      setCount(items.length);
-
-      // La búsqueda sólo vale la pena cuando hay varias tarjetas.
-      if (items.length < 3) return;
-      box.hidden = false;
-
-      function normalize(s){
+      function plano(s){
         return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       }
 
-      input.addEventListener('input', function(){
-        var q = normalize(input.value.trim());
-        var shown = 0;
-        items.forEach(function(li){
-          var hay = normalize(li.dataset.search + ' ' + li.textContent);
-          var match = !q || hay.indexOf(q) !== -1;
-          li.hidden = !match;
-          if (match) shown++;
+      function filtrar(){
+        var q = plano(input.value.trim());
+        var visibles = 0;
+
+        fichas.forEach(function(li){
+          var coincide = !q || plano(li.dataset.buscar + ' ' + li.textContent).indexOf(q) !== -1;
+          li.hidden = !coincide;
+          if (coincide) visibles++;
         });
-        setCount(shown);
-        empty.classList.toggle('on', shown === 0);
+
+        // Mientras se filtra, la nota de "añadir" estorba.
+        nota.hidden = !!q;
+        marcar(visibles);
+        limpiar.hidden = !q;
+        vacioQ.textContent = input.value.trim();
+        vacio.classList.toggle('activo', visibles === 0);
+        pliego.hidden = visibles === 0;
+      }
+
+      function reiniciar(){
+        input.value = '';
+        filtrar();
+        input.focus();
+      }
+
+      marcar(fichas.length);
+      input.addEventListener('input', filtrar);
+      limpiar.addEventListener('click', reiniciar);
+      reponer.addEventListener('click', reiniciar);
+
+      input.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && input.value){ input.value = ''; filtrar(); }
+      });
+
+      document.addEventListener('keydown', function(e){
+        if (e.key === '/' && e.target !== input && !/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)){
+          e.preventDefault();
+          input.focus();
+        }
       });
     })();
   </script>
