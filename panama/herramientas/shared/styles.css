@@ -12,6 +12,8 @@
   --ink-faint:oklch(60% 0.025 55);
   --accent:oklch(52% 0.16 35);
   --accent-2:oklch(52% 0.16 35 / 0.14);
+  --accent-shadow-1:oklch(52% 0.16 35 / 0.3);
+  --accent-shadow-2:oklch(52% 0.16 35 / 0.4);
   --gold:oklch(63% 0.13 70);
   --green:oklch(52% 0.12 145);
   --green-2:oklch(52% 0.12 145 / 0.14);
@@ -31,11 +33,35 @@ h1,h2,h3,.display{font-family:'Spectral',serif;font-weight:500;margin:0;letter-s
 a{color:var(--accent);}
 p{margin:0 0 12px;}
 
+/* ---------- identidad por herramienta ----------
+   Cada herramienta hereda la paleta editorial-café, pero con su propio
+   color de acento e ícono, para que no se confundan entre sí a simple vista. */
+body[data-tool="diagnostico"]{
+  --accent:oklch(52% 0.16 35);        /* terracota — autodiagnóstico */
+  --accent-2:oklch(52% 0.16 35 / 0.14);
+  --accent-shadow-1:oklch(52% 0.16 35 / 0.3);
+  --accent-shadow-2:oklch(52% 0.16 35 / 0.4);
+}
+body[data-tool="visitas"]{
+  --accent:oklch(46% 0.09 250);       /* azul pizarra — visitas de campo */
+  --accent-2:oklch(46% 0.09 250 / 0.14);
+  --accent-shadow-1:oklch(46% 0.09 250 / 0.3);
+  --accent-shadow-2:oklch(46% 0.09 250 / 0.4);
+}
+
 /* ---------- top bar ---------- */
 .topbar{
   position:sticky;top:0;z-index:30;background:var(--ink-dark);color:var(--cream-solid);
   padding:16px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  border-bottom:3px solid var(--accent);
 }
+.topbar-head{display:flex;align-items:center;gap:14px;}
+.tool-mark{
+  flex:0 0 auto;width:40px;height:40px;border-radius:50%;background:var(--accent);
+  display:flex;align-items:center;justify-content:center;color:oklch(97% 0.01 80);
+  box-shadow:0 8px 16px var(--accent-shadow-1);
+}
+.tool-mark svg{width:20px;height:20px;}
 .topbar .brand{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:oklch(70% 0.02 65);}
 .topbar h1{font-size:19px;color:var(--cream-solid);font-weight:500;}
 .topbar nav{display:flex;gap:8px;flex-wrap:wrap;}
@@ -114,9 +140,9 @@ p{margin:0 0 12px;}
 .btn{
   display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:oklch(97% 0.01 80);
   padding:13px 28px;border:none;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;
-  box-shadow:0 14px 28px oklch(52% 0.16 35 / 0.3);transition:transform .2s ease,box-shadow .2s ease;
+  box-shadow:0 14px 28px var(--accent-shadow-1);transition:transform .2s ease,box-shadow .2s ease;
 }
-.btn:hover{transform:translateY(-2px);box-shadow:0 18px 34px oklch(52% 0.16 35 / 0.4);}
+.btn:hover{transform:translateY(-2px);box-shadow:0 18px 34px var(--accent-shadow-2);}
 .btn:disabled{opacity:0.5;cursor:default;transform:none;box-shadow:none;}
 .btn.btn-ghost{
   background:transparent;color:var(--ink);border:1px solid var(--line-strong);box-shadow:none;
