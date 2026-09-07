@@ -58,8 +58,16 @@
     });
   }
 
+  function ordenarPorUbicacion(rows) {
+    return rows.slice().sort(function (a, b) {
+      return (a.provincia || '').localeCompare(b.provincia || '') ||
+        (a.institucion || '').localeCompare(b.institucion || '') ||
+        (a.sede || '').localeCompare(b.sede || '');
+    });
+  }
+
   function renderEntities() {
-    var rows = aplicarFiltros(allRows);
+    var rows = ordenarPorUbicacion(aplicarFiltros(allRows));
     entityTableBody.innerHTML = '';
     if (!rows.length) {
       entityTableBody.innerHTML = '<tr><td class="is-empty" colspan="7">No hay sedes que coincidan con el filtro, o aún no se ha registrado ninguna visita.</td></tr>';
@@ -69,9 +77,9 @@
       var tr = document.createElement('tr');
       tr.className = 'is-clickable';
       tr.innerHTML =
-        '<td>' + row.sede + '</td>' +
-        '<td>' + row.institucion + '</td>' +
         '<td>' + row.provincia + '</td>' +
+        '<td>' + row.institucion + '</td>' +
+        '<td>' + row.sede + '</td>' +
         '<td>' + row.asesor + '</td>' +
         '<td><span class="badge ' + badgeClass(row.calificacion) + '">' + row.calificacion + '</span></td>' +
         '<td>' + row.puntaje + ' / 2.0</td>' +

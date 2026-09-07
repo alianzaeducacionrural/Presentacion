@@ -64,8 +64,15 @@
     });
   }
 
+  function ordenarPorUbicacion(rows) {
+    return rows.slice().sort(function (a, b) {
+      return (a.provincia || '').localeCompare(b.provincia || '') ||
+        (a.institucion || '').localeCompare(b.institucion || '');
+    });
+  }
+
   function renderEntities() {
-    var rows = aplicarFiltros(allRows).slice().reverse();
+    var rows = ordenarPorUbicacion(aplicarFiltros(allRows));
     entityTableBody.innerHTML = '';
     if (!rows.length) {
       entityTableBody.innerHTML = '<tr><td class="is-empty" colspan="6">No hay instituciones que coincidan con el filtro, o aún no se ha registrado ninguna respuesta.</td></tr>';
@@ -75,8 +82,8 @@
       var tr = document.createElement('tr');
       tr.className = 'is-clickable';
       tr.innerHTML =
-        '<td>' + row.institucion + '</td>' +
         '<td>' + (row.provincia || '—') + '</td>' +
+        '<td>' + row.institucion + '</td>' +
         '<td>' + (row.nombre || '—') + '</td>' +
         '<td><span class="badge ' + badgeClass(row.semaforo) + '">' + row.semaforo + '</span></td>' +
         '<td>' + pctAplicado(row) + '%</td>' +
