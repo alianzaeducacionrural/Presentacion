@@ -19,12 +19,12 @@
       var row = document.createElement('div');
       row.className = 'indicator-row';
       row.innerHTML =
-        '<div class="indicator-name">' + ind.id + ' — ' + ind.nombre + '</div>' +
+        '<div class="indicator-name">' + ind.nombre + '</div>' +
         '<div class="indicator-controls">' +
           '<div class="toggle-group" data-indicator="' + ind.id + '">' +
-            '<button type="button" class="toggle-btn tone-green" data-value="AA">AA</button>' +
-            '<button type="button" class="toggle-btn tone-amber" data-value="AM">AM</button>' +
-            '<button type="button" class="toggle-btn tone-red" data-value="NA">NA</button>' +
+            '<button type="button" class="toggle-btn tone-green" data-value="AA">Aplicación adecuada</button>' +
+            '<button type="button" class="toggle-btn tone-amber" data-value="AM">Con oportunidad de mejora</button>' +
+            '<button type="button" class="toggle-btn tone-red" data-value="NA">No se aplica</button>' +
           '</div>' +
         '</div>';
       list.appendChild(row);
