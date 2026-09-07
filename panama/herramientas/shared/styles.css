@@ -34,19 +34,40 @@ a{color:var(--accent);}
 p{margin:0 0 12px;}
 
 /* ---------- identidad por herramienta ----------
-   Cada herramienta hereda la paleta editorial-café, pero con su propio
-   color de acento e ícono, para que no se confundan entre sí a simple vista. */
+   Cada herramienta tiene su propia paleta completa (fondo, tarjetas, tinta,
+   barra superior y acento), no solo un color de detalle, para que se
+   distingan de inmediato aunque compartan tipografía y estructura. */
 body[data-tool="diagnostico"]{
-  --accent:oklch(52% 0.16 35);        /* terracota — autodiagnóstico */
+  /* cálida — papel crema y terracota, la misma familia que la presentación */
+  --bg:oklch(95% 0.014 75);
+  --bg-card:oklch(91.5% 0.02 70);
+  --bg-card-2:oklch(88% 0.024 66);
+  --ink:oklch(24% 0.035 50);
+  --ink-soft:oklch(42% 0.035 50);
+  --ink-faint:oklch(60% 0.025 55);
+  --line:oklch(24% 0.035 50 / 0.16);
+  --line-strong:oklch(24% 0.035 50 / 0.32);
+  --ink-dark:oklch(22% 0.035 50);
+  --accent:oklch(52% 0.16 35);
   --accent-2:oklch(52% 0.16 35 / 0.14);
   --accent-shadow-1:oklch(52% 0.16 35 / 0.3);
   --accent-shadow-2:oklch(52% 0.16 35 / 0.4);
 }
 body[data-tool="visitas"]{
-  --accent:oklch(46% 0.09 250);       /* azul pizarra — visitas de campo */
-  --accent-2:oklch(46% 0.09 250 / 0.14);
-  --accent-shadow-1:oklch(46% 0.09 250 / 0.3);
-  --accent-shadow-2:oklch(46% 0.09 250 / 0.4);
+  /* fría — papel pizarra y azul petróleo, identidad propia de campo */
+  --bg:oklch(94.5% 0.013 240);
+  --bg-card:oklch(89.5% 0.02 238);
+  --bg-card-2:oklch(85% 0.026 236);
+  --ink:oklch(23% 0.035 245);
+  --ink-soft:oklch(41% 0.035 245);
+  --ink-faint:oklch(59% 0.025 240);
+  --line:oklch(23% 0.035 245 / 0.16);
+  --line-strong:oklch(23% 0.035 245 / 0.32);
+  --ink-dark:oklch(19% 0.05 252);
+  --accent:oklch(50% 0.14 250);
+  --accent-2:oklch(50% 0.14 250 / 0.14);
+  --accent-shadow-1:oklch(50% 0.14 250 / 0.3);
+  --accent-shadow-2:oklch(50% 0.14 250 / 0.4);
 }
 
 /* ---------- top bar ---------- */
