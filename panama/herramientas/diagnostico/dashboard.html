@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel — Autodiagnóstico Institucional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/styles.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="brand">Comité de Cafeteros de Caldas — Evidencia para decidir</div>
+    <h1>Panel de resultados</h1>
+  </div>
+  <nav>
+    <a href="index.html">Formulario</a>
+    <a href="dashboard.html" class="is-active">Panel de resultados</a>
+  </nav>
+</div>
+
+<div class="page">
+  <div class="page-head">
+    <div class="kicker">Autodiagnóstico institucional</div>
+    <h2>¿Cómo vamos?</h2>
+    <p class="page-lede">Resultados en vivo de las respuestas registradas en el formulario. Se actualiza cada vez que abres esta página.</p>
+  </div>
+
+  <div id="loader" class="loader">Cargando resultados…</div>
+
+  <div id="content" style="display:none;">
+    <div class="kpi-grid" id="kpiGrid"></div>
+
+    <div class="card">
+      <h3>Instituciones</h3>
+      <div class="entity-grid" id="entityGrid"></div>
+    </div>
+
+    <div class="card">
+      <h3>Resumen por indicador</h3>
+      <table class="data-table">
+        <thead><tr><th>Indicador</th><th>% que aplica</th><th>Respuestas</th></tr></thead>
+        <tbody id="indicatorSummaryBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-panel">
+    <div class="modal-close" id="modalClose">✕</div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

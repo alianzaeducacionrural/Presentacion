@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autodiagnóstico Institucional — Panamá</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/styles.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="brand">Comité de Cafeteros de Caldas — Evidencia para decidir</div>
+    <h1>Autodiagnóstico Institucional</h1>
+  </div>
+  <nav>
+    <a href="index.html" class="is-active">Formulario</a>
+    <a href="dashboard.html">Panel de resultados</a>
+  </nav>
+</div>
+
+<div class="page">
+  <div class="page-head">
+    <div class="kicker">Ejercicio práctico</div>
+    <h2>¿Cómo estamos hoy?</h2>
+    <p class="page-lede">Con el propósito de tomar decisiones pertinentes, le invitamos a diligenciar este formulario diagnóstico sobre las prácticas de evidencia de su institución. Toma menos de 3 minutos.</p>
+  </div>
+
+  <div id="alertBox"></div>
+
+  <form id="formDiagnostico">
+    <div class="card">
+      <h3>Datos de la institución</h3>
+      <div class="field-row">
+        <div class="field">
+          <label for="institucion">Institución educativa *</label>
+          <input type="text" id="institucion" required placeholder="Nombre de la institución">
+        </div>
+        <div class="field">
+          <label for="provincia">Provincia</label>
+          <input type="text" id="provincia" placeholder="Ej. Chiriquí">
+        </div>
+      </div>
+      <div class="field">
+        <label for="nombre">Nombre de quien responde (opcional)</label>
+        <input type="text" id="nombre" placeholder="Rector(a) / docente líder">
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Indicadores</h3>
+      <p class="page-lede" style="margin-bottom:0;">Para cada práctica, indique si aplica en su institución. Puede agregar una observación breve.</p>
+      <div id="indicadoresList"></div>
+    </div>
+
+    <button type="submit" class="btn" id="btnSubmit">Enviar respuesta</button>
+  </form>
+</div>
+
+<script src="config.js"></script>
+<script src="formulario.js"></script>
+</body>
+</html>

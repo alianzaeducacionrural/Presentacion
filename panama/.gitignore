@@ -1,0 +1,8 @@
+# Documentos y videos fuente: no se publican en el sitio
+*.docx
+*.ppt
+*.pptx
+*.mp4
+
+# Archivos de trabajo del diseño (canvas de iteración, no el entregable final)
+design/

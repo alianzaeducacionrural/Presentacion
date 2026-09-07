@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compromisos — Visitas de Asesoría</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/styles.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="brand">Comité de Cafeteros de Caldas — Evidencia para decidir</div>
+    <h1>Seguimiento a Compromisos</h1>
+  </div>
+  <nav>
+    <a href="index.html">Formulario</a>
+    <a href="semaforo.html">Semáforo</a>
+    <a href="compromisos.html" class="is-active">Compromisos</a>
+  </nav>
+</div>
+
+<div class="page">
+  <div class="page-head">
+    <div class="kicker">Panel en vivo</div>
+    <h2>¿Se están cumpliendo los compromisos?</h2>
+    <p class="page-lede">Tablero de seguimiento. Se actualiza automáticamente cada 30 segundos. Toca una tarjeta para actualizar su estado.</p>
+  </div>
+
+  <div class="kpi-grid" id="kpiGrid"></div>
+  <div id="alertsBox"></div>
+
+  <div class="filters">
+    <select id="filterAsesor"><option value="">Todos los asesores</option></select>
+    <select id="filterProvincia"><option value="">Todas las provincias</option></select>
+    <input type="text" id="filterBusqueda" placeholder="Buscar...">
+  </div>
+
+  <div id="loader" class="loader">Cargando…</div>
+
+  <div class="kanban" id="kanban">
+    <div class="kanban-col">
+      <h3>Pendiente <span class="count" id="countPendiente">0</span></h3>
+      <div id="colPendiente"></div>
+    </div>
+    <div class="kanban-col">
+      <h3>Cumplido <span class="count" id="countCumplido">0</span></h3>
+      <div id="colCumplido"></div>
+    </div>
+    <div class="kanban-col">
+      <h3>Vencido <span class="count" id="countVencido">0</span></h3>
+      <div id="colVencido"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-panel">
+    <div class="modal-close" id="modalClose">✕</div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="compromisos.js"></script>
+</body>
+</html>

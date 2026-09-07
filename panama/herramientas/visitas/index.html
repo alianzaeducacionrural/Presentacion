@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visita de Asesoría — Panamá</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/styles.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="brand">Comité de Cafeteros de Caldas — Evidencia para decidir</div>
+    <h1>Visita de Asesoría y Acompañamiento</h1>
+  </div>
+  <nav>
+    <a href="index.html" class="is-active">Formulario</a>
+    <a href="semaforo.html">Semáforo</a>
+    <a href="compromisos.html">Compromisos</a>
+  </nav>
+</div>
+
+<div class="page">
+  <div class="page-head">
+    <div class="kicker">Ejercicio práctico</div>
+    <h2>Registrar visita</h2>
+    <p class="page-lede">Simulá una visita de asesoría y acompañamiento a una sede educativa. Al enviarla, el resultado aparece en tiempo real en el Semáforo y en Compromisos.</p>
+  </div>
+
+  <div id="alertBox"></div>
+
+  <form id="formVisita">
+    <div class="card">
+      <h3>Datos de la visita</h3>
+      <div class="field-row">
+        <div class="field">
+          <label for="asesor">Asesor(a) *</label>
+          <input type="text" id="asesor" required placeholder="Nombre de quien realiza la visita">
+        </div>
+        <div class="field">
+          <label for="fechaVisita">Fecha de visita *</label>
+          <input type="date" id="fechaVisita" required>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="provincia">Provincia *</label>
+          <input type="text" id="provincia" required placeholder="Ej. Chiriquí">
+        </div>
+        <div class="field">
+          <label for="institucion">Institución *</label>
+          <input type="text" id="institucion" required placeholder="Nombre de la institución">
+        </div>
+      </div>
+      <div class="field">
+        <label for="sede">Sede *</label>
+        <input type="text" id="sede" required placeholder="Nombre de la sede visitada">
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Indicadores</h3>
+      <p class="page-lede" style="margin-bottom:0;">AA — Aplicación adecuada · AM — Con oportunidad de mejora · NA — No se aplica</p>
+      <div id="indicadoresList"></div>
+    </div>
+
+    <div class="card">
+      <h3>Recomendaciones</h3>
+      <div class="field" style="margin-bottom:0;">
+        <textarea id="recomendaciones" rows="3" placeholder="Recomendaciones generales de la visita (opcional)"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Compromisos</h3>
+      <p class="page-lede">El compromiso 1 es obligatorio; el 2 y el 3 son opcionales.</p>
+
+      <div class="compromiso-block">
+        <h4>Compromiso 1 *</h4>
+        <div class="field"><label>Descripción</label><textarea id="c1desc" rows="2"></textarea></div>
+        <div class="field-row">
+          <div class="field"><label>Responsable</label><input type="text" id="c1resp"></div>
+          <div class="field"><label>Fecha de verificación</label><input type="date" id="c1fecha"></div>
+        </div>
+      </div>
+
+      <div class="compromiso-block">
+        <h4>Compromiso 2 (opcional)</h4>
+        <div class="field"><label>Descripción</label><textarea id="c2desc" rows="2"></textarea></div>
+        <div class="field-row">
+          <div class="field"><label>Responsable</label><input type="text" id="c2resp"></div>
+          <div class="field"><label>Fecha de verificación</label><input type="date" id="c2fecha"></div>
+        </div>
+      </div>
+
+      <div class="compromiso-block">
+        <h4>Compromiso 3 (opcional)</h4>
+        <div class="field"><label>Descripción</label><textarea id="c3desc" rows="2"></textarea></div>
+        <div class="field-row">
+          <div class="field"><label>Responsable</label><input type="text" id="c3resp"></div>
+          <div class="field"><label>Fecha de verificación</label><input type="date" id="c3fecha"></div>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn" id="btnSubmit">Registrar visita</button>
+  </form>
+</div>
+
+<script src="config.js"></script>
+<script src="formulario.js"></script>
+</body>
+</html>

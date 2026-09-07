@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decidir con Evidencia — Comité de Cafeteros de Caldas</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%E2%98%95</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:oklch(95% 0.014 75);
+    --bg-card:oklch(91.5% 0.02 70);
+    --ink:oklch(24% 0.035 50);
+    --ink-soft:oklch(42% 0.035 50);
+    --ink-faint:oklch(60% 0.025 55);
+    --accent:oklch(52% 0.16 35);
+    --accent-2:oklch(52% 0.16 35 / 0.14);
+    --gold:oklch(63% 0.13 70);
+    --line:oklch(24% 0.035 50 / 0.16);
+    --line-strong:oklch(24% 0.035 50 / 0.36);
+    --hover-fill:oklch(24% 0.035 50 / 0.07);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;background:#120D08;overflow:hidden;}
+  body{font-family:'Work Sans',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);}
+  a:hover{color:var(--ink);}
+  h1,h2,.display{font-family:'Spectral',serif;font-weight:500;margin:0;letter-spacing:-0.006em;}
+  em{font-style:italic;color:var(--accent);}
+
+  #stage-wrapper{
+    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(ellipse at 18% 12%, oklch(30% 0.05 45 / 0.5), transparent 55%),
+      radial-gradient(ellipse at 88% 90%, oklch(28% 0.06 40 / 0.55), transparent 55%),
+      #120D08;
+  }
+  #stage{
+    width:1280px;height:720px;position:absolute;top:50%;left:50%;
+    transform-origin:center center;background:var(--bg);overflow:hidden;
+    box-shadow:0 70px 150px rgba(0,0,0,.55);
+    border:1px solid oklch(24% 0.035 50 / 0.08);
+    transition:background .4s ease;
+  }
+  #stage.is-dark-chrome{
+    --ink:oklch(96% 0.012 75);
+    --ink-soft:oklch(82% 0.02 70);
+    --ink-faint:oklch(70% 0.02 65);
+    --line-strong:oklch(96% 0.012 75 / 0.4);
+    --hover-fill:oklch(96% 0.012 75 / 0.12);
+    --bg-card:oklch(30% 0.045 47);
+  }
+  #stage::after{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:multiply;z-index:5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .deck{display:flex;height:100%;width:max-content;transition:transform .7s cubic-bezier(.65,0,.35,1);}
+  .slide{
+    flex:0 0 1280px;width:1280px;height:720px;position:relative;z-index:0;
+    padding:78px 96px 104px;display:flex;flex-direction:column;justify-content:center;
+    opacity:.35;transition:opacity .55s ease,background .1s;
+    background:var(--bg);overflow:hidden;
+  }
+  .slide.is-active{opacity:1;}
+  .slide--dark{
+    --bg:oklch(22% 0.035 50);
+    --bg-card:oklch(29% 0.045 47);
+    --ink:oklch(96% 0.012 75);
+    --ink-soft:oklch(82% 0.02 70);
+    --ink-faint:oklch(64% 0.02 62);
+    --line:oklch(96% 0.012 75 / 0.14);
+    --line-strong:oklch(96% 0.012 75 / 0.32);
+    color:var(--ink);
+  }
+  .mark{position:absolute;top:38px;left:96px;font-size:11.5px;color:var(--ink-faint);letter-spacing:0.08em;text-transform:uppercase;z-index:10;transition:color .3s ease;}
+  .kicker{
+    display:flex;align-items:center;gap:10px;margin-bottom:20px;
+    font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);font-weight:600;
+  }
+  .kicker::before{content:"";width:22px;height:1px;background:var(--accent);}
+  .kicker--pill{
+    display:inline-flex;width:fit-content;background:var(--accent);color:var(--bg);
+    padding:7px 16px 7px 14px;border-radius:999px;font-size:11px;
+  }
+  .kicker--pill::before{display:none;}
+  /* entrance stagger */
+  @keyframes riseIn{ from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+  .slide.is-active > *{animation:riseIn .65s cubic-bezier(.2,.7,.25,1) both;}
+  .slide.is-active > *:nth-child(1){animation-delay:.02s;}
+  .slide.is-active > *:nth-child(2){animation-delay:.08s;}
+  .slide.is-active > *:nth-child(3){animation-delay:.14s;}
+  .slide.is-active > *:nth-child(4){animation-delay:.2s;}
+  .slide.is-active > *:nth-child(5){animation-delay:.26s;}
+  .slide.is-active > *:nth-child(6){animation-delay:.32s;}
+
+  /* ---------- hero / cierre ---------- */
+  .slide--hero{justify-content:center;}
+  .slide--hero .display{font-size:66px;line-height:1.15;max-width:880px;font-weight:500;}
+  .slide--hero .lede{margin-top:26px;max-width:580px;font-size:18px;line-height:1.6;color:var(--ink-soft);}
+  .slide--close{align-items:flex-start;}
+  .slide--close .display{font-size:136px;font-style:italic;font-weight:500;}
+  .slide--close .lede{margin-top:18px;font-size:18px;color:var(--ink-soft);letter-spacing:0.01em;}
+  .cover-side{
+    position:absolute;right:44px;top:120px;bottom:120px;
+    writing-mode:vertical-rl;font-size:12px;letter-spacing:0.16em;color:var(--ink-faint);
+    text-transform:uppercase;display:flex;align-items:center;
+  }
+  .cover-diag{
+    position:absolute;top:-60px;right:150px;bottom:-60px;width:2px;z-index:-1;
+    background:linear-gradient(var(--accent), transparent 75%);
+    transform:rotate(9deg);
+  }
+  .close-rule{width:120px;height:4px;background:var(--accent);margin-top:38px;}
+
+  /* ---------- pending tag / video chip ---------- */
+  .pending{
+    margin-top:36px;display:inline-flex;align-items:center;gap:9px;width:fit-content;
+    padding:9px 16px;border:1px dashed var(--line-strong);border-radius:3px;
+    font-size:12.5px;color:var(--ink-soft);
+  }
+  .pending__dot{width:6px;height:6px;background:var(--gold);flex-shrink:0;}
+  .pending__tag{margin-left:2px;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  .pending--dark{border-color:oklch(95% 0.014 75 / 0.35);color:oklch(95% 0.014 75 / 0.85);}
+  .pending--dark .pending__tag{color:var(--gold);}
+  .watch-video{
+    margin-top:36px;display:inline-flex;align-items:center;gap:13px;width:fit-content;
+    background:var(--accent);color:oklch(97% 0.01 80);
+    padding:11px 26px 11px 12px;border:none;border-radius:999px;
+    font-size:13.5px;font-weight:600;letter-spacing:0.01em;cursor:pointer;
+    box-shadow:0 16px 32px oklch(52% 0.16 35 / 0.35);
+    transition:transform .25s ease,box-shadow .25s ease;
+  }
+  .watch-video:hover,.watch-video:focus-visible{transform:translateY(-2px);box-shadow:0 20px 40px oklch(52% 0.16 35 / 0.45);}
+  .watch-video:focus-visible{outline:2px solid oklch(97% 0.01 80);outline-offset:3px;}
+  .watch-video__play{
+    flex-shrink:0;width:30px;height:30px;border-radius:50%;background:oklch(97% 0.01 80);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ---------- slide: definicion ---------- */
+  .slide--define{flex-direction:row;align-items:center;gap:70px;}
+  .slide--define .col-text{flex:0 0 500px;}
+  .slide--define h2{font-size:36px;margin-bottom:24px;}
+  .body-lg{font-size:22px;line-height:1.5;color:var(--ink-soft);margin:0 0 18px;font-family:'Spectral',serif;}
+  .body-lg strong{color:var(--ink);font-weight:600;}
+  .col-visual{flex:1;display:flex;align-items:center;justify-content:center;}
+  .redline{
+    width:100%;max-width:440px;background:var(--bg-card);border:1px solid var(--line);
+    padding:38px 40px;position:relative;transform:rotate(-1deg);
+    box-shadow:0 26px 54px oklch(24% 0.035 50 / 0.14);
+  }
+  .redline__label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:24px;}
+  .redline__word{
+    font-family:'Spectral',serif;font-size:26px;font-style:italic;color:var(--ink-faint);
+    text-decoration:line-through;text-decoration-color:var(--accent);text-decoration-thickness:2px;
+    margin-bottom:15px;
+  }
+  .redline__arrow{margin:22px 0 20px;color:var(--ink-faint);font-size:13px;display:flex;align-items:center;gap:8px;}
+  .redline__arrow svg{flex-shrink:0;}
+  .redline__result{
+    display:inline-block;font-family:'Spectral',serif;font-size:38px;font-weight:600;
+    letter-spacing:-0.01em;background:var(--accent);color:var(--bg);
+    padding:6px 18px;border-radius:2px;
+  }
+
+  /* ---------- slide: autores ---------- */
+  .slide--authors h2{font-size:36px;margin-bottom:8px;}
+  .authors-sub{font-size:14.5px;color:var(--ink-soft);margin-bottom:58px;}
+  .author-row{display:flex;align-items:stretch;}
+  .author-step{flex:1;position:relative;padding-right:30px;}
+  .author-step:not(:last-child)::after{
+    content:"";position:absolute;top:15px;left:0;right:30px;height:1px;background:var(--line-strong);
+  }
+  .author-idx{font-family:'Spectral',serif;font-size:14px;color:var(--accent);margin-bottom:22px;position:relative;background:var(--bg);width:fit-content;padding-right:8px;z-index:1;}
+  .author-name{font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+  .author-verb{font-family:'Spectral',serif;font-size:29px;font-style:italic;font-weight:500;margin-bottom:10px;color:var(--ink);}
+  .author-step p{font-size:14px;line-height:1.55;color:var(--ink-soft);max-width:210px;margin:0;}
+  .author-final{flex:0 0 210px;display:flex;align-items:center;}
+  .stamp{
+    background:var(--accent);color:var(--bg);border-radius:2px;
+    padding:18px 24px;transform:rotate(-3deg);font-family:'Spectral',serif;
+    font-size:30px;font-weight:600;letter-spacing:0.02em;text-transform:uppercase;
+    box-shadow:0 20px 36px oklch(24% 0.035 50 / 0.22);
+  }
+
+  /* ---------- slide: caracteristicas ---------- */
+  .slide--traits h2{font-size:36px;margin-bottom:34px;}
+  .traits-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 18px;}
+  .trait{
+    background:var(--bg-card);border:1px solid var(--line);border-radius:2px;
+    padding:20px 20px 22px;box-shadow:0 12px 26px oklch(24% 0.035 50 / 0.08);
+  }
+  .trait-num{font-family:'Spectral',serif;font-size:15px;font-weight:600;color:var(--accent);margin-bottom:10px;}
+  .trait-name{font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-bottom:9px;}
+  .trait-desc{margin:0;font-size:13px;line-height:1.48;color:var(--ink-soft);}
+
+  /* ---------- slide: ciclo + cita ---------- */
+  .slide--cycle{flex-direction:row;align-items:center;gap:56px;}
+  .slide--cycle .col-quote{flex:0 0 380px;}
+  .slide--cycle h2{font-size:28px;margin-bottom:22px;}
+  .quote-mark{font-family:'Spectral',serif;font-size:110px;color:var(--accent);line-height:.6;margin-bottom:6px;}
+  .quote-text{font-family:'Spectral',serif;font-size:24px;line-height:1.42;font-style:italic;color:var(--ink);max-width:370px;}
+  .quote-attr{margin-top:22px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .cycle-side{flex:1;display:flex;align-items:center;justify-content:center;}
+  .cycle-orbit{position:relative;width:420px;height:420px;flex-shrink:0;}
+  .cycle-orbit-track{
+    position:absolute;left:49px;top:49px;width:322px;height:322px;border-radius:50%;
+    border:2px dashed var(--line-strong);
+  }
+  .cycle-orbit-arrow{position:absolute;left:226px;top:-11px;color:var(--accent);opacity:0.75;}
+  .cycle-dot{
+    position:absolute;transform:translate(-50%,-50%);
+    width:30px;height:30px;border-radius:50%;background:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Work Sans',sans-serif;font-size:10.5px;font-weight:700;color:oklch(97% 0.01 80);
+    box-shadow:0 5px 12px oklch(52% 0.16 35 / 0.35);
+  }
+  .cycle-dot--peak{
+    width:39px;height:39px;font-size:12.5px;
+    box-shadow:0 6px 18px oklch(52% 0.16 35 / 0.5), 0 0 0 7px oklch(52% 0.16 35 / 0.15);
+  }
+  .cycle-label{
+    position:absolute;transform:translateY(-50%);
+    font-family:'Spectral',serif;font-size:19px;font-weight:600;color:var(--ink);
+    line-height:1.28;max-width:128px;
+  }
+  .cycle-label.side-left{transform:translate(-100%,-50%);text-align:right;}
+  .cycle-label.side-right::before{
+    content:"";position:absolute;top:50%;left:-24px;width:16px;height:1.5px;background:var(--line-strong);
+  }
+  .cycle-label.side-left::before{
+    content:"";position:absolute;top:50%;right:-24px;width:16px;height:1.5px;background:var(--line-strong);
+  }
+  .cycle-label--peak{color:var(--accent);font-size:19px;font-weight:700;}
+
+  /* ---------- slide: evidencia disponible ---------- */
+  .slide--evidence h2{font-size:36px;margin-bottom:34px;}
+  .ledger{display:flex;flex-direction:column;}
+  .ledger-item{display:flex;align-items:flex-start;gap:22px;padding:17px 0;border-top:1px solid var(--line);}
+  .ledger .ledger-item:last-child{border-bottom:1px solid var(--line);}
+  .ledger-tag{
+    flex:0 0 auto;min-width:100px;white-space:nowrap;
+    font-size:10.5px;letter-spacing:0.09em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;
+    background:var(--accent-2);border-radius:999px;padding:5px 14px;
+    align-self:flex-start;
+  }
+  .ledger-body{flex:1;}
+  .ledger-body .t{font-family:'Spectral',serif;font-size:19px;font-weight:600;margin-bottom:3px;}
+  .ledger-body .d{font-size:13.5px;color:var(--ink-soft);line-height:1.5;}
+  .ledger-body .pending{margin-top:10px;padding:6px 12px;font-size:11.5px;}
+
+  /* ---------- slide: formación / video destacado ---------- */
+  .slide--feature{flex-direction:row;align-items:center;gap:64px;}
+  .slide--feature .feature-text{flex:0 0 400px;position:relative;}
+  .slide--feature h2{font-size:34px;line-height:1.2;margin-bottom:18px;}
+  .feature-glyph{
+    position:absolute;top:-64px;left:-28px;color:var(--accent);opacity:0.14;
+    pointer-events:none;z-index:-1;
+  }
+  .video-card{
+    flex:1;position:relative;height:440px;border-radius:2px;overflow:hidden;cursor:pointer;
+    background:linear-gradient(155deg, oklch(22% 0.035 50) 0%, oklch(17% 0.03 45) 100%);
+    display:flex;flex-direction:column;justify-content:space-between;
+    box-shadow:0 34px 66px oklch(24% 0.035 50 / 0.28);
+    transition:transform .3s ease;
+  }
+  .video-card:hover,.video-card:focus-visible{transform:translateY(-3px);}
+  .video-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .video-card__sprockets{display:flex;justify-content:space-between;padding:14px 18px 0;}
+  .video-card__sprockets span{width:9px;height:9px;border-radius:1px;background:oklch(95% 0.014 75 / 0.14);}
+  .video-card__ribbon{
+    position:absolute;top:20px;right:0;background:var(--accent);color:oklch(95% 0.014 75);
+    font-size:10.5px;letter-spacing:0.09em;text-transform:uppercase;font-weight:600;
+    padding:6px 14px 6px 16px;border-radius:2px 0 0 2px;
+  }
+  .video-card__play{
+    align-self:center;margin:auto;
+    width:96px;height:96px;border-radius:50%;
+    border:1.5px solid oklch(95% 0.014 75 / 0.55);
+    display:flex;align-items:center;justify-content:center;
+    color:oklch(95% 0.014 75);transition:transform .3s ease,border-color .3s ease;
+  }
+  .video-card:hover .video-card__play{transform:scale(1.07);border-color:var(--gold);color:var(--gold);}
+  .video-card__foot{padding:22px 26px 26px;display:flex;flex-direction:column;gap:12px;}
+  .video-card__title{font-family:'Spectral',serif;font-style:italic;font-size:24px;font-weight:500;color:oklch(95% 0.014 75);}
+
+  /* ---------- slide: modelo de emprendimiento ---------- */
+  .slide--model h2{font-size:32px;margin-bottom:26px;}
+  .model-branches{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:26px;}
+  .model-card{
+    background:var(--bg-card);border:1px solid var(--line);border-radius:2px;
+    padding:20px 24px;box-shadow:0 10px 22px oklch(24% 0.035 50 / 0.06);
+  }
+  .model-card h3{
+    font-family:'Spectral',serif;font-size:15px;font-weight:600;margin:0 0 12px;
+    color:var(--accent);text-transform:uppercase;letter-spacing:0.03em;
+  }
+  .model-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .model-list li{position:relative;padding-left:14px;font-size:12.5px;line-height:1.4;color:var(--ink);}
+  .model-list li::before{content:"";position:absolute;left:0;top:6px;width:4px;height:4px;background:var(--accent);}
+  .model-sublabel{font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-faint);margin:12px 0 6px;}
+  .model-flow{display:flex;align-items:center;gap:12px;}
+  .model-flow-pill{
+    flex:1;background:var(--accent-2);border:1px solid var(--line);border-radius:6px;
+    padding:11px 14px;font-size:11.5px;font-weight:600;color:var(--ink);text-align:center;line-height:1.32;
+  }
+  .model-flow-pill--peak{background:var(--accent);color:oklch(97% 0.01 80);border-color:transparent;}
+  .model-flow-arrow{flex-shrink:0;color:var(--ink-faint);}
+
+  /* ---------- slide: estudio CRECE 2019 ---------- */
+  .slide--study h2{font-size:29px;line-height:1.25;max-width:840px;margin-bottom:6px;}
+  .study-attr{font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:24px;}
+  .study-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px;}
+  .study-stat{
+    background:var(--bg-card);border:1px solid var(--line);border-radius:2px;
+    padding:18px 18px 20px;box-shadow:0 12px 26px oklch(24% 0.035 50 / 0.08);
+  }
+  .study-stat .num{font-family:'Spectral',serif;font-size:40px;font-weight:600;color:var(--accent);line-height:1;margin-bottom:10px;letter-spacing:-0.01em;}
+  .study-stat .label{font-size:12px;line-height:1.4;color:var(--ink-soft);}
+  .study-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 48px;margin-bottom:22px;}
+  .study-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;}
+  .study-list li{position:relative;padding-left:16px;font-size:13px;line-height:1.42;color:var(--ink-soft);}
+  .study-list li::before{content:"";position:absolute;left:0;top:6px;width:5px;height:5px;background:var(--accent);}
+  .study-list strong{color:var(--ink);font-weight:600;}
+  .study-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:14px;border-top:1px solid var(--line);}
+  .study-source{font-size:11.5px;color:var(--ink-faint);}
+  .study-badge{
+    flex-shrink:0;background:var(--accent);color:oklch(97% 0.01 80);
+    font-size:10.5px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;
+    padding:7px 16px;border-radius:999px;white-space:nowrap;
+  }
+
+  /* ---------- video modal ---------- */
+  .video-modal{position:absolute;inset:0;z-index:100;display:none;align-items:center;justify-content:center;}
+  .video-modal.is-open{display:flex;}
+  .video-modal__backdrop{position:absolute;inset:0;background:oklch(15% 0.02 40 / 0.72);backdrop-filter:blur(3px);}
+  .video-modal__panel{
+    position:relative;width:720px;max-width:82%;background:oklch(95% 0.014 75);
+    border-radius:3px;overflow:hidden;box-shadow:0 50px 100px rgba(0,0,0,.5);z-index:1;
+  }
+  .video-modal__close{
+    position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;
+    background:oklch(95% 0.014 75);border:1px solid oklch(24% 0.035 50 / 0.16);
+    display:flex;align-items:center;justify-content:center;color:oklch(24% 0.035 50);
+    cursor:pointer;z-index:2;transition:background .2s ease;
+  }
+  .video-modal__close:hover{background:oklch(91.5% 0.02 70);}
+  .video-modal__frame{
+    aspect-ratio:16/9;background:linear-gradient(155deg, oklch(22% 0.035 50) 0%, oklch(17% 0.03 45) 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  }
+  .video-modal__play{color:oklch(95% 0.014 75 / 0.35);}
+  .video-modal__pending{
+    font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;
+    color:oklch(95% 0.014 75 / 0.6);
+  }
+  .video-modal__embed{display:none;width:100%;aspect-ratio:16/9;border:0;background:#000;}
+  .video-modal__title{
+    padding:20px 28px;font-family:'Spectral',serif;font-style:italic;
+    font-size:19px;font-weight:500;color:oklch(24% 0.035 50);
+  }
+
+  /* ---------- nav ui ---------- */
+  .nav-ui{position:absolute;left:96px;right:96px;bottom:36px;display:flex;align-items:center;justify-content:space-between;z-index:20;}
+  .counter{font-size:12.5px;color:var(--ink-faint);letter-spacing:0.03em;font-variant-numeric:tabular-nums;transition:color .3s ease;}
+  .dots{display:flex;gap:8px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--line-strong);cursor:pointer;transition:background .2s,transform .2s;border:none;padding:0;}
+  .dot.is-active{background:var(--accent);transform:scale(1.6);}
+  .arrows{display:flex;gap:10px;}
+  .arrow-btn{
+    width:48px;height:48px;border-radius:50%;border:1px solid var(--line-strong);
+    background:var(--bg-card);color:var(--ink);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 18px oklch(24% 0.035 50 / 0.16);
+    transition:background .2s,border-color .2s,opacity .2s,transform .2s;
+  }
+  .arrow-btn svg{width:18px;height:18px;}
+  .arrow-btn:hover:not(.is-disabled){background:var(--accent);border-color:var(--accent);color:oklch(97% 0.01 80);transform:scale(1.06);}
+  .arrow-btn.is-disabled{opacity:0.3;pointer-events:none;cursor:default;}
+  .arrow-btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  /* ---------- slide: logos aliados ---------- */
+  .slide--logos{align-items:center;padding-left:40px;padding-right:40px;}
+  .logos-title{font-size:48px;font-weight:500;text-align:center;margin-bottom:10px;}
+  .logos-subtitle{
+    font-size:13.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--accent);
+    font-weight:600;text-align:center;margin-bottom:38px;
+  }
+  .logos-img{width:1150px;max-width:100%;height:auto;}
+
+  /* ---------- slide: modelo institucional (imagen) ---------- */
+  .slide--modelo{padding:44px 60px 56px;align-items:center;}
+  .slide--modelo .kicker{font-size:14px;margin-bottom:12px;}
+  .modelo-caption{font-size:18px;color:var(--ink-soft);max-width:760px;margin:0 0 22px;font-family:'Spectral',serif;font-style:italic;text-align:center;}
+  .modelo-frame{
+    width:fit-content;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:2px;
+    padding:12px;box-shadow:0 28px 56px oklch(24% 0.035 50 / 0.16);
+  }
+  .modelo-frame img{display:block;width:900px;max-width:100%;height:auto;}
+
+  @media (prefers-reduced-motion: reduce){
+    .deck,.slide,.trait-body,.slide.is-active > *{transition:none !important;animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div id="stage-wrapper">
+  <div id="stage">
+    <div class="mark">Comité de Cafeteros de Caldas — Área de Educación</div>
+
+    <div class="deck" id="deck">
+
+      <!-- 0: ALIADOS -->
+      <section class="slide slide--logos">
+        <h2 class="logos-title">Educación para la Competitividad</h2>
+        <div class="logos-subtitle">Alianza público-privada</div>
+        <img class="logos-img" src="Img/LOGOS-Competitividad-Feb.-2026%20(2).png" alt="Logos de las entidades aliadas: Gobierno de Caldas, Comité de Cafeteros de Caldas, universidades, alcaldías, cooperativas y fundaciones">
+      </section>
+
+      <!-- 1: MODELO INSTITUCIONAL -->
+      <section class="slide slide--modelo">
+        <div class="kicker kicker--pill">Modelo institucional</div>
+        <p class="modelo-caption">El marco pedagógico que estas decisiones buscan fortalecer.</p>
+        <div class="modelo-frame">
+          <img src="Img/modelo-educacion-rural.png" alt="Modelo de Educación Rural — Educación a lo largo de la vida: trayectoria desde preescolar, primaria, posprimaria y media hasta la formación técnica, tecnológica y la educación para adultos, articulada con emprendimiento y empresarismo">
+        </div>
+      </section>
+
+      <!-- 2: PORTADA -->
+      <section class="slide slide--hero slide--dark">
+        <div class="cover-diag"></div>
+        <div class="kicker kicker--pill">Evidencia para la toma de decisiones</div>
+        <h1 class="display">La evidencia convierte la información en <em>argumentos</em> para decidir mejor.</h1>
+        <p class="lede">Cómo transformamos datos, informes y experiencia en decisiones que mejoran la educación rural de Caldas.</p>
+        <div class="watch-video" data-video-title="Trayectorias educativas completas" data-video-embed="https://drive.google.com/file/d/1hAKse9GKeMM7fPxIVmaDXmHMnYNXbdu0/preview" tabindex="0" role="button" aria-label="Ver video: Trayectorias educativas completas">
+          <span class="watch-video__play">
+            <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M1 1L9 6L1 11V1Z" fill="currentColor"/></svg>
+          </span>
+          Ver video — Trayectorias educativas completas
+        </div>
+        <div class="cover-side">Panamá · 2026</div>
+      </section>
+
+      <!-- 3: QUÉ ES LA EVIDENCIA -->
+      <section class="slide slide--define">
+        <div class="col-text">
+          <div class="kicker">01 — Definición</div>
+          <h2>¿Qué es la evidencia?</h2>
+          <p class="body-lg"><strong>Información confiable, pertinente y verificable</strong> que permite comprender una situación, valorar alternativas y sustentar decisiones con argumentos.</p>
+          <p class="body-lg" style="font-size:16px;font-family:'Work Sans',sans-serif;">Reduce la incertidumbre y evita que las decisiones dependan solo de percepciones, intuiciones o supuestos.</p>
+        </div>
+        <div class="col-visual">
+          <div class="redline">
+            <div class="redline__label">Lo que la evidencia reemplaza</div>
+            <div class="redline__word">Percepciones</div>
+            <div class="redline__word">Intuiciones</div>
+            <div class="redline__word">Supuestos</div>
+            <div class="redline__arrow">
+              <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M1 6H17M17 6L12 1M17 6L12 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              se sustituyen por
+            </div>
+            <div class="redline__result">Evidencia</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4: TRES AUTORES -->
+      <section class="slide slide--authors slide--dark">
+        <div class="kicker">02 — Marco conceptual</div>
+        <h2>Tres miradas, un mismo camino</h2>
+        <div class="authors-sub">Comprender, analizar y utilizar convergen en una decisión mejor sustentada.</div>
+        <div class="author-row">
+          <div class="author-step">
+            <div class="author-idx">01</div>
+            <div class="author-name">Weiss</div>
+            <div class="author-verb">Comprender</div>
+            <p>Ayuda a interpretar los problemas y el contexto en que ocurren.</p>
+          </div>
+          <div class="author-step">
+            <div class="author-idx">02</div>
+            <div class="author-name">Krantz</div>
+            <div class="author-verb">Analizar</div>
+            <p>Permite comparar alternativas frente a la incertidumbre.</p>
+          </div>
+          <div class="author-step">
+            <div class="author-idx">03</div>
+            <div class="author-name">Patton</div>
+            <div class="author-verb">Utilizar</div>
+            <p>Tiene sentido cuando se convierte en acción y en mejora real.</p>
+          </div>
+          <div class="author-final">
+            <div class="stamp">Decidir</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5: 8 CARACTERÍSTICAS -->
+      <section class="slide slide--traits">
+        <div class="kicker">03 — Criterios</div>
+        <h2>¿Cómo reconocemos una decisión basada en evidencia?</h2>
+        <div class="traits-grid">
+          <div class="trait">
+            <div class="trait-num">01</div>
+            <div class="trait-name">Informada</div>
+            <p class="trait-desc">Se sustenta en datos, información y conocimiento disponible.</p>
+          </div>
+          <div class="trait">
+            <div class="trait-num">02</div>
+            <div class="trait-name">Pertinente</div>
+            <p class="trait-desc">Responde realmente al problema o situación que se quiere abordar.</p>
+          </div>
+          <div class="trait">
+            <div class="trait-num">03</div>
+            <div class="trait-name">Contextualizada</div>
+            <p class="trait-desc">Considera el territorio, las personas, la organización y las circunstancias.</p>
+          </div>
+          <div class="trait">
+            <div class="trait-num">04</div>
+            <div class="trait-name">Sistemática</div>
+            <p class="trait-desc">Implica recoger, organizar y analizar información de manera ordenada.</p>
+          </div>
+          <div class="trait">
+            <div class="trait-num">05</div>
+            <div class="trait-name">Crítica</div>
+            <p class="trait-desc">No acepta cualquier información como válida: valora su calidad y posibles sesgos.</p>
+          </div>
+          <div class="trait">
+            <div class="trait-num">06</div>
+            <div class="trait-name">Participativa</div>
+            <p class="trait-desc">Integra diferentes perspectivas y conocimientos de los actores involucrados.</p>
+          </div>
+          <div class="trait">
+            <div class="trait-num">07</div>
+            <div class="trait-name">Orientada a la acción</div>
+            <p class="trait-desc">La evidencia no se queda en el análisis: sirve para decidir y actuar.</p>
+          </div>
+          <div class="trait">
+            <div class="trait-num">08</div>
+            <div class="trait-name">Evaluable</div>
+            <p class="trait-desc">Permite revisar después los resultados de la decisión y aprender de ellos.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6: CICLO + CITA -->
+      <section class="slide slide--cycle slide--dark">
+        <div class="col-quote">
+          <div class="kicker">04 — Cómo opera</div>
+          <h2>Un ciclo, no un paso único</h2>
+          <div class="quote-mark">&ldquo;</div>
+          <p class="quote-text">Decidir con evidencia no significa decidir únicamente con datos; significa integrar evidencia, contexto, experiencia y juicio profesional para tomar decisiones más pertinentes.</p>
+          <div class="quote-attr">Idea central</div>
+        </div>
+        <div class="cycle-side">
+          <div class="cycle-orbit">
+            <div class="cycle-orbit-track"></div>
+            <svg class="cycle-orbit-arrow" width="37" height="37" viewBox="0 0 26 26" fill="none"><path d="M6 9C7.5 5.5 11 3 15 3C19.5 3 23 5.8 24.3 10M24.3 10V4.5M24.3 10H18.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+            <div class="cycle-dot" style="left:210px;top:49px;">01</div>
+            <div class="cycle-label side-right" style="left:243px;top:49px;">Evidencia</div>
+
+            <div class="cycle-dot" style="left:335.9px;top:109.6px;">02</div>
+            <div class="cycle-label side-right" style="left:368.9px;top:109.6px;">Comprender la situación</div>
+
+            <div class="cycle-dot" style="left:366.9px;top:245.8px;">03</div>
+            <div class="cycle-label side-right" style="left:399.9px;top:245.8px;">Analizar alternativas</div>
+
+            <div class="cycle-dot" style="left:279.9px;top:355px;">04</div>
+            <div class="cycle-label side-right" style="left:312.9px;top:355px;">Valorar el contexto</div>
+
+            <div class="cycle-dot cycle-dot--peak" style="left:140.1px;top:355px;">05</div>
+            <div class="cycle-label side-left cycle-label--peak" style="left:107.1px;top:355px;">Decidir</div>
+
+            <div class="cycle-dot" style="left:53.1px;top:245.8px;">06</div>
+            <div class="cycle-label side-left" style="left:20.1px;top:245.8px;">Actuar</div>
+
+            <div class="cycle-dot" style="left:84.1px;top:109.6px;">07</div>
+            <div class="cycle-label side-left" style="left:51.1px;top:109.6px;">Evaluar y aprender</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7: CON QUÉ EVIDENCIA CONTAMOS -->
+      <section class="slide slide--evidence">
+        <div class="kicker">05 — Evidencia disponible</div>
+        <h2>Con qué evidencia contamos hoy</h2>
+        <div class="ledger">
+          <div class="ledger-item">
+            <div class="ledger-tag">Sistema</div>
+            <div class="ledger-body">
+              <div class="t">Informes del modelo y los proyectos</div>
+              <div class="d">Seguimiento continuo del estado del modelo educativo y de cada proyecto en curso.</div>
+            </div>
+          </div>
+          <div class="ledger-item">
+            <div class="ledger-tag">Actores</div>
+            <div class="ledger-body">
+              <div class="t">Valoración de rectores y docentes</div>
+              <div class="d">Cómo leen el estado del modelo los actores que lo viven en las instituciones.</div>
+            </div>
+          </div>
+          <div class="ledger-item">
+            <div class="ledger-tag">Resultados</div>
+            <div class="ledger-body">
+              <div class="t">Pruebas internas y externas</div>
+              <div class="d">Evidencia comparable del desempeño académico a lo largo del tiempo.</div>
+            </div>
+          </div>
+          <div class="ledger-item">
+            <div class="ledger-tag">Herramienta</div>
+            <div class="ledger-body">
+              <div class="t">JUAN GEDUKA</div>
+              <div class="d">Fuente propia de información para la gestión educativa.</div>
+              <div class="pending"><span class="pending__dot"></span>Enlace a la herramienta<span class="pending__tag">pendiente de enlace</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8: FORMACIÓN — EMPRENDIMIENTO Y EMPRESARIALIDAD -->
+      <section class="slide slide--feature">
+        <div class="feature-text">
+          <svg class="feature-glyph" width="220" height="220" viewBox="0 0 220 220" fill="none">
+            <path d="M40 170C40 170 70 60 130 40C120 80 130 110 160 120C110 130 60 150 40 170Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M110 120C110 120 130 90 150 30" stroke="currentColor" stroke-width="2"/>
+            <circle cx="150" cy="30" r="6" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <div class="kicker">06 — Formación integral</div>
+          <h2>Cultura del <em>emprendimiento</em> y la empresarialidad</h2>
+          <p class="body-lg" style="font-size:17px;font-family:'Work Sans',sans-serif;">Parte de la trayectoria educativa: formar personas que también saben crear oportunidades.</p>
+        </div>
+        <div class="video-card" data-video-title="Historia de un empresario" data-video-embed="https://drive.google.com/file/d/1YMMly425nIrF-RNHPCLXsyWlpz8AtrF8/preview" tabindex="0" role="button" aria-label="Ver video: Historia de un empresario">
+          <div class="video-card__sprockets">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="video-card__ribbon">Video destacado</div>
+          <div class="video-card__play">
+            <svg width="28" height="32" viewBox="0 0 26 30" fill="none"><path d="M2 2L24 15L2 28V2Z" fill="currentColor"/></svg>
+          </div>
+          <div class="video-card__foot">
+            <div class="video-card__title">Historia de un empresario</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9: MODELO — CULTURA DEL EMPRENDIMIENTO -->
+      <section class="slide slide--model">
+        <div class="kicker">07 — Modelo</div>
+        <h2>Cultura del emprendimiento</h2>
+        <div class="model-branches">
+          <div class="model-card">
+            <h3>Actitudes emprendedoras</h3>
+            <ul class="model-list">
+              <li>Creatividad</li>
+              <li>Innovación</li>
+              <li>Liderazgo</li>
+              <li>Pensamiento flexible</li>
+              <li>Trabajo en equipo</li>
+              <li>Identificación de oportunidades</li>
+              <li>Capacidad para asumir riesgos</li>
+            </ul>
+          </div>
+          <div class="model-card">
+            <h3>Empresarialidad</h3>
+            <ul class="model-list">
+              <li>Generación de ideas</li>
+              <li>Conocimiento del mercado</li>
+              <li>Finanzas</li>
+            </ul>
+            <div class="model-sublabel">Administración</div>
+            <ul class="model-list">
+              <li>Gestión gerencial</li>
+              <li>Plan de negocio</li>
+              <li>Gestión de recursos</li>
+              <li>Negociación</li>
+              <li>Generación de valor</li>
+            </ul>
+          </div>
+        </div>
+        <div class="model-flow">
+          <div class="model-flow-pill">Competencias básicas, ciudadanas y laborales</div>
+          <svg class="model-flow-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="model-flow-pill">Proyectos y acciones</div>
+          <svg class="model-flow-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="model-flow-pill">Creación de valor</div>
+          <svg class="model-flow-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="model-flow-pill model-flow-pill--peak">Desarrollo personal, social y productivo</div>
+        </div>
+      </section>
+
+      <!-- 10: IMPACTO — ESTUDIO CRECE 2019 -->
+      <section class="slide slide--study">
+        <div class="kicker">08 — Impacto</div>
+        <h2>Los jóvenes rurales construyen su futuro en el campo</h2>
+        <div class="study-attr">Estudio CRECE, 2019</div>
+        <div class="study-stats">
+          <div class="study-stat"><div class="num">73,6%</div><div class="label">Tasa de ocupación — vs. 55,8% del país</div></div>
+          <div class="study-stat"><div class="num">89,6%</div><div class="label">De los egresados continúa viviendo en Caldas</div></div>
+          <div class="study-stat"><div class="num">74,8%</div><div class="label">Tiene negocio rural propio</div></div>
+          <div class="study-stat"><div class="num">59%</div><div class="label">Trabaja en actividades del sector</div></div>
+        </div>
+        <div class="study-grid">
+          <ul class="study-list">
+            <li>Los ingresos de los jóvenes representan en promedio el <strong>54,4%</strong> de los ingresos totales del hogar</li>
+            <li>El arraigo de los jóvenes al campo aporta a una visión renovada del campo</li>
+            <li>Motivación por trabajar en actividades relacionadas con el campo (<strong>88%</strong>)</li>
+            <li>Aspiran vincularse a la institucionalidad cafetera (<strong>75,5%</strong>)</li>
+          </ul>
+          <ul class="study-list">
+            <li>Satisfacción en su economía, confianza en sus capacidades e integración familiar</li>
+            <li>El conocimiento de los jóvenes mejora la productividad en las fincas de sus padres</li>
+            <li>La mayoría de los egresados aspira a tener su propio negocio rural en el futuro</li>
+            <li>La visión positiva de los padres sobre las capacidades de sus hijos favorece la permanencia en el campo</li>
+          </ul>
+        </div>
+        <div class="study-foot">
+          <div class="study-source">Fuente: Federación Nacional de Cafeteros de Colombia — Estudio CRECE, 2019</div>
+          <div class="study-badge">Egresados · Desempeño laboral positivo</div>
+        </div>
+      </section>
+
+      <!-- 11: CIERRE -->
+      <section class="slide slide--hero slide--close slide--dark">
+        <h1 class="display">Gracias.</h1>
+        <div class="close-rule"></div>
+        <p class="lede">Comité de Cafeteros de Caldas — Área de Educación · Panamá, 2026</p>
+      </section>
+
+    </div>
+
+    <div class="nav-ui">
+      <div class="counter" id="counter">01 — 12</div>
+      <div class="dots" id="dots"></div>
+      <div class="arrows">
+        <button class="arrow-btn" id="prevBtn" aria-label="Anterior">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="arrow-btn" id="nextBtn" aria-label="Siguiente">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="video-modal" id="videoModal">
+      <div class="video-modal__backdrop" id="videoModalBackdrop"></div>
+      <div class="video-modal__panel" role="dialog" aria-modal="true" aria-labelledby="videoModalTitle">
+        <button class="video-modal__close" id="videoModalClose" aria-label="Cerrar video">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 2L13 13M13 2L2 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+        <div class="video-modal__frame" id="videoModalFrame">
+          <svg class="video-modal__play" width="46" height="52" viewBox="0 0 26 30" fill="none"><path d="M2 2L24 15L2 28V2Z" fill="currentColor"/></svg>
+          <div class="video-modal__pending">Video pendiente de enlace</div>
+        </div>
+        <iframe class="video-modal__embed" id="videoModalEmbed" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <div class="video-modal__title" id="videoModalTitle">Video</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const TOTAL = 12;
+  const DARK_SLIDES = [2,4,6,11];
+  let current = 0;
+
+  const stage = document.getElementById('stage');
+  const deck = document.getElementById('deck');
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const counter = document.getElementById('counter');
+  const dotsWrap = document.getElementById('dots');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  for(let i=0;i<TOTAL;i++){
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.tabIndex = 0;
+    d.setAttribute('role','button');
+    d.setAttribute('aria-label','Ir a la diapositiva ' + (i+1));
+    d.addEventListener('click', () => goTo(i));
+    d.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') goTo(i); });
+    dotsWrap.appendChild(d);
+  }
+  const dots = Array.from(dotsWrap.children);
+
+  function pad(n){ return String(n+1).padStart(2,'0'); }
+
+  function render(){
+    deck.style.transform = `translateX(-${current*1280}px)`;
+    slides.forEach((s,i) => s.classList.toggle('is-active', i===current));
+    dots.forEach((d,i) => d.classList.toggle('is-active', i===current));
+    counter.textContent = pad(current) + ' — ' + pad(TOTAL-1);
+    prevBtn.classList.toggle('is-disabled', current===0);
+    nextBtn.classList.toggle('is-disabled', current===TOTAL-1);
+    stage.classList.toggle('is-dark-chrome', DARK_SLIDES.includes(current));
+  }
+
+  function goTo(i){
+    current = Math.max(0, Math.min(TOTAL-1, i));
+    render();
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current-1));
+  nextBtn.addEventListener('click', () => goTo(current+1));
+
+  window.addEventListener('keydown', (e) => {
+    if(document.querySelector('.video-modal.is-open')) return;
+    if(e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current+1); }
+    if(e.key === 'ArrowLeft') { e.preventDefault(); goTo(current-1); }
+  });
+
+  render();
+
+  // ---- self-scaling stage ----
+  const wrapper = document.getElementById('stage-wrapper');
+  function fitStage(){
+    const scale = Math.min(wrapper.clientWidth/1280, wrapper.clientHeight/720) * 0.94;
+    stage.style.transform = `translate(-50%,-50%) scale(${scale})`;
+  }
+  window.addEventListener('resize', fitStage);
+  fitStage();
+  setTimeout(fitStage, 60);
+
+  // ---- video modal ----
+  const videoModal = document.getElementById('videoModal');
+  const videoModalTitle = document.getElementById('videoModalTitle');
+  const videoModalClose = document.getElementById('videoModalClose');
+  const videoModalBackdrop = document.getElementById('videoModalBackdrop');
+  const videoModalFrame = document.getElementById('videoModalFrame');
+  const videoModalEmbed = document.getElementById('videoModalEmbed');
+
+  function openVideoModal(title, embedUrl){
+    videoModalTitle.textContent = title;
+    if(embedUrl){
+      videoModalFrame.style.display = 'none';
+      videoModalEmbed.style.display = 'block';
+      videoModalEmbed.src = embedUrl;
+      videoModal.classList.add('is-open');
+    } else {
+      videoModalFrame.style.display = 'flex';
+      videoModalEmbed.style.display = 'none';
+      videoModal.classList.add('is-open');
+    }
+  }
+  function closeVideoModal(){
+    videoModal.classList.remove('is-open');
+    videoModalEmbed.src = '';
+  }
+  videoModalClose.addEventListener('click', closeVideoModal);
+  videoModalBackdrop.addEventListener('click', closeVideoModal);
+  window.addEventListener('keydown', e => { if(e.key === 'Escape') closeVideoModal(); });
+
+  document.querySelectorAll('[data-video-title]').forEach(el => {
+    const trigger = () => openVideoModal(el.dataset.videoTitle, el.dataset.videoEmbed || null);
+    el.addEventListener('click', trigger);
+    el.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); trigger(); }});
+  });
+
+})();
+</script>
+</body>
+</html>
