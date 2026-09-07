@@ -36,9 +36,9 @@
     var avance = total ? Math.round(cumplidos / total * 100) : 0;
 
     kpiGrid.innerHTML =
-      '<div class="kpi-card"><div class="num">' + pendientes + '</div><div class="label">Pendientes</div></div>' +
-      '<div class="kpi-card"><div class="num">' + cumplidos + '</div><div class="label">Cumplidos</div></div>' +
-      '<div class="kpi-card"><div class="num">' + vencidos + '</div><div class="label">Vencidos</div></div>' +
+      '<div class="kpi-card tone-amarillo"><div class="num">' + pendientes + '</div><div class="label">Pendientes</div></div>' +
+      '<div class="kpi-card tone-verde"><div class="num">' + cumplidos + '</div><div class="label">Cumplidos</div></div>' +
+      '<div class="kpi-card tone-rojo"><div class="num">' + vencidos + '</div><div class="label">Vencidos</div></div>' +
       '<div class="kpi-card"><div class="num">' + avance + '%</div><div class="label">Avance general</div></div>';
   }
 

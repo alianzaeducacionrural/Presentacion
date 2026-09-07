@@ -1,6 +1,6 @@
 (function () {
   var kpiGrid = document.getElementById('kpiGrid');
-  var entityGrid = document.getElementById('entityGrid');
+  var entityTableBody = document.getElementById('entityTableBody');
   var loader = document.getElementById('loader');
   var filterProvincia = document.getElementById('filterProvincia');
   var filterCalificacion = document.getElementById('filterCalificacion');
@@ -30,9 +30,9 @@
     var rojo = rows.filter(function (r) { return r.calificacion === 'ROJO'; }).length;
     kpiGrid.innerHTML =
       '<div class="kpi-card"><div class="num">' + total + '</div><div class="label">Sedes con visita registrada</div></div>' +
-      '<div class="kpi-card"><div class="num">' + verde + '</div><div class="label">En Verde</div></div>' +
-      '<div class="kpi-card"><div class="num">' + amarillo + '</div><div class="label">En Amarillo</div></div>' +
-      '<div class="kpi-card"><div class="num">' + rojo + '</div><div class="label">En Rojo</div></div>';
+      '<div class="kpi-card tone-verde"><div class="num">' + verde + '</div><div class="label">En Verde</div></div>' +
+      '<div class="kpi-card tone-amarillo"><div class="num">' + amarillo + '</div><div class="label">En Amarillo</div></div>' +
+      '<div class="kpi-card tone-rojo"><div class="num">' + rojo + '</div><div class="label">En Rojo</div></div>';
   }
 
   function populateFiltros(rows) {
@@ -60,20 +60,24 @@
 
   function renderEntities() {
     var rows = aplicarFiltros(allRows);
-    entityGrid.innerHTML = '';
+    entityTableBody.innerHTML = '';
     if (!rows.length) {
-      entityGrid.innerHTML = '<p class="page-lede">No hay sedes que coincidan con el filtro, o aún no se ha registrado ninguna visita.</p>';
+      entityTableBody.innerHTML = '<tr><td class="is-empty" colspan="7">No hay sedes que coincidan con el filtro, o aún no se ha registrado ninguna visita.</td></tr>';
       return;
     }
     rows.forEach(function (row) {
-      var card = document.createElement('div');
-      card.className = 'entity-card';
-      card.innerHTML =
-        '<div class="path">' + row.provincia + ' · ' + row.institucion + '</div>' +
-        '<div class="sede">' + row.sede + '</div>' +
-        '<div class="meta"><span class="badge ' + badgeClass(row.calificacion) + '">' + row.calificacion + '</span> · ' + row.asesor + ' · ' + fmtDate(row.fecha_visita) + '</div>';
-      card.addEventListener('click', function () { openDetail(row); });
-      entityGrid.appendChild(card);
+      var tr = document.createElement('tr');
+      tr.className = 'is-clickable';
+      tr.innerHTML =
+        '<td>' + row.sede + '</td>' +
+        '<td>' + row.institucion + '</td>' +
+        '<td>' + row.provincia + '</td>' +
+        '<td>' + row.asesor + '</td>' +
+        '<td><span class="badge ' + badgeClass(row.calificacion) + '">' + row.calificacion + '</span></td>' +
+        '<td>' + row.puntaje + ' / 2.0</td>' +
+        '<td>' + fmtDate(row.fecha_visita) + '</td>';
+      tr.addEventListener('click', function () { openDetail(row); });
+      entityTableBody.appendChild(tr);
     });
   }
 

@@ -2,11 +2,16 @@
   var loader = document.getElementById('loader');
   var content = document.getElementById('content');
   var kpiGrid = document.getElementById('kpiGrid');
-  var entityGrid = document.getElementById('entityGrid');
+  var entityTableBody = document.getElementById('entityTableBody');
   var indicatorSummaryBody = document.getElementById('indicatorSummaryBody');
+  var filterProvincia = document.getElementById('filterProvincia');
+  var filterSemaforo = document.getElementById('filterSemaforo');
+  var filterBusqueda = document.getElementById('filterBusqueda');
   var modalOverlay = document.getElementById('modalOverlay');
   var modalBody = document.getElementById('modalBody');
   var modalClose = document.getElementById('modalClose');
+
+  var allRows = [];
 
   modalClose.addEventListener('click', function () { modalOverlay.classList.remove('is-open'); });
   modalOverlay.addEventListener('click', function (e) { if (e.target === modalOverlay) modalOverlay.classList.remove('is-open'); });
@@ -19,6 +24,12 @@
     catch (e) { return ''; }
   }
 
+  function pctAplicado(row) {
+    var total = row.estrategias.length;
+    var aplica = row.estrategias.filter(function (e) { return e.estado === 'Aplica'; }).length;
+    return total ? Math.round(aplica / total * 100) : 0;
+  }
+
   function renderKpis(rows) {
     var total = rows.length;
     var verdes = rows.filter(function (r) { return r.semaforo === 'Verde'; }).length;
@@ -28,26 +39,50 @@
 
     kpiGrid.innerHTML =
       '<div class="kpi-card"><div class="num">' + total + '</div><div class="label">Respuestas registradas</div></div>' +
-      '<div class="kpi-card"><div class="num">' + pct(verdes) + '%</div><div class="label">' + verdes + ' instituciones en Verde</div></div>' +
-      '<div class="kpi-card"><div class="num">' + pct(amarillos) + '%</div><div class="label">' + amarillos + ' instituciones en Amarillo</div></div>' +
-      '<div class="kpi-card"><div class="num">' + pct(rojos) + '%</div><div class="label">' + rojos + ' instituciones en Rojo</div></div>';
+      '<div class="kpi-card tone-verde"><div class="num">' + pct(verdes) + '%</div><div class="label">' + verdes + ' instituciones en Verde</div></div>' +
+      '<div class="kpi-card tone-amarillo"><div class="num">' + pct(amarillos) + '%</div><div class="label">' + amarillos + ' instituciones en Amarillo</div></div>' +
+      '<div class="kpi-card tone-rojo"><div class="num">' + pct(rojos) + '%</div><div class="label">' + rojos + ' instituciones en Rojo</div></div>';
   }
 
-  function renderEntities(rows) {
-    entityGrid.innerHTML = '';
+  function populateFiltros(rows) {
+    var provincias = Array.from(new Set(rows.map(function (r) { return r.provincia; }).filter(Boolean))).sort();
+    var current = filterProvincia.value;
+    filterProvincia.innerHTML = '<option value="">Todas las provincias</option>' +
+      provincias.map(function (p) { return '<option value="' + p + '">' + p + '</option>'; }).join('');
+    filterProvincia.value = current;
+  }
+
+  function aplicarFiltros(rows) {
+    var provincia = filterProvincia.value;
+    var semaforo = filterSemaforo.value;
+    var busqueda = filterBusqueda.value.trim().toLowerCase();
+    return rows.filter(function (r) {
+      if (provincia && r.provincia !== provincia) return false;
+      if (semaforo && r.semaforo !== semaforo) return false;
+      if (busqueda && r.institucion.toLowerCase().indexOf(busqueda) === -1) return false;
+      return true;
+    });
+  }
+
+  function renderEntities() {
+    var rows = aplicarFiltros(allRows).slice().reverse();
+    entityTableBody.innerHTML = '';
     if (!rows.length) {
-      entityGrid.innerHTML = '<p class="page-lede">Aún no hay respuestas registradas. ¡Sé el primero en diligenciar el formulario!</p>';
+      entityTableBody.innerHTML = '<tr><td class="is-empty" colspan="6">No hay instituciones que coincidan con el filtro, o aún no se ha registrado ninguna respuesta.</td></tr>';
       return;
     }
-    rows.slice().reverse().forEach(function (row, idx) {
-      var card = document.createElement('div');
-      card.className = 'entity-card';
-      card.innerHTML =
-        '<div class="path">' + (row.provincia || 'Sin provincia') + '</div>' +
-        '<div class="sede">' + row.institucion + '</div>' +
-        '<div class="meta"><span class="badge ' + badgeClass(row.semaforo) + '">' + row.semaforo + '</span> · ' + fmtDate(row.timestamp) + '</div>';
-      card.addEventListener('click', function () { openDetail(row); });
-      entityGrid.appendChild(card);
+    rows.forEach(function (row) {
+      var tr = document.createElement('tr');
+      tr.className = 'is-clickable';
+      tr.innerHTML =
+        '<td>' + row.institucion + '</td>' +
+        '<td>' + (row.provincia || '—') + '</td>' +
+        '<td>' + (row.nombre || '—') + '</td>' +
+        '<td><span class="badge ' + badgeClass(row.semaforo) + '">' + row.semaforo + '</span></td>' +
+        '<td>' + pctAplicado(row) + '%</td>' +
+        '<td>' + fmtDate(row.timestamp) + '</td>';
+      tr.addEventListener('click', function () { openDetail(row); });
+      entityTableBody.appendChild(tr);
     });
   }
 
@@ -89,12 +124,13 @@
       .then(function (r) { return r.json(); })
       .then(function (json) {
         if (!json.ok) throw new Error(json.error);
-        var rows = json.data.rows || [];
+        allRows = json.data.rows || [];
         var indicadores = json.data.indicadores && json.data.indicadores.length ? json.data.indicadores : INDICADORES_LOCAL;
 
-        renderKpis(rows);
-        renderEntities(rows);
-        renderIndicatorSummary(rows, indicadores);
+        renderKpis(allRows);
+        populateFiltros(allRows);
+        renderEntities();
+        renderIndicatorSummary(allRows, indicadores);
 
         loader.style.display = 'none';
         content.style.display = 'block';
@@ -103,6 +139,9 @@
         loader.textContent = 'No se pudo cargar el panel: ' + err.message;
       });
   }
+
+  [filterProvincia, filterSemaforo].forEach(function (el) { el.addEventListener('change', renderEntities); });
+  filterBusqueda.addEventListener('input', renderEntities);
 
   cargar();
 })();
