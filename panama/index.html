@@ -265,6 +265,25 @@
   .ledger-body .d{font-size:13.5px;color:var(--ink-soft);line-height:1.5;}
   .ledger-body .pending{margin-top:10px;padding:6px 12px;font-size:11.5px;}
 
+  /* ---------- slide: kit de módulos de primaria (fotos) ---------- */
+  .slide--kit{flex-direction:row;align-items:center;gap:64px;}
+  .slide--kit .col-text{flex:0 0 400px;}
+  .slide--kit h2{font-size:33px;line-height:1.2;margin:14px 0 18px;}
+  .kit-lede{font-size:15px;line-height:1.6;color:var(--ink-soft);margin:0 0 24px;}
+  .kit-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .kit-tag{
+    font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-2);border-radius:999px;padding:6px 14px;
+  }
+  .kit-visual{flex:1;position:relative;height:460px;}
+  .kit-photo{
+    position:absolute;background:#fff;padding:9px;border:1px solid var(--line);
+    box-shadow:0 30px 58px oklch(24% 0.035 50 / 0.2);
+  }
+  .kit-photo img{display:block;width:100%;height:100%;object-fit:cover;}
+  .kit-photo--spines{width:360px;height:270px;top:6px;right:38px;transform:rotate(-4deg);z-index:1;}
+  .kit-photo--top{width:266px;height:290px;bottom:0;right:252px;transform:rotate(5deg);z-index:2;}
+
   /* ---------- slide: formación / video destacado ---------- */
   .slide--feature{flex-direction:row;align-items:center;gap:64px;}
   .slide--feature .feature-text{flex:0 0 400px;position:relative;}
@@ -630,7 +649,31 @@
         </div>
       </section>
 
-      <!-- 8: FORMACIÓN — EMPRENDIMIENTO Y EMPRESARIALIDAD -->
+      <!-- 8: RECURSOS — KIT DE MÓDULOS DE PRIMARIA -->
+      <section class="slide slide--kit">
+        <div class="col-text">
+          <div class="kicker">06 — Recursos pedagógicos</div>
+          <h2>Kit de Módulos de Primaria</h2>
+          <p class="kit-lede">Un material propio, impreso y entregado a cada sede: guías de Lenguaje, Matemáticas, Ciencias Sociales y Ciencias Naturales para los cinco grados de primaria.</p>
+          <div class="kit-tags">
+            <span class="kit-tag">Lenguaje</span>
+            <span class="kit-tag">Matemáticas</span>
+            <span class="kit-tag">Ciencias Sociales</span>
+            <span class="kit-tag">Ciencias Naturales</span>
+            <span class="kit-tag">Grados 1° a 5°</span>
+          </div>
+        </div>
+        <div class="kit-visual">
+          <div class="kit-photo kit-photo--spines">
+            <img src="Img/Kit%20M%C3%B3dulos%20Primaria-.jpg" alt="Lomos de los módulos de primaria apilados: Lenguaje, Matemáticas, Ciencias Sociales y Ciencias Naturales por grado">
+          </div>
+          <div class="kit-photo kit-photo--top">
+            <img src="Img/Kit%20M%C3%B3dulos%20Primaria.jpg" alt="Módulos de primaria dispuestos en círculo sobre una mesa">
+          </div>
+        </div>
+      </section>
+
+      <!-- 9: FORMACIÓN — EMPRENDIMIENTO Y EMPRESARIALIDAD -->
       <section class="slide slide--feature">
         <div class="feature-text">
           <svg class="feature-glyph" width="220" height="220" viewBox="0 0 220 220" fill="none">
@@ -638,7 +681,7 @@
             <path d="M110 120C110 120 130 90 150 30" stroke="currentColor" stroke-width="2"/>
             <circle cx="150" cy="30" r="6" stroke="currentColor" stroke-width="2"/>
           </svg>
-          <div class="kicker">06 — Formación integral</div>
+          <div class="kicker">07 — Formación integral</div>
           <h2>Cultura del <em>emprendimiento</em> y la empresarialidad</h2>
           <p class="body-lg" style="font-size:17px;font-family:'Work Sans',sans-serif;">Parte de la trayectoria educativa: formar personas que también saben crear oportunidades.</p>
         </div>
@@ -656,9 +699,9 @@
         </div>
       </section>
 
-      <!-- 9: MODELO — CULTURA DEL EMPRENDIMIENTO -->
+      <!-- 10: MODELO — CULTURA DEL EMPRENDIMIENTO -->
       <section class="slide slide--model">
-        <div class="kicker">07 — Modelo</div>
+        <div class="kicker">08 — Modelo</div>
         <h2>Cultura del emprendimiento</h2>
         <div class="model-branches">
           <div class="model-card">
@@ -701,9 +744,9 @@
         </div>
       </section>
 
-      <!-- 10: IMPACTO — ESTUDIO CRECE 2019 -->
+      <!-- 11: IMPACTO — ESTUDIO CRECE 2019 -->
       <section class="slide slide--study">
-        <div class="kicker">08 — Impacto</div>
+        <div class="kicker">09 — Impacto</div>
         <h2>Los jóvenes rurales construyen su futuro en el campo</h2>
         <div class="study-attr">Estudio CRECE, 2019</div>
         <div class="study-stats">
@@ -732,7 +775,7 @@
         </div>
       </section>
 
-      <!-- 11: CIERRE -->
+      <!-- 12: CIERRE -->
       <section class="slide slide--hero slide--close slide--dark">
         <h1 class="display">Gracias.</h1>
         <div class="close-rule"></div>
@@ -743,7 +786,7 @@
     </div>
 
     <div class="nav-ui">
-      <div class="counter" id="counter">01 — 12</div>
+      <div class="counter" id="counter">01 — 13</div>
       <div class="dots" id="dots"></div>
       <div class="arrows">
         <button class="arrow-btn" id="prevBtn" aria-label="Anterior">
@@ -774,8 +817,8 @@
 
 <script>
 (function(){
-  const TOTAL = 12;
-  const DARK_SLIDES = [2,4,6,11];
+  const TOTAL = 13;
+  const DARK_SLIDES = [2,4,6,12];
   let current = 0;
 
   const stage = document.getElementById('stage');
