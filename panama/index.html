@@ -74,7 +74,16 @@
     --line-strong:oklch(96% 0.012 75 / 0.32);
     color:var(--ink);
   }
-  .mark{position:absolute;top:38px;left:96px;font-size:11.5px;color:var(--ink-faint);letter-spacing:0.08em;text-transform:uppercase;z-index:10;transition:color .3s ease;}
+  .mark{position:absolute;top:32px;left:96px;z-index:10;display:flex;align-items:center;gap:16px;}
+  .mark-logo{height:34px;width:auto;display:block;}
+  .mark-logo--dark{display:none;}
+  #stage.is-dark-chrome .mark-logo--light{display:none;}
+  #stage.is-dark-chrome .mark-logo--dark{display:block;}
+  .mark-caption{
+    font-size:12.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--accent);padding-left:16px;border-left:1px solid var(--line-strong);
+    transition:color .3s ease,border-color .3s ease;
+  }
   .kicker{
     display:flex;align-items:center;gap:10px;margin-bottom:20px;
     font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);font-weight:600;
@@ -101,7 +110,9 @@
   .slide--hero .lede{margin-top:26px;max-width:580px;font-size:18px;line-height:1.6;color:var(--ink-soft);}
   .slide--close{align-items:flex-start;}
   .slide--close .display{font-size:136px;font-style:italic;font-weight:500;}
-  .slide--close .lede{margin-top:18px;font-size:18px;color:var(--ink-soft);letter-spacing:0.01em;}
+  .slide--close .lede{margin-top:18px;font-size:20px;font-weight:500;color:var(--ink-soft);letter-spacing:0.01em;}
+  .slide--close .lede strong{color:var(--accent);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;font-size:15px;}
+  .close-logo{position:absolute;right:88px;top:50%;transform:translateY(-50%);height:300px;width:auto;}
   .cover-side{
     position:absolute;right:44px;top:120px;bottom:120px;
     writing-mode:vertical-rl;font-size:12px;letter-spacing:0.16em;color:var(--ink-faint);
@@ -410,7 +421,11 @@
 
 <div id="stage-wrapper">
   <div id="stage">
-    <div class="mark">Comité de Cafeteros de Caldas — Área de Educación</div>
+    <div class="mark">
+      <img class="mark-logo mark-logo--light" src="logos/Isologo%20-05.png" alt="Comité de Cafeteros de Caldas">
+      <img class="mark-logo mark-logo--dark" src="logos/Isologo%20-06.png" alt="Comité de Cafeteros de Caldas">
+      <span class="mark-caption">Área de Educación</span>
+    </div>
 
     <div class="deck" id="deck">
 
@@ -727,7 +742,8 @@
       <section class="slide slide--hero slide--close slide--dark">
         <h1 class="display">Gracias.</h1>
         <div class="close-rule"></div>
-        <p class="lede">Comité de Cafeteros de Caldas — Área de Educación · Panamá, 2026</p>
+        <p class="lede"><strong>Área de Educación</strong> · Panamá, 2026</p>
+        <img class="close-logo" src="logos/Isologo%20-03.png" alt="Comité de Cafeteros de Caldas — Federación Nacional de Cafeteros de Colombia">
       </section>
 
     </div>
