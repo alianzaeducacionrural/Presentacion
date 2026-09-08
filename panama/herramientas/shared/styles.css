@@ -233,6 +233,69 @@ body[data-tool="visitas"]{
 .badge-pendiente{background:oklch(52% 0.1 250 / 0.14);color:oklch(38% 0.1 250);}
 .badge-vencido{background:oklch(52% 0.16 25 / 0.14);color:oklch(38% 0.16 25);}
 
+/* ---------- distribución (barra segmentada) ---------- */
+.segbar{display:flex;height:30px;border-radius:999px;overflow:hidden;background:var(--bg);border:1px solid var(--line);}
+.segbar-seg{height:100%;transition:width .5s ease;}
+.segbar-seg.tone-verde{background:var(--green);}
+.segbar-seg.tone-amarillo{background:var(--gold);}
+.segbar-seg.tone-rojo{background:oklch(52% 0.16 25);}
+.segbar-legend{display:flex;gap:24px;flex-wrap:wrap;margin-top:16px;}
+.segbar-legend-item{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);}
+.segbar-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.segbar-legend-dot.tone-verde{background:var(--green);}
+.segbar-legend-dot.tone-amarillo{background:var(--gold);}
+.segbar-legend-dot.tone-rojo{background:oklch(52% 0.16 25);}
+.segbar-legend-item strong{color:var(--ink);font-weight:700;}
+
+/* ---------- indicadores con barra de progreso ---------- */
+.bar-row{margin-bottom:18px;}
+.bar-row:last-child{margin-bottom:0;}
+.bar-row-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:8px;}
+.bar-row-name{font-size:13.5px;color:var(--ink);font-weight:500;line-height:1.4;}
+.bar-row-pct{font-family:'Spectral',serif;font-size:16px;font-weight:600;flex-shrink:0;}
+.bar-row-pct.tone-verde{color:oklch(36% 0.12 145);}
+.bar-row-pct.tone-amarillo{color:oklch(38% 0.12 70);}
+.bar-row-pct.tone-rojo{color:oklch(40% 0.16 25);}
+.bar-track{height:10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);overflow:hidden;}
+.bar-fill{height:100%;border-radius:999px;transition:width .6s ease;}
+.bar-fill.tone-verde{background:var(--green);}
+.bar-fill.tone-amarillo{background:var(--gold);}
+.bar-fill.tone-rojo{background:oklch(52% 0.16 25);}
+.bar-row-meta{font-size:11px;color:var(--ink-faint);margin-top:5px;}
+
+/* ---------- fortalezas / oportunidades de mejora ---------- */
+.highlight-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media (max-width:720px){.highlight-grid{grid-template-columns:1fr;}}
+.highlight-col h4{
+  font-size:12px;letter-spacing:0.08em;text-transform:uppercase;margin:0 0 6px;color:var(--ink-soft);
+  display:flex;align-items:center;gap:8px;font-weight:600;
+}
+.highlight-col h4 .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.highlight-col.is-good h4 .dot{background:var(--green);}
+.highlight-col.is-bad h4 .dot{background:oklch(52% 0.16 25);}
+.highlight-item{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:13px 0;border-top:1px solid var(--line);font-size:13px;
+}
+.highlight-col .highlight-item:last-child{border-bottom:1px solid var(--line);}
+.highlight-item .name{color:var(--ink);flex:1;line-height:1.35;}
+.highlight-item .pct{font-family:'Spectral',serif;font-weight:600;font-size:16px;flex-shrink:0;}
+
+/* ---------- respuestas por provincia ---------- */
+.province-list{display:flex;flex-direction:column;gap:11px;}
+.province-row{display:flex;align-items:center;gap:14px;}
+.province-name{flex:0 0 140px;font-size:13px;color:var(--ink);font-weight:500;}
+.province-track{flex:1;height:9px;border-radius:999px;background:var(--bg);border:1px solid var(--line);overflow:hidden;}
+.province-fill{height:100%;border-radius:999px;background:var(--accent);transition:width .5s ease;}
+.province-count{flex:0 0 28px;text-align:right;font-family:'Spectral',serif;font-weight:600;font-size:13px;color:var(--ink);}
+
+/* ---------- indicador de panel en vivo ---------- */
+.live-tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-faint);white-space:nowrap;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:livePulse 1.8s ease-in-out infinite;flex-shrink:0;}
+@keyframes livePulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.card-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+.card-head h3{margin:0;}
+
 /* ---------- filter bar ---------- */
 .filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
 .filters select,.filters input{
@@ -297,4 +360,5 @@ table.data-table td.is-empty{text-align:center;color:var(--ink-faint);padding:32
 
 @media (prefers-reduced-motion: reduce){
   .btn,.entity-card,.kanban-card{transition:none !important;}
+  .live-dot{animation:none !important;}
 }

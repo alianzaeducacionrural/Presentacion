@@ -1,5 +1,6 @@
 // URL de la Web App de Apps Script (Panamá – Diagnóstico Institucional).
 var GAS_URL = "https://script.google.com/macros/s/AKfycbzEVShPjeWebe3W3hZXkKlzKLvJF6qr4o0Pyx9tnWN4pkjRU_NbakjiLNxvXEEzcXhIvw/exec";
+var REFRESH_INTERVAL_MS = 30000; // auto-actualización del panel de resultados
 
 // Los mismos 8 indicadores definidos en Code.gs — se usan como
 // respaldo local si el GAS aún no responde (recién desplegado).
