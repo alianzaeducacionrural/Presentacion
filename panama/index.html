@@ -75,15 +75,15 @@
     --line-strong:oklch(96% 0.012 75 / 0.32);
     color:var(--ink);
   }
-  .mark{position:absolute;top:26px;left:96px;z-index:10;display:flex;align-items:center;gap:18px;transition:opacity .3s ease;}
+  .mark{position:absolute;top:20px;left:96px;z-index:10;display:flex;align-items:center;gap:18px;transition:opacity .3s ease;}
   #stage.is-last-slide .mark{opacity:0;pointer-events:none;}
-  .mark-logo{height:58px;width:auto;display:block;filter:drop-shadow(0 6px 14px oklch(24% 0.035 50 / 0.18));}
-  .mark-logo--dark{display:none;height:65px;} /* el isologo blanco trae más margen interno; se agranda para que el trazo se vea del mismo tamaño que el de color */
+  .mark-logo{height:72px;width:auto;display:block;filter:drop-shadow(0 6px 14px oklch(24% 0.035 50 / 0.18));}
+  .mark-logo--dark{display:none;height:81px;} /* el isologo blanco trae más margen interno; se agranda para que el trazo se vea del mismo tamaño que el de color */
   #stage.is-dark-chrome .mark-logo--light{display:none;}
   #stage.is-dark-chrome .mark-logo--dark{display:block;}
   .mark-caption{
-    font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-    color:var(--accent);padding-left:18px;border-left:2px solid var(--accent);
+    font-size:16px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;
+    color:var(--accent);padding-left:20px;border-left:2px solid var(--accent);
     transition:color .3s ease,border-color .3s ease;
   }
   .kicker{
