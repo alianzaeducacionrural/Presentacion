@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tablero Mural CEPE — Comité de Cafeteros de Caldas</title>
+<meta name="description" content="Tablero interactivo de lecciones aprendidas de CEPE: siete ejes temáticos y quince lecciones documentadas en campo, Comité de Cafeteros de Caldas.">
+<meta name="theme-color" content="#F5EFDD">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%97%BA%EF%B8%8F</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5EFDD;
+    --bg-2:#FFFFFF;
+    --bg-3:#F1E6C4;
+    --ink:#221A0D;
+    --ink-soft:#6E5D40;
+    --ink-dim:#9C8C68;
+    --border:#E4D6AA;
+    --border-bright:#CDB877;
+    --gold:#A6740B;
+    --gold-fill:#EFA916;
+    --cyan:#0F6E68;
+    --cyan-fill:#2FBFB2;
+    --blue:#2B2FC4;
+    --rust:#A8481F;
+    --teal:#0F6E68;
+    --chip:#FFFFFF;
+    --shadow:rgba(43,32,19,.16);
+    --focus:#0F6E68;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+    padding-left:16px;padding-right:16px;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(34,26,13,.035) 0 1px, transparent 1px 46px),
+      repeating-linear-gradient(90deg, rgba(34,26,13,.035) 0 1px, transparent 1px 46px),
+      radial-gradient(ellipse 55% 45% at 6% -4%, color-mix(in srgb, var(--gold-fill) 20%, transparent), transparent),
+      radial-gradient(ellipse 50% 42% at 102% 6%, color-mix(in srgb, var(--cyan-fill) 18%, transparent), transparent);
+    background-attachment:fixed;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'IBM Plex Sans',sans-serif;text-wrap:balance;margin:0}
+  p{margin:0}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  img{max-width:100%;display:block}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;text-align:left}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+  [hidden]{display:none!important}
+
+  .stage{
+    min-height:100%;
+    max-width:1260px;margin:0 auto;
+    display:flex;flex-direction:column;gap:14px;
+    padding-top:18px;padding-bottom:22px;
+  }
+
+  /* ---- top zone ---- */
+  .topzone{display:flex;justify-content:space-between;align-items:flex-start;gap:22px;flex-wrap:wrap}
+  .titleblock{flex:1 1 420px;min-width:0}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--cyan);font-weight:600;
+    display:flex;align-items:center;gap:9px;margin-bottom:12px;
+  }
+  .livedot{width:7px;height:7px;border-radius:50%;background:var(--cyan-fill);flex:none;
+    box-shadow:0 0 0 0 rgba(47,191,178,.6);animation:pulse 2.4s ease-out infinite}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(47,191,178,.5)}
+    70%{box-shadow:0 0 0 7px rgba(47,191,178,0)}
+    100%{box-shadow:0 0 0 0 rgba(47,191,178,0)}
+  }
+  @media (prefers-reduced-motion: reduce){ .livedot{animation:none} }
+  h1{font-size:clamp(1.7rem,2.5vw + 1rem,2.65rem);font-weight:700;line-height:1.08;letter-spacing:-.01em}
+  h1 .accent{color:var(--gold)}
+  .lede{margin-top:11px;max-width:66ch;font-size:.95rem;color:var(--ink-soft);line-height:1.55}
+  .lede strong{color:var(--ink);font-weight:600}
+
+  .legend{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;align-items:center}
+  .legend-item{
+    display:flex;align-items:center;gap:7px;font-family:'IBM Plex Sans',sans-serif;
+    font-size:.76rem;color:var(--ink-soft);letter-spacing:.01em;
+    padding:7px 13px 7px 11px;border-radius:8px;border:1px solid var(--border);
+    background:var(--bg-2);
+  }
+  .legend-item b{font-family:'IBM Plex Mono',monospace;font-weight:700;letter-spacing:.03em;text-transform:uppercase;font-size:.72rem}
+  .legend-item.li{border-color:color-mix(in srgb, var(--rust) 40%, var(--border))}
+  .legend-item.li b{color:var(--rust)}
+  .legend-item.ra{border-color:color-mix(in srgb, var(--blue) 40%, var(--border))}
+  .legend-item.ra b{color:var(--blue)}
+  .legend-item.la{border-color:color-mix(in srgb, var(--gold) 40%, var(--border))}
+  .legend-item.la b{color:var(--gold)}
+  .legend-item.rt{border-color:color-mix(in srgb, var(--teal) 40%, var(--border))}
+  .legend-item.rt b{color:var(--teal)}
+  .dot{width:8px;height:8px;border-radius:2px;flex:none}
+  .dot.li{background:var(--rust)}
+  .dot.ra{background:var(--blue)}
+  .dot.la{background:var(--gold-fill)}
+  .dot.rt{background:var(--cyan-fill)}
+  .hint{font-family:'IBM Plex Sans',sans-serif;font-size:.75rem;color:var(--ink-dim);font-style:italic}
+
+  .brandmarks{
+    display:flex;align-items:center;gap:14px;flex:0 0 auto;
+    background:var(--chip);border-radius:12px;
+    padding:12px 18px;box-shadow:0 10px 30px var(--shadow);
+  }
+  .brandmarks img{height:56px;width:auto}
+  .brandmarks .div{width:1px;height:44px;background:#D8C79B}
+
+  /* ---- kpi row ---- */
+  .kpis{display:flex;gap:12px;flex-wrap:wrap}
+  .kpi{
+    flex:1 1 150px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;
+    padding:12px 16px;position:relative;overflow:hidden;
+  }
+  .kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan-fill)}
+  .kpi:nth-child(2)::before{background:var(--gold-fill)}
+  .kpi-n{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1.7rem;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
+  .kpi-l{margin-top:4px;font-family:'IBM Plex Sans Condensed',sans-serif;font-size:.72rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em}
+
+  /* ---- bento ---- */
+  .bento{
+    flex:1 1 auto;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+  }
+  .tile{
+    position:relative;background-color:var(--bg-2);border:1px solid var(--border);border-radius:10px;
+    padding:18px 20px;display:flex;flex-direction:column;overflow:hidden;min-height:200px;
+    box-shadow:0 1px 3px var(--shadow);
+    transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background-color .16s ease;
+    background-image:
+      linear-gradient(var(--border-bright),var(--border-bright)),
+      linear-gradient(var(--border-bright),var(--border-bright)),
+      linear-gradient(var(--border-bright),var(--border-bright)),
+      linear-gradient(var(--border-bright),var(--border-bright));
+    background-repeat:no-repeat;
+    background-size:14px 2px,2px 14px,14px 2px,2px 14px;
+    background-position:11px 11px, 11px 11px, calc(100% - 11px) calc(100% - 11px), calc(100% - 11px) calc(100% - 11px);
+  }
+  .tile:hover,.tile:focus-visible{transform:translateY(-3px);border-color:var(--cyan);background-color:var(--bg-3);
+    box-shadow:0 16px 34px var(--shadow),0 0 0 1px color-mix(in srgb, var(--cyan) 35%, transparent)}
+
+  .tile-ghost{
+    position:absolute;top:-14px;right:2px;font-family:'IBM Plex Mono',monospace;font-weight:700;
+    font-size:5rem;color:var(--ink);opacity:.05;line-height:1;pointer-events:none;user-select:none;
+  }
+
+  .tile-num{
+    font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--bg-2);font-weight:600;
+    position:relative;letter-spacing:.04em;background:var(--ink);
+    display:inline-flex;width:fit-content;padding:3px 8px;border-radius:4px;
+  }
+  .tile-title{
+    font-family:'IBM Plex Sans',sans-serif;font-weight:600;color:var(--ink);text-wrap:balance;position:relative;
+    margin-top:9px;font-size:1.14rem;line-height:1.26;
+  }
+  .tile-dek{
+    color:var(--ink-soft);font-size:.87rem;line-height:1.5;margin-top:9px;position:relative;
+    display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;-webkit-line-clamp:4;
+  }
+
+  .tile-meta{
+    margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;
+    gap:10px;position:relative;
+  }
+  .tile-count{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--ink-dim)}
+  .tile-dots{display:flex;gap:4px}
+  .tile-arrow{
+    display:flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:.66rem;
+    color:var(--cyan);font-weight:600;text-transform:uppercase;letter-spacing:.03em;
+  }
+  .tile-arrow svg{width:12px;height:12px;transition:transform .18s ease}
+  .tile:hover .tile-arrow svg{transform:translateX(3px)}
+
+  @media (max-width:900px){ .bento{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:460px){ .bento{grid-template-columns:1fr} }
+
+  /* ---- modal ---- */
+  .modal-overlay{
+    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+    padding:16px;
+    background:rgba(4,8,16,.72);backdrop-filter:blur(4px);z-index:200;
+    opacity:0;visibility:hidden;transition:opacity .2s ease;
+  }
+  .modal-overlay.show{opacity:1;visibility:visible}
+  .modal{
+    background:var(--bg-2);border-radius:14px;border:1px solid var(--border-bright);
+    width:100%;max-width:1080px;height:min(880px,100%);display:flex;flex-direction:column;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);
+    transform:translateY(14px) scale(.98);transition:transform .22s ease;
+    overflow:hidden;
+  }
+  .modal-overlay.show .modal{transform:translateY(0) scale(1)}
+  .modal-close{
+    position:absolute;top:20px;right:20px;width:38px;height:38px;border-radius:8px;
+    background:var(--bg-3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+    color:var(--ink-soft);z-index:2;
+  }
+  .modal-close:hover{color:var(--ink);border-color:var(--cyan)}
+  .modal-close svg{width:15px;height:15px}
+
+  .modal-head{position:relative;padding:32px 68px 22px 34px;border-bottom:1px solid var(--border);flex:0 0 auto;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--cyan) 6%, transparent), transparent)}
+  .modal-kicker{font-family:'IBM Plex Mono',monospace;font-size:.74rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
+  .modal-title{font-family:'IBM Plex Sans',sans-serif;font-size:clamp(1.5rem,1.6vw + 1.1rem,2.1rem);font-weight:700;margin-top:10px;max-width:56ch;color:var(--ink)}
+  .modal-dek{margin-top:10px;color:var(--ink-soft);font-size:1rem;line-height:1.55;max-width:60ch}
+
+  .modal-toolbar{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:12px 34px;border-bottom:1px solid var(--border);background:var(--bg-3);flex:0 0 auto;
+  }
+  .tb-btn{
+    display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--ink-soft);
+    padding:7px 12px;border-radius:7px;border:1px solid transparent;
+  }
+  .tb-btn:hover{color:var(--ink);background:var(--bg-2);border-color:var(--border)}
+  .tb-btn svg{width:14px;height:14px}
+  .tb-btn.back{color:var(--cyan);font-weight:600}
+  .tb-nav{display:flex;align-items:center;gap:4px}
+  .tb-pos{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--ink-soft);padding:0 4px;min-width:52px;text-align:center}
+
+  .modal-body{padding:28px 34px 34px;overflow-y:auto;flex:1 1 auto}
+
+  .lesson-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .lesson-row{
+    width:100%;display:flex;align-items:flex-start;gap:14px;padding:18px 20px;
+    border:1px solid var(--border);border-radius:10px;background:var(--bg);
+    transition:border-color .15s,background .15s;
+  }
+  .lesson-row:hover{border-color:var(--cyan);background:var(--bg-3)}
+  .lesson-num{
+    font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--bg-2);flex:none;
+    background:var(--ink);padding:4px 8px;border-radius:4px;height:fit-content;
+  }
+  .lesson-text{flex:1;font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:1.08rem;line-height:1.36;color:var(--ink)}
+  .lesson-dots{display:flex;gap:5px;flex:none;padding-top:6px}
+  .lesson-go{width:16px;height:16px;flex:none;color:var(--ink-dim);margin-top:4px}
+
+  .quads{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .quad{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px 22px;border-left:4px solid transparent}
+  .quad.li{border-left-color:var(--rust)}
+  .quad.ra{border-left-color:var(--blue)}
+  .quad.la{border-left-color:var(--gold)}
+  .quad.rt{border-left-color:var(--teal)}
+  .quad-label{display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;
+    font-size:.92rem;letter-spacing:.04em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .quad.li .quad-label{color:var(--rust)}
+  .quad.ra .quad-label{color:var(--blue)}
+  .quad.la .quad-label{color:var(--gold)}
+  .quad.rt .quad-label{color:var(--teal)}
+  .quad-label svg{width:18px;height:18px;flex:none}
+  .quad p{font-size:.95rem;line-height:1.58;color:var(--ink-soft)}
+  @media (max-width:560px){ .quads{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="topzone">
+    <div class="titleblock">
+      <p class="eyebrow"><span class="livedot"></span>Comité de Cafeteros de Caldas · Colombia Evidencia Potencial en Educación</p>
+      <h1>Tablero de <span class="accent">lecciones aprendidas</span> — CEPE</h1>
+      <p class="lede">Informe de agosto — <strong>la información adquiere valor cuando se transforma en decisiones de acompañamiento.</strong></p>
+      <div class="legend">
+        <span class="legend-item li"><span class="dot li"></span><b>Identificada</b> el hallazgo</span>
+        <span class="legend-item ra"><span class="dot ra"></span><b>Respuesta</b> lo que se hizo</span>
+        <span class="legend-item la"><span class="dot la"></span><b>Aprendida</b> el insight</span>
+        <span class="legend-item rt"><span class="dot rt"></span><b>Retos</b> lo que sigue</span>
+        <span class="hint">Haz clic en un eje para explorar sus lecciones →</span>
+      </div>
+    </div>
+    <div class="brandmarks">
+      <img src="./Logos/1.png" alt="Colombia Evidencia Potencial en Educación">
+      <div class="div"></div>
+      <img src="./Logos/2.png" alt="Comité de Cafeteros de Caldas — Federación Nacional de Cafeteros de Colombia">
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-n mono">07</div><div class="kpi-l">Ejes</div></div>
+    <div class="kpi"><div class="kpi-n mono">15</div><div class="kpi-l">Lecciones aprendidas</div></div>
+  </div>
+
+  <div class="bento" id="bento"></div>
+</div>
+
+<div class="modal-overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1" id="modalPanel">
+    <button class="modal-close" id="modalClose" aria-label="Cerrar">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l10 10M15 5 5 15"/></svg>
+    </button>
+    <div class="modal-head">
+      <p class="modal-kicker" id="modalKicker"></p>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-dek" id="modalDek"></p>
+    </div>
+    <div class="modal-toolbar">
+      <button class="tb-btn back" id="tbBack" hidden>
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5 7 10l5 5"/></svg>
+        Volver a lecciones
+      </button>
+      <span></span>
+      <div class="tb-nav">
+        <button class="tb-btn" id="tbPrev" aria-label="Anterior">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5 7 10l5 5"/></svg>
+        </button>
+        <span class="tb-pos mono" id="tbPos"></span>
+        <button class="tb-btn" id="tbNext" aria-label="Siguiente">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l5 5-5 5"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var ICONS = {
+    li: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.3" cy="8.3" r="5.3"/><line x1="16" y1="16" x2="12.4" y2="12.4"/></svg>',
+    ra: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h11"/><path d="M9.5 5l5 5-5 5"/></svg>',
+    la: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M10 2.2 11.5 8 17.8 10 11.5 12 10 17.8 8.5 12 2.2 10 8.5 8Z"/></svg>',
+    rt: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 14.5 7 10l3 3 4-6.5"/><path d="M11.5 6.2h2.9v2.9"/></svg>'
+  };
+  var ARROW_RIGHT = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h12M10 5l5 5-5 5"/></svg>';
+  var CHEVRON_SM = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5l5 5-5 5"/></svg>';
+  var LABELS = { li:'Lección identificada', ra:'Respuesta adoptada', la:'Lección aprendida', rt:'Retos para transferencia' };
+
+  var DATA = [
+    { num:'01', title:'Herramienta tecnológica para el seguimiento integral',
+      dek:'De sistemas de registro y consulta a mecanismos activos de gestión de trayectorias educativas.',
+      cards:[
+        { title:'La información adquiere valor cuando se transforma en decisiones de acompañamiento',
+          li:'El desarrollo e implementación de la herramienta tecnológica evidenció que la información sobre permanencia y rendimiento académico se encontraba fragmentada y era consultada principalmente mediante reportes periódicos, lo que limitaba la identificación oportuna de variaciones en las trayectorias educativas.',
+          ra:'Se diseñó una herramienta que integra información sobre permanencia, asistencia, rendimiento académico y otras variables asociadas a las trayectorias, facilitando su consulta y actualización oportuna.',
+          la:'Digitalizar información no garantiza, por sí solo, una gestión basada en evidencia. El valor de la herramienta se concreta cuando los datos son interpretados, contextualizados y utilizados para identificar riesgos, focalizar acompañamientos y tomar decisiones oportunas.',
+          rt:'La herramienta debe consolidarse como mecanismo de gestión de trayectorias educativas y no únicamente como sistema de registro o consulta.' },
+        { title:'La oportunidad de la información es determinante para activar respuestas preventivas',
+          li:'La experiencia evidenció que disponer de información únicamente al cierre de un periodo académico limita la capacidad de intervención en procesos asociados a permanencia y rendimiento.',
+          ra:'Se avanzó hacia la disponibilidad de información actualizada para identificar tempranamente variaciones en desempeño, asistencia y continuidad y orientar acciones de acompañamiento.',
+          la:'La oportunidad de la información es tan relevante como su calidad cuando el propósito es gestionar trayectorias educativas. La información debe estar disponible cuando todavía es posible intervenir.',
+          rt:'El valor de la herramienta deberá medirse por su capacidad para anticipar riesgos y activar respuestas oportunas, además de sus indicadores de uso.' },
+        { title:'Integrar información dispersa mejora la lectura de las trayectorias estudiantiles',
+          li:'La implementación evidenció que la información requerida para comprender permanencia y rendimiento se encuentra distribuida entre diferentes actores y fuentes, dificultando una lectura integral.',
+          ra:'La herramienta permitió articular diferentes dimensiones de información y relacionar variables académicas y de permanencia con acciones de acompañamiento.',
+          la:'El seguimiento integral requiere superar la lectura aislada de fuentes y avanzar hacia una comprensión articulada de las diferentes dimensiones de la trayectoria estudiantil.',
+          rt:'La evolución de la herramienta deberá fortalecer la interoperabilidad y articulación de fuentes, reduciendo duplicidades y carga administrativa.' },
+        { title:'El seguimiento de la permanencia requiere corresponsabilidad institucional',
+          li:'La implementación permitió reconocer que el seguimiento de la permanencia no puede recaer exclusivamente en un actor y requiere articulación entre universidad, asesoría pedagógica e institución educativa.',
+          ra:'El acceso compartido a la información permitió observar una misma realidad y coordinar acciones de acompañamiento, seguimiento y respuesta.',
+          la:'La disponibilidad compartida de información favorece la corresponsabilidad, pero esta requiere una definición explícita de roles para evitar vacíos o duplicidades.',
+          rt:'El modelo deberá precisar quién identifica, quién analiza, quién interviene, quién realiza seguimiento y quién evalúa resultados.' },
+        { title:'Las alertas generan valor cuando están asociadas a rutas de intervención',
+          li:'La experiencia evidenció que identificar un riesgo no equivale a solucionarlo. Una alerta tecnológica solo produce valor cuando permite activar una respuesta pertinente y oportuna.',
+          ra:'La herramienta permitió identificar situaciones que requieren atención y puso de manifiesto la necesidad de articular las alertas con rutas de acompañamiento pedagógico, académico e institucional.',
+          la:'Cada alerta debe conducir a una secuencia de actuación que conecte análisis, responsable, acción, seguimiento y resultado.',
+          rt:'La siguiente fase deberá avanzar hacia una lógica de alerta → análisis → responsable → acción → seguimiento → resultado.' },
+        { title:'La sostenibilidad depende de la institucionalización de la herramienta',
+          li:'La experiencia evidenció que una innovación tecnológica puede perder sostenibilidad si permanece vinculada exclusivamente al proyecto que la originó y no se incorpora a los procesos regulares de gestión.',
+          ra:'La existencia de una herramienta común permitió generar una base para estandarizar procesos de seguimiento entre actores y fortalecer una cultura institucional de uso de información.',
+          la:'La sostenibilidad requiere incorporar la herramienta a los procesos institucionales, con responsabilidades, protocolos, periodicidades e indicadores definidos.',
+          rt:'La consolidación deberá contemplar gobernanza de datos, responsables, mecanismos de actualización, periodicidades de uso y condiciones de sostenibilidad tecnológica.' }
+      ]
+    },
+    { num:'02', title:'Evaluación, competencias, redes de maestros e investigación',
+      dek:'Una línea base de competencias y la formación socioemocional como parte de una misma apuesta integral.',
+      cards:[
+        { title:'El punto de partida de los estudiantes no puede darse por supuesto',
+          li:'La prueba de entrada con enfoque de evaluación por competencias evidenció niveles diferenciados de desempeño y permitió reconocer que el punto de partida de los estudiantes no puede darse por supuesto.',
+          ra:'Los resultados fueron utilizados como línea base para identificar brechas de aprendizaje y orientar la planeación y las estrategias pedagógicas.',
+          la:'La evaluación diagnóstica adquiere valor cuando sus resultados retroalimentan la enseñanza y permiten comprender qué pueden hacer los estudiantes y qué desempeños requieren fortalecimiento.',
+          rt:'La prueba de entrada deberá mantenerse como línea base y articularse con mediciones posteriores para valorar avances y brechas persistentes.' },
+        { title:'Integrar competencias académicas y socioemocionales favorece una formación integral',
+          li:'La experiencia evidenció que el desempeño académico no puede analizarse de manera aislada de capacidades relacionadas con autorregulación, perseverancia, toma de decisiones, trabajo con otros y afrontamiento de dificultades.',
+          ra:'Se articuló el desarrollo de competencias académicas y socioemocionales dentro de experiencias educativas orientadas al desarrollo integral.',
+          la:'Las competencias socioemocionales generan mayor valor cuando se integran intencionalmente a las experiencias de aprendizaje de las áreas y no cuando se abordan como un componente aislado.',
+          rt:'Se recomienda avanzar hacia una matriz que relacione competencia académica, desempeño esperado, competencia socioemocional asociada, experiencia pedagógica y evidencia de aprendizaje.' }
+      ]
+    },
+    { num:'03', title:'Percepción estudiantil y seguimiento de la trayectoria formativa',
+      dek:'La voz y la experiencia del estudiante como evidencia periódica, no ocasional, para el acompañamiento.',
+      cards:[
+        { title:'La percepción estudiantil constituye evidencia estratégica para el mejoramiento del programa',
+          li:'La aplicación sistemática de una herramienta tecnológica permitió recoger la percepción de los estudiantes sobre motivación, intención de continuidad, rendimiento académico y acompañamiento institucional, evidenciando que estas dimensiones complementan la lectura de los resultados académicos.',
+          ra:'La percepción estudiantil fue incorporada como fuente sistemática de información para comprender factores pedagógicos e institucionales asociados a la experiencia formativa y a la permanencia.',
+          la:'La voz del estudiante debe pasar de ser una fuente ocasional a constituirse en evidencia periódica para la toma de decisiones y el mejoramiento continuo.',
+          rt:'Se recomienda institucionalizar mecanismos periódicos de consulta y análisis y articular sus resultados con las demás fuentes de seguimiento.' },
+        { title:'El seguimiento de la trayectoria formativa requiere una mirada integral y corresponsable',
+          li:'La valoración de los estudiantes evidenció que la continuidad en el proceso formativo no depende exclusivamente del desempeño académico. Motivación, acompañamiento institucional, mediación de asesores pedagógicos y apoyo universitario inciden en la experiencia y permanencia.',
+          ra:'Se avanzó hacia una lectura integral de la trayectoria, incorporando dimensiones académicas, motivacionales e institucionales para orientar el acompañamiento.',
+          la:'El seguimiento debe superar una mirada centrada exclusivamente en calificaciones y considerar señales como desmotivación, dificultades académicas, baja participación o riesgo de interrupción de la trayectoria.',
+          rt:'El sistema deberá articular diferentes fuentes y actores para anticipar riesgos y orientar respuestas diferenciadas.' },
+        { title:'La información sobre la experiencia estudiantil adquiere valor cuando se convierte en acompañamiento',
+          li:'La experiencia evidenció que recoger percepciones mediante una herramienta tecnológica no es suficiente si los resultados no generan análisis, retroalimentación y acciones concretas.',
+          ra:'La información se orientó a identificar estudiantes con dificultades en desempeño, disminución de motivación o incertidumbre frente a la continuidad y a focalizar respuestas de instituciones educativas, asesores pedagógicos y universidades.',
+          la:'La tecnología constituye un medio y no el fin. Su valor está en transformar las percepciones recogidas en evidencia accionable para anticipar riesgos, focalizar acompañamientos y fortalecer la permanencia y el éxito académico.',
+          rt:'Cada resultado relevante deberá vincularse con responsables, acciones de acompañamiento, seguimiento y valoración de resultados.' }
+      ]
+    },
+    { num:'04', title:'Microcredenciales para directivos docentes',
+      dek:'Liderazgo pedagógico, gestión institucional y marco normativo en una sola ruta formativa.',
+      cards:[
+        { title:'La formación de directivos docentes debe articular liderazgo pedagógico, gestión y marco normativo',
+          li:'La experiencia evidenció que el liderazgo directivo efectivo requiere integrar competencias pedagógicas con conocimientos sobre legislación educativa, organización escolar, gestión institucional y administración del talento humano.',
+          ra:'La propuesta de microcredenciales incorporó estos componentes para fortalecer la capacidad de los directivos para liderar procesos pedagógicos y de gestión.',
+          la:'Una microcredencial pertinente para directivos debe articular liderazgo pedagógico, gestión institucional, legislación educativa y administración del talento humano, evitando abordar estos componentes como contenidos independientes.',
+          rt:'Las rutas formativas deberán mantener una integración explícita entre conocimientos, capacidades de liderazgo y situaciones reales de gestión escolar.' }
+      ]
+    },
+    { num:'05', title:'Seguimiento integral',
+      dek:'De la alerta a la intervención: capacidad institucional para anticipar el riesgo de deserción.',
+      cards:[
+        { title:'El seguimiento integral constituye una capacidad institucional para anticipar riesgos de deserción',
+          li:'La revisión de información sobre asistencia y desempeño, complementada con la comunicación entre estudiantes, familias, docentes líderes, rectores y padrinos, permitió reconocer señales asociadas a posibles dificultades en la trayectoria educativa. La experiencia mostró que el seguimiento puede trascender el registro de situaciones una vez ocurridas y convertirse en un mecanismo para identificar oportunamente condiciones de riesgo.',
+          ra:'Se fortaleció la articulación entre los diferentes actores responsables del acompañamiento y el uso de información académica para reconocer situaciones que requieren atención.',
+          la:'El seguimiento integral genera mayor valor cuando la identificación de una alerta se traduce en una intervención oportuna, con responsable definido, acción verificable y seguimiento posterior.',
+          rt:'El reto para la siguiente fase no consiste únicamente en mejorar la identificación de alertas, sino en consolidar la capacidad institucional para responder frente a ellas y valorar los resultados de las intervenciones.' }
+      ]
+    },
+    { num:'06', title:'Pertinencia curricular (currículo base)',
+      dek:'Currículo, proyecto de vida y territorio conectados en una experiencia de aprendizaje con sentido.',
+      cards:[
+        { title:'La pertinencia curricular se fortalece cuando conecta aprendizaje, proyecto de vida y territorio',
+          li:'La implementación evidenció la importancia de relacionar las competencias genéricas desarrolladas en los módulos de currículo base con las expectativas de futuro de los jóvenes y con los perfiles profesionales y laborales a los que pueden proyectarse.',
+          ra:'Se promovió la articulación entre currículo base, perfiles profesionales y laborales y proyectos de vida, buscando que los estudiantes reconozcan la formación superior como una oportunidad vinculada con sus expectativas personales, profesionales y territoriales.',
+          la:'La pertinencia de la formación en contextos rurales se fortalece cuando los aprendizajes adquieren sentido para el estudiante y pueden relacionarse con posibilidades concretas de continuidad educativa, desarrollo profesional y aporte al territorio. La apropiación curricular requiere trascender la entrega de contenidos y materiales para asegurar su utilización pedagógica y contextualizada.',
+          rt:'Generar apropiación curricular asegurando que el currículo base se usa pedagógicamente y genera sentido en los estudiantes.' }
+      ]
+    },
+    { num:'07', title:'Bienestar estudiantil',
+      dek:'Bienestar, sentido de pertenencia y permanencia entendidos más allá del desempeño académico.',
+      cards:[
+        { title:'La experiencia universitaria trasciende el desempeño académico',
+          li:'El acercamiento de los jóvenes a la universidad, sus servicios y espacios de participación permitió reconocer que la experiencia de educación superior comprende dimensiones que trascienden el desempeño académico y que pueden incidir en la motivación, el sentido de pertenencia y la permanencia.',
+          ra:'Se generaron oportunidades de acercamiento de los estudiantes a espacios, servicios y dinámicas universitarias como parte del acompañamiento a su trayectoria formativa.',
+          la:'El bienestar adquiere mayor valor cuando se integra a la estrategia de permanencia y orientación, en lugar de desarrollarse como un conjunto de actividades independientes. Para los jóvenes rurales, esta articulación puede contribuir a fortalecer su vínculo con la educación superior y su proyección de continuidad.',
+          rt:'El reto consiste en pasar de acciones de acercamiento y participación universitaria a una estrategia sistemática que permita identificar necesidades, activar apoyos oportunos y hacer seguimiento a su incidencia en la motivación, el sentido de pertenencia, la permanencia y la continuidad educativa.' }
+      ]
+    }
+  ];
+
+  function el(tag, cls, html){
+    var e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(html !== undefined) e.innerHTML = html;
+    return e;
+  }
+  function dotsCluster(){
+    var wrap = el('span','tile-dots');
+    ['li','ra','la','rt'].forEach(function(t){ wrap.appendChild(el('i','dot '+t)); });
+    return wrap;
+  }
+
+  /* ---------- build bento ---------- */
+  function buildBento(){
+    var bento = document.getElementById('bento');
+    DATA.forEach(function(sec, si){
+      var tile = el('button','tile');
+      tile.type = 'button';
+      tile.appendChild(el('span','tile-ghost mono', sec.num));
+      tile.appendChild(el('span','tile-num mono', 'EJE ' + sec.num));
+      tile.appendChild(el('h3','tile-title', sec.title));
+      tile.appendChild(el('p','tile-dek', sec.dek));
+
+      var meta = el('span','tile-meta');
+      meta.appendChild(el('span','tile-count mono', sec.cards.length + (sec.cards.length === 1 ? ' lección' : ' lecciones')));
+      meta.appendChild(dotsCluster());
+      meta.appendChild(el('span','tile-arrow', 'Explorar ' + ARROW_RIGHT));
+      tile.appendChild(meta);
+
+      tile.addEventListener('click', function(){ openAxis(si); });
+      bento.appendChild(tile);
+    });
+  }
+
+  /* ---------- modal ---------- */
+  var overlay = document.getElementById('overlay');
+  var panel = document.getElementById('modalPanel');
+  var kickerEl = document.getElementById('modalKicker');
+  var titleEl = document.getElementById('modalTitle');
+  var dekEl = document.getElementById('modalDek');
+  var bodyEl = document.getElementById('modalBody');
+  var backBtn = document.getElementById('tbBack');
+  var prevBtn = document.getElementById('tbPrev');
+  var nextBtn = document.getElementById('tbNext');
+  var posEl = document.getElementById('tbPos');
+  var closeBtn = document.getElementById('modalClose');
+
+  var state = { axis: 0, lesson: null, lastFocus: null };
+
+  function quadBlock(type, text){
+    var q = el('div','quad '+type);
+    q.appendChild(el('div','quad-label', ICONS[type] + LABELS[type]));
+    q.appendChild(el('p', null, text));
+    return q;
+  }
+
+  function renderAxis(){
+    var sec = DATA[state.axis];
+    kickerEl.textContent = 'Eje ' + sec.num + ' de 07';
+    titleEl.textContent = sec.title;
+    dekEl.textContent = sec.dek;
+    backBtn.hidden = true;
+    posEl.textContent = sec.num + ' / 07';
+
+    bodyEl.innerHTML = '';
+    var list = el('ul','lesson-list');
+    sec.cards.forEach(function(card, ci){
+      var li = el('li');
+      var row = el('button','lesson-row');
+      row.type = 'button';
+      row.appendChild(el('span','lesson-num mono', sec.num + '.' + (ci+1)));
+      row.appendChild(el('span','lesson-text', card.title));
+      row.appendChild(dotsClusterInline());
+      row.appendChild(el('span','lesson-go', CHEVRON_SM));
+      row.addEventListener('click', function(){ openLesson(ci); });
+      li.appendChild(row);
+      list.appendChild(li);
+    });
+    bodyEl.appendChild(list);
+  }
+  function dotsClusterInline(){
+    var wrap = el('span','lesson-dots');
+    ['li','ra','la','rt'].forEach(function(t){ wrap.appendChild(el('i','dot '+t)); });
+    return wrap;
+  }
+
+  function renderLesson(){
+    var sec = DATA[state.axis];
+    var card = sec.cards[state.lesson];
+    kickerEl.textContent = 'Eje ' + sec.num + ' · Lección ' + (state.lesson+1) + ' de ' + sec.cards.length;
+    titleEl.textContent = card.title;
+    dekEl.textContent = '';
+    backBtn.hidden = false;
+    posEl.textContent = (state.lesson+1) + ' / ' + sec.cards.length;
+
+    bodyEl.innerHTML = '';
+    var quads = el('div','quads');
+    quads.appendChild(quadBlock('li', card.li));
+    quads.appendChild(quadBlock('ra', card.ra));
+    quads.appendChild(quadBlock('la', card.la));
+    quads.appendChild(quadBlock('rt', card.rt));
+    bodyEl.appendChild(quads);
+  }
+
+  function render(){
+    if(state.lesson === null){ renderAxis(); } else { renderLesson(); }
+    bodyEl.scrollTop = 0;
+  }
+
+  function openAxis(i){
+    state.axis = i; state.lesson = null;
+    state.lastFocus = document.activeElement;
+    render();
+    showModal();
+  }
+  function openLesson(i){ state.lesson = i; render(); }
+
+  function showModal(){
+    overlay.classList.add('show');
+    document.documentElement.style.overflow = 'hidden';
+    panel.focus();
+    document.addEventListener('keydown', onKeydown);
+  }
+  function closeModal(){
+    overlay.classList.remove('show');
+    document.documentElement.style.overflow = '';
+    document.removeEventListener('keydown', onKeydown);
+    if(state.lastFocus && state.lastFocus.focus){ state.lastFocus.focus(); }
+  }
+
+  function goPrev(){
+    if(state.lesson === null){
+      state.axis = (state.axis - 1 + DATA.length) % DATA.length;
+    } else {
+      var len = DATA[state.axis].cards.length;
+      state.lesson = (state.lesson - 1 + len) % len;
+    }
+    render();
+  }
+  function goNext(){
+    if(state.lesson === null){
+      state.axis = (state.axis + 1) % DATA.length;
+    } else {
+      var len = DATA[state.axis].cards.length;
+      state.lesson = (state.lesson + 1) % len;
+    }
+    render();
+  }
+
+  function onKeydown(e){
+    if(e.key === 'Escape'){ closeModal(); }
+    else if(e.key === 'ArrowLeft'){ goPrev(); }
+    else if(e.key === 'ArrowRight'){ goNext(); }
+    else if(e.key === 'Tab'){
+      var focusables = panel.querySelectorAll('button');
+      if(!focusables.length) return;
+      var first = focusables[0], last = focusables[focusables.length-1];
+      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
+  backBtn.addEventListener('click', function(){ state.lesson = null; render(); });
+  prevBtn.addEventListener('click', goPrev);
+  nextBtn.addEventListener('click', goNext);
+
+  buildBento();
+})();
+</script>
+</body>
+</html>
