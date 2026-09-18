@@ -27,6 +27,8 @@
     --blue:#2B2FC4;
     --rust:#A8481F;
     --teal:#0F6E68;
+    --moss:#3F6B17;
+    --moss-fill:#7DB544;
     --chip:#FFFFFF;
     --shadow:rgba(43,32,19,.16);
     --focus:#0F6E68;
@@ -99,12 +101,50 @@
   .legend-item.la b{color:var(--gold)}
   .legend-item.rt{border-color:color-mix(in srgb, var(--teal) 40%, var(--border))}
   .legend-item.rt b{color:var(--teal)}
+  .legend-item.qd{border-color:color-mix(in srgb, var(--gold) 40%, var(--border))}
+  .legend-item.qd b{color:var(--gold)}
+  .legend-item.sl{border-color:color-mix(in srgb, var(--blue) 40%, var(--border))}
+  .legend-item.sl b{color:var(--blue)}
+  .legend-item.cf{border-color:color-mix(in srgb, var(--teal) 40%, var(--border))}
+  .legend-item.cf b{color:var(--teal)}
+  .legend-item.df{border-color:color-mix(in srgb, var(--rust) 40%, var(--border))}
+  .legend-item.df b{color:var(--rust)}
+  .legend-item.rp{border-color:color-mix(in srgb, var(--moss) 40%, var(--border))}
+  .legend-item.rp b{color:var(--moss)}
   .dot{width:8px;height:8px;border-radius:2px;flex:none}
   .dot.li{background:var(--rust)}
   .dot.ra{background:var(--blue)}
   .dot.la{background:var(--gold-fill)}
   .dot.rt{background:var(--cyan-fill)}
+  .dot.qd{background:var(--gold-fill)}
+  .dot.sl{background:var(--blue)}
+  .dot.cf{background:var(--cyan-fill)}
+  .dot.df{background:var(--rust)}
+  .dot.rp{background:var(--moss-fill)}
   .hint{font-family:'IBM Plex Sans',sans-serif;font-size:.75rem;color:var(--ink-dim);font-style:italic}
+
+  /* ---- selector de vista: lecciones aprendidas / buenas prácticas ---- */
+  .switch{
+    display:inline-flex;gap:4px;padding:4px;margin-bottom:14px;
+    background:var(--bg-2);border:1px solid var(--border-bright);border-radius:12px;
+    box-shadow:0 1px 3px var(--shadow);max-width:100%;
+  }
+  .switch-btn{
+    display:flex;align-items:center;gap:9px;min-height:42px;padding:8px 16px;border-radius:9px;
+    font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:.92rem;color:var(--ink-soft);
+    transition:background .16s ease,color .16s ease;
+  }
+  .switch-btn:hover{color:var(--ink);background:var(--bg-3)}
+  .switch-btn[aria-pressed="true"]{background:var(--ink);color:var(--bg-2)}
+  .switch-n{
+    font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.03em;
+    padding:2px 7px;border-radius:999px;background:var(--bg-3);color:var(--ink-soft);
+  }
+  .switch-btn[aria-pressed="true"] .switch-n{background:var(--gold-fill);color:var(--ink)}
+  @media (max-width:520px){
+    .switch{display:flex;width:100%}
+    .switch-btn{flex:1 1 0;justify-content:center;padding:8px 10px;font-size:.84rem;gap:6px}
+  }
 
   .brandmarks{
     display:flex;align-items:center;gap:14px;flex:0 0 auto;
@@ -181,8 +221,25 @@
   .tile-arrow svg{width:12px;height:12px;transition:transform .18s ease}
   .tile:hover .tile-arrow svg{transform:translateX(3px)}
 
-  @media (max-width:900px){ .bento{grid-template-columns:repeat(2,1fr)} }
-  @media (max-width:460px){ .bento{grid-template-columns:1fr} }
+  /* cinco buenas prácticas: tres arriba, dos más anchas debajo */
+  .bento.practicas{grid-template-columns:repeat(6,1fr)}
+  .bento.practicas .tile{grid-column:span 2}
+  .bento.practicas .tile:nth-child(n+4){grid-column:span 3}
+  .bento.practicas .tile-dek{-webkit-line-clamp:5}
+  .bento.swap .tile{animation:swapIn .28s ease backwards}
+  @keyframes swapIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){ .bento.swap .tile{animation:none} }
+
+  @media (max-width:900px){
+    .bento{grid-template-columns:repeat(2,1fr)}
+    .bento.practicas{grid-template-columns:repeat(2,1fr)}
+    .bento.practicas .tile,.bento.practicas .tile:nth-child(n+4){grid-column:auto}
+    .bento.practicas .tile:last-child{grid-column:1 / -1}
+  }
+  @media (max-width:460px){
+    .bento,.bento.practicas{grid-template-columns:1fr}
+    .bento.practicas .tile:last-child{grid-column:auto}
+  }
 
   /* ---- modal ---- */
   .modal-overlay{
@@ -261,6 +318,26 @@
   .quad-label svg{width:18px;height:18px;flex:none}
   .quad p{font-size:.95rem;line-height:1.58;color:var(--ink-soft)}
   @media (max-width:560px){ .quads{grid-template-columns:1fr} }
+
+  /* ---- buena práctica: cinco criterios ---- */
+  .quad.qd{border-left-color:var(--gold)}
+  .quad.sl{border-left-color:var(--blue)}
+  .quad.cf{border-left-color:var(--teal)}
+  .quad.df{border-left-color:var(--rust)}
+  .quad.rp{border-left-color:var(--moss)}
+  .quad.qd .quad-label{color:var(--gold)}
+  .quad.sl .quad-label{color:var(--blue)}
+  .quad.cf .quad-label{color:var(--teal)}
+  .quad.df .quad-label{color:var(--rust)}
+  .quad.rp .quad-label{color:var(--moss)}
+  .quad.wide{grid-column:1 / -1}
+  .quad.wide p{font-size:1.02rem;color:var(--ink)}
+  .quad-label.crit{font-size:.8rem;text-transform:none;letter-spacing:.01em}
+  .pull{
+    margin:16px 0 0;padding:12px 16px;border-left:3px solid var(--rust);border-radius:0 8px 8px 0;
+    background:color-mix(in srgb, var(--rust) 8%, transparent);
+    font-size:.95rem;font-weight:600;line-height:1.5;color:var(--ink);
+  }
 </style>
 </head>
 <body>
@@ -269,14 +346,34 @@
   <div class="topzone">
     <div class="titleblock">
       <p class="eyebrow"><span class="livedot"></span>Comité de Cafeteros de Caldas · Colombia Evidencia Potencial en Educación</p>
-      <h1><span class="accent">Lecciones</span> aprendidas</h1>
-      <p class="lede">Informe de agosto — <strong>la información adquiere valor cuando se transforma en decisiones de acompañamiento.</strong></p>
-      <div class="legend">
-        <span class="legend-item li"><span class="dot li"></span><b>Identificada</b> el hallazgo</span>
-        <span class="legend-item ra"><span class="dot ra"></span><b>Respuesta</b> lo que se hizo</span>
-        <span class="legend-item la"><span class="dot la"></span><b>Aprendida</b> el insight</span>
-        <span class="legend-item rt"><span class="dot rt"></span><b>Retos</b> lo que sigue</span>
-        <span class="hint">Haz clic en un eje para explorar sus lecciones →</span>
+      <div class="switch" role="group" aria-label="Cambiar de vista">
+        <button type="button" class="switch-btn" data-go="lecciones" aria-pressed="true">Lecciones aprendidas <span class="switch-n mono">15</span></button>
+        <button type="button" class="switch-btn" data-go="practicas" aria-pressed="false">Buenas prácticas <span class="switch-n mono">5</span></button>
+      </div>
+
+      <div data-view="lecciones">
+        <h1><span class="accent">Lecciones</span> aprendidas</h1>
+        <p class="lede">Informe de agosto — <strong>la información adquiere valor cuando se transforma en decisiones de acompañamiento.</strong></p>
+        <div class="legend">
+          <span class="legend-item li"><span class="dot li"></span><b>Identificada</b> el hallazgo</span>
+          <span class="legend-item ra"><span class="dot ra"></span><b>Respuesta</b> lo que se hizo</span>
+          <span class="legend-item la"><span class="dot la"></span><b>Aprendida</b> el insight</span>
+          <span class="legend-item rt"><span class="dot rt"></span><b>Retos</b> lo que sigue</span>
+          <span class="hint">Haz clic en un eje para explorar sus lecciones →</span>
+        </div>
+      </div>
+
+      <div data-view="practicas" hidden>
+        <h1><span class="accent">Buenas</span> prácticas</h1>
+        <p class="lede">Informe de agosto — <strong>cinco prácticas de La Universidad en el Campo que vale la pena destacar y que tienen potencial de réplica.</strong></p>
+        <div class="legend">
+          <span class="legend-item qd"><span class="dot qd"></span><b>Destacado</b> lo que vale la pena</span>
+          <span class="legend-item sl"><span class="dot sl"></span><b>Solución</b> lo que se implementó</span>
+          <span class="legend-item cf"><span class="dot cf"></span><b>Cómo funciona</b> el mecanismo</span>
+          <span class="legend-item df"><span class="dot df"></span><b>Diferenciadores</b> lo que la distingue</span>
+          <span class="legend-item rp"><span class="dot rp"></span><b>Réplica</b> hasta dónde puede llegar</span>
+          <span class="hint">Haz clic en una buena práctica para conocerla →</span>
+        </div>
       </div>
     </div>
     <div class="brandmarks">
@@ -286,9 +383,13 @@
     </div>
   </div>
 
-  <div class="kpis">
+  <div class="kpis" data-view="lecciones">
     <div class="kpi"><div class="kpi-n mono">07</div><div class="kpi-l">Ejes</div></div>
     <div class="kpi"><div class="kpi-n mono">15</div><div class="kpi-l">Lecciones aprendidas</div></div>
+  </div>
+  <div class="kpis" data-view="practicas" hidden>
+    <div class="kpi"><div class="kpi-n mono">05</div><div class="kpi-l">Buenas prácticas</div></div>
+    <div class="kpi"><div class="kpi-n mono">25</div><div class="kpi-l">Criterios documentados</div></div>
   </div>
 
   <div class="bento" id="bento"></div>
@@ -337,6 +438,23 @@
   var ARROW_RIGHT = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h12M10 5l5 5-5 5"/></svg>';
   var CHEVRON_SM = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5l5 5-5 5"/></svg>';
   var LABELS = { li:'Lección identificada', ra:'Respuesta adoptada', la:'Lección aprendida', rt:'Retos para transferencia' };
+
+  /* criterios de una buena práctica, tal como los nombra el documento fuente */
+  var CRITERIA = ['qd','sl','cf','df','rp'];
+  var CRIT_LABELS = {
+    qd:'¿Qué hicimos que vale la pena destacar?',
+    sl:'Describe la solución implementada',
+    cf:'Explica cómo funciona',
+    df:'Identifica sus atributos diferenciadores',
+    rp:'Tiene potencial de réplica'
+  };
+  var CRIT_ICONS = {
+    qd: ICONS.la,
+    sl: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M6.8 10.2l2.2 2.2 4.2-4.6"/></svg>',
+    cf: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 6h8M16 6h1M3 14h1M8 14h9"/><circle cx="13.5" cy="6" r="2.2"/><circle cx="5.5" cy="14" r="2.2"/></svg>',
+    df: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M10 2.5l7 7.5-7 7.5L3 10z"/></svg>',
+    rp: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7.5" y="7.5" width="9" height="9" rx="1.6"/><path d="M4 12.5V5.6A1.6 1.6 0 0 1 5.6 4h6.9"/></svg>'
+  };
 
   var DATA = [
     { num:'01', title:'Herramienta tecnológica para el seguimiento integral',
@@ -451,21 +569,83 @@
     }
   ];
 
+  /* Buenas prácticas — fuente: "Buena práctica 2.docx". qd/sl/cf/df/rp = CRITERIA. */
+  var PRACTICAS = [
+    { num:'01', title:'Gestión integral de trayectorias mediante una herramienta digital de seguimiento',
+      qd:'Desarrollamos e implementamos una herramienta digital para el seguimiento integral de las trayectorias formativas de los estudiantes de La Universidad en el Campo, que concentra información académica, de permanencia y de caracterización para apoyar la gestión y el acompañamiento de los estudiantes.',
+      sl:'Se diseñó una herramienta que integra información sobre asistencia, permanencia, rendimiento académico, reconocimiento de saberes previos, cronogramas de clase y caracterización de los estudiantes, permitiendo disponer de información actualizada y organizada para el seguimiento individual y colectivo.',
+      cf:'La herramienta centraliza y actualiza la información de los estudiantes y permite que cada actor acceda a los datos pertinentes de acuerdo con su rol y responsabilidad. Esta información facilita la identificación de alertas tempranas, el análisis de situaciones que pueden afectar la trayectoria y la definición de acciones de acompañamiento académico, pedagógico e institucional. A partir de las alertas identificadas pueden gestionarse acciones como seguimiento individualizado, ajustes razonables, nivelación y estrategias para prevenir la deserción o la pérdida de módulos.',
+      df:'Se diferencia por integrar múltiples dimensiones de la trayectoria en un mismo sistema, disponer de información oportuna, diferenciar el acceso según el rol de los actores y conectar la información con la toma de decisiones. Su valor no se limita al registro o consulta de datos, sino a su capacidad para generar información accionable para el acompañamiento y la gestión preventiva.',
+      rp:'La práctica tiene potencial de transferencia a otros programas y contextos educativos que requieran fortalecer el seguimiento de trayectorias, siempre que se adapten las variables, perfiles de acceso, responsabilidades y rutas de atención a las características del contexto. Su réplica puede contribuir a consolidar sistemas de seguimiento basados en evidencia, orientados a anticipar riesgos y fortalecer la permanencia y el desempeño académico.' },
+    { num:'02', title:'Formación por microcredenciales',
+      dek:'Diseño de la formación como una trayectoria y no como un evento aislado: los participantes aprenden, aplican, reflexionan sobre su práctica, intercambian experiencias, reciben acompañamiento y pueden dar continuidad a los aprendizajes construidos mediante nuevas oportunidades de formación.',
+      qd:'Se diseñó un proceso de formación para directivos docentes rurales que articula desarrollo de capacidades, reconocimiento de los aprendizajes y aplicación práctica en el contexto institucional, procurando que la formación trascienda la capacitación puntual y se constituya en una ruta de desarrollo profesional con posibilidades de continuidad en la educación superior.',
+      sl:'Se estructuró una ruta formativa progresiva, organizada en unidades y talleres, que articula contenidos conceptuales, reflexión sobre la práctica, trabajo autónomo y aplicación en situaciones reales del contexto territorial. El diseño incorpora estrategias de acompañamiento, evaluación y seguimiento a la permanencia. Además, contempla el reconocimiento de los aprendizajes desarrollados durante el proceso, de manera que estos puedan constituirse en un antecedente para procesos posteriores de formación y validación por parte de la universidad, favoreciendo la continuidad de los participantes interesados en profundizar su trayectoria formativa. La propuesta establece, además, mecanismos de acompañamiento mediante encuentros presenciales, espacios sincrónicos cuando se requieren y acompañamiento entre pares.',
+      cf:'El proceso combina formación presencial, reflexión autónoma, experimentación y aplicación en contexto. Las sesiones pueden desarrollarse en diferentes sedes rurales, acercando la formación a los territorios y facilitando el intercambio entre directivos. La metodología incorpora referentes y experiencias de los propios participantes, análisis de sus contextos, trabajo colaborativo y referenciación de prácticas que pueden ser adaptadas a otras instituciones. El proceso se organiza de manera progresiva, pasando por descubrimiento, interpretación y análisis, profundización, ideación y experimentación, lo que permite conectar teoría, práctica y transformación institucional.',
+      df:'La práctica se diferencia por llevar la formación al territorio, reconocer al directivo como sujeto de conocimiento y vincular los aprendizajes con problemas y proyectos reales de las instituciones. Integra formación académica, aprendizaje experiencial, intercambio entre pares, referenciación de buenas prácticas y acompañamiento continuo. A ello se suma un diseño orientado a favorecer la asistencia y permanencia mediante seguimiento permanente, acompañamiento personalizado y canales de comunicación para atender oportunamente las necesidades de los participantes.',
+      quote:'El componente territorial, no es simplemente llevar una capacitación a una sede rural; es hacer que el territorio sea parte del dispositivo pedagógico.',
+      rp:'El modelo puede transferirse a otros procesos de formación de directivos y docentes rurales, adaptando contenidos, intensidad, sedes, mecanismos de acompañamiento y condiciones territoriales. Su principal potencial de réplica está en el diseño de una ruta formativa que combina flexibilidad territorial, reconocimiento de aprendizajes, aplicación contextual y estrategias de permanencia, permitiendo articular formación en servicio con trayectorias posteriores de desarrollo profesional.' },
+    { num:'03', title:'Radio educativa para la movilización de la corresponsabilidad y el fortalecimiento de trayectorias educativas completas',
+      qd:'Se incorporó la radio como medio de comunicación pedagógica y de movilización de actores clave, particularmente estudiantes y acudientes, mediante la producción de una radio novela que articula los propósitos de las actividades con el propósito general de La Universidad en el Campo. La estrategia busca acercar el programa a las familias y estudiantes, fortalecer su comprensión sobre la importancia de la continuidad educativa y movilizar su participación corresponsable en la trayectoria formativa.',
+      sl:'Se diseñó una radio novela como recurso de comunicación que traduce los propósitos de la iniciativa a situaciones, mensajes y experiencias cercanas a los estudiantes y sus familias. A través de este formato se abordan contenidos relacionados con la permanencia, el acompañamiento familiar, la continuidad educativa y la articulación entre familia, estudiante e institución educativa, utilizando un medio con capacidad de alcance territorial y apropiación en contextos rurales.',
+      cf:'La radio novela se utiliza como un dispositivo narrativo para sensibilizar, informar y generar conversación alrededor de la trayectoria educativa. Cada contenido vincula el propósito de la actividad o proceso que se desarrolla con el propósito mayor de la iniciativa: favorecer trayectorias educativas completas. De esta manera, el mensaje no se limita a transmitir información, sino que busca generar comprensión sobre el papel que cumplen estudiantes, familias e institución educativa y promover compromisos concretos frente a la permanencia y continuidad de los estudiantes.',
+      df:'Su principal diferenciador es que convierte la comunicación en una herramienta de acompañamiento y corresponsabilidad, integrando información, sensibilización y movilización en un mismo recurso. Utiliza un lenguaje narrativo cercano a los actores, facilita el acceso a los contenidos en contextos rurales y permite conectar diferentes actividades de la iniciativa bajo un propósito común: fortalecer trayectorias educativas completas. Además, contribuye a ampliar la participación de actores que no siempre están presentes en los espacios formales de formación o seguimiento.',
+      rp:'La estrategia tiene potencial de transferencia a otros territorios y programas que requieran fortalecer la comunicación con familias y estudiantes, especialmente en contextos rurales donde los medios comunitarios pueden ampliar el alcance de las acciones educativas. Su réplica puede realizarse mediante series radiales, podcast, cápsulas sonoras o narrativas transmedia, conservando como principio la articulación entre comunicación, propósito pedagógico, participación de actores y seguimiento de la trayectoria' },
+    { num:'04', title:'Integración de competencias socioemocionales al fortalecimiento de los aprendizajes disciplinares',
+      qd:'Se articuló el desarrollo de competencias socioemocionales con el fortalecimiento de los aprendizajes disciplinares evaluados en la prueba de entrada de La Universidad en el Campo, reconociendo que la comprensión del desempeño de los estudiantes requiere considerar tanto los resultados académicos como aquellas capacidades que favorecen su participación, autorregulación, perseverancia y respuesta frente a las dificultades de aprendizaje.',
+      sl:'A partir de los resultados de la prueba de entrada, orientada a reconocer los desempeños de los estudiantes en las áreas disciplinares evaluadas, se promovió una lectura complementaria que permitiera identificar competencias socioemocionales relacionadas con las demandas de aprendizaje. Esta perspectiva permitió orientar procesos de fortalecimiento que integran competencias académicas y socioemocionales, en lugar de abordarlas como componentes independientes.',
+      cf:'Los resultados de la evaluación se utilizan como punto de partida para identificar necesidades de fortalecimiento en los aprendizajes disciplinares y, simultáneamente, reconocer capacidades socioemocionales que pueden favorecer u obstaculizar el desempeño. A partir de esta lectura se orientan estrategias pedagógicas que integran, dentro de las experiencias de aprendizaje de las áreas, aspectos como autorregulación, perseverancia, toma de decisiones, trabajo colaborativo y afrontamiento de dificultades, vinculándolos con desempeños académicos concretos.',
+      df:'Su principal diferenciador es superar la separación entre formación académica y socioemocional, incorporando ambas dimensiones en la planeación del fortalecimiento de los aprendizajes. La práctica permite pasar de una lectura centrada exclusivamente en “qué sabe el estudiante” a una comprensión más amplia de qué puede hacer, qué dificultades enfrenta y qué capacidades requiere fortalecer para avanzar en su aprendizaje. Además, utiliza evidencia de la evaluación de entrada como insumo para orientar decisiones pedagógicas diferenciadas.',
+      rp:'La práctica puede transferirse a otros procesos de formación que utilicen evaluaciones diagnósticas o de entrada, mediante una matriz que relacione competencia disciplinar, desempeño esperado, necesidad de aprendizaje, competencia socioemocional asociada, estrategia pedagógica y evidencia de avance. Esto permitiría institucionalizar una lectura integral del aprendizaje y orientar intervenciones más pertinentes a las características y necesidades de los estudiantes.' },
+    { num:'05', title:'Mesa de Diálogo para la gestión participativa y el mejoramiento de La Universidad en el Campo',
+      dek:'La Mesa de Diálogo transforma el seguimiento de la iniciativa en un ejercicio de gobernanza educativa: articula evidencia, conocimiento territorial y participación de actores para convertir la valoración conjunta de resultados en acuerdos y acciones de mejoramiento.',
+      qd:'Se implementó una Mesa de Diálogo como mecanismo de gestión participativa y corresponsable, que reúne a los principales actores vinculados con la implementación de La Universidad en el Campo: directivos docentes, docente líder, estudiante líder, representante del sector productivo y representante de los acudientes y universidad. El espacio permite realizar una valoración conjunta de los avances de la iniciativa y orientar decisiones para el fortalecimiento de la trayectoria educativa.',
+      sl:'Se estableció un espacio estructurado de diálogo y análisis en el que los actores valoran el alcance de indicadores relacionados con permanencia, rendimiento académico, pertinencia, bienestar estudiantil y prácticas académicas. La información y las perspectivas aportadas por los participantes se utilizan para reconocer avances, identificar brechas y definir oportunidades de mejoramiento, promoviendo acuerdos entre los diferentes actores que intervienen en la trayectoria formativa de los estudiantes.',
+      cf:'La Mesa parte de la evidencia disponible sobre la implementación de la iniciativa y convoca a los actores desde sus diferentes roles para contrastar información, experiencias y percepciones. El ejercicio permite identificar situaciones que requieren atención, analizar sus posibles factores asociados y establecer conjuntamente acciones, responsabilidades y acuerdos. De esta manera, la valoración de los indicadores se convierte en un ejercicio de gestión comunitaria que orienta la construcción y seguimiento de una ruta de mejoramiento compartida.',
+      df:'Se diferencia por integrar en un mismo espacio las diferentes perspectivas de quienes inciden directamente en la trayectoria educativa, superando una lógica de seguimiento exclusivamente institucional. Combina evidencia cuantitativa y conocimiento situado de los actores, favorece la corresponsabilidad y convierte el diálogo en un mecanismo para la toma de decisiones y la gestión de acuerdos. Además, incorpora al estudiante, la familia y el sector productivo como actores con capacidad de aportar a la valoración y mejoramiento de la iniciativa.',
+      quote:'Los indicadores se convierten en objeto de diálogo entre actores, el diálogo en acuerdos y los acuerdos en una ruta de mejoramiento compartida.',
+      rp:'La práctica puede transferirse a otros establecimientos, municipios o iniciativas educativas que requieran fortalecer la gobernanza participativa y la gestión basada en evidencia. Su réplica puede adaptarse a las características de cada territorio y mantener como elementos esenciales la participación de actores clave, la valoración conjunta de indicadores, la identificación de brechas, la definición de acuerdos y el seguimiento a una ruta de mejoramiento.' }
+  ];
+
   function el(tag, cls, html){
     var e = document.createElement(tag);
     if(cls) e.className = cls;
     if(html !== undefined) e.innerHTML = html;
     return e;
   }
-  function dotsCluster(){
+  function dotsCluster(types){
     var wrap = el('span','tile-dots');
-    ['li','ra','la','rt'].forEach(function(t){ wrap.appendChild(el('i','dot '+t)); });
+    (types || ['li','ra','la','rt']).forEach(function(t){ wrap.appendChild(el('i','dot '+t)); });
     return wrap;
   }
 
   /* ---------- build bento ---------- */
   function buildBento(){
     var bento = document.getElementById('bento');
+    bento.innerHTML = '';
+    bento.classList.toggle('practicas', state.mode === 'practicas');
+
+    if(state.mode === 'practicas'){
+      PRACTICAS.forEach(function(p, pi){
+        var tile = el('button','tile');
+        tile.type = 'button';
+        tile.appendChild(el('span','tile-ghost mono', p.num));
+        tile.appendChild(el('span','tile-num mono', 'PRÁCTICA ' + p.num));
+        tile.appendChild(el('h3','tile-title', p.title));
+        tile.appendChild(el('p','tile-dek', p.dek || p.qd));
+
+        var meta = el('span','tile-meta');
+        meta.appendChild(el('span','tile-count mono', CRITERIA.length + ' criterios'));
+        meta.appendChild(dotsCluster(CRITERIA));
+        meta.appendChild(el('span','tile-arrow', 'Conocer ' + ARROW_RIGHT));
+        tile.appendChild(meta);
+
+        tile.addEventListener('click', function(){ openAxis(pi); });
+        bento.appendChild(tile);
+      });
+      return;
+    }
+
     DATA.forEach(function(sec, si){
       var tile = el('button','tile');
       tile.type = 'button';
@@ -498,7 +678,9 @@
   var posEl = document.getElementById('tbPos');
   var closeBtn = document.getElementById('modalClose');
 
-  var state = { axis: 0, lesson: null, lastFocus: null };
+  /* mode: 'lecciones' | 'practicas'. En 'practicas', state.axis indexa PRACTICAS y state.lesson es siempre null. */
+  var state = { mode: 'lecciones', axis: 0, lesson: null, lastFocus: null };
+  function items(){ return state.mode === 'practicas' ? PRACTICAS : DATA; }
 
   function quadBlock(type, text){
     var q = el('div','quad '+type);
@@ -555,8 +737,37 @@
     bodyEl.appendChild(quads);
   }
 
+  function critBlock(type, text, wide){
+    var q = el('div','quad '+type+(wide ? ' wide' : ''));
+    q.appendChild(el('div','quad-label crit', CRIT_ICONS[type] + CRIT_LABELS[type]));
+    q.appendChild(el('p', null, text));
+    return q;
+  }
+
+  function renderPractica(){
+    var p = PRACTICAS[state.axis];
+    kickerEl.textContent = 'Buena práctica ' + p.num + ' de 0' + PRACTICAS.length;
+    titleEl.textContent = p.title;
+    dekEl.textContent = p.dek || '';
+    backBtn.hidden = true;
+    posEl.textContent = p.num + ' / 0' + PRACTICAS.length;
+
+    bodyEl.innerHTML = '';
+    var quads = el('div','quads');
+    quads.appendChild(critBlock('qd', p.qd, true));
+    quads.appendChild(critBlock('sl', p.sl));
+    quads.appendChild(critBlock('cf', p.cf));
+    var df = critBlock('df', p.df);
+    if(p.quote){ df.appendChild(el('p','pull', p.quote)); }
+    quads.appendChild(df);
+    quads.appendChild(critBlock('rp', p.rp));
+    bodyEl.appendChild(quads);
+  }
+
   function render(){
-    if(state.lesson === null){ renderAxis(); } else { renderLesson(); }
+    if(state.mode === 'practicas'){ renderPractica(); }
+    else if(state.lesson === null){ renderAxis(); }
+    else { renderLesson(); }
     bodyEl.scrollTop = 0;
   }
 
@@ -583,7 +794,7 @@
 
   function goPrev(){
     if(state.lesson === null){
-      state.axis = (state.axis - 1 + DATA.length) % DATA.length;
+      state.axis = (state.axis - 1 + items().length) % items().length;
     } else {
       var len = DATA[state.axis].cards.length;
       state.lesson = (state.lesson - 1 + len) % len;
@@ -592,7 +803,7 @@
   }
   function goNext(){
     if(state.lesson === null){
-      state.axis = (state.axis + 1) % DATA.length;
+      state.axis = (state.axis + 1) % items().length;
     } else {
       var len = DATA[state.axis].cards.length;
       state.lesson = (state.lesson + 1) % len;
@@ -619,7 +830,39 @@
   prevBtn.addEventListener('click', goPrev);
   nextBtn.addEventListener('click', goNext);
 
-  buildBento();
+  /* ---------- selector de vista ---------- */
+  var switchBtns = document.querySelectorAll('.switch-btn');
+  var bentoEl = document.getElementById('bento');
+
+  function setView(mode, animate){
+    state.mode = mode; state.axis = 0; state.lesson = null;
+    Array.prototype.forEach.call(switchBtns, function(b){
+      b.setAttribute('aria-pressed', b.getAttribute('data-go') === mode ? 'true' : 'false');
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-view]'), function(n){
+      n.hidden = n.getAttribute('data-view') !== mode;
+    });
+    bentoEl.classList.remove('swap');
+    buildBento();
+    if(animate){ void bentoEl.offsetWidth; bentoEl.classList.add('swap'); }
+    try {
+      history.replaceState(null, '', mode === 'practicas' ? '#buenas-practicas' : location.pathname + location.search);
+    } catch(e){}
+  }
+
+  Array.prototype.forEach.call(switchBtns, function(b){
+    b.addEventListener('click', function(){
+      var mode = b.getAttribute('data-go');
+      if(mode !== state.mode){ setView(mode, true); }
+    });
+  });
+
+  function viewFromHash(){ return location.hash === '#buenas-practicas' ? 'practicas' : 'lecciones'; }
+  window.addEventListener('hashchange', function(){
+    if(viewFromHash() !== state.mode){ closeModal(); setView(viewFromHash(), true); }
+  });
+
+  setView(viewFromHash(), false);
 })();
 </script>
 </body>
