@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tablero Mural CEPE — Comité de Cafeteros de Caldas</title>
-<meta name="description" content="Tablero interactivo de lecciones aprendidas de CEPE: siete ejes temáticos y quince lecciones documentadas en campo, Comité de Cafeteros de Caldas.">
+<meta name="description" content="Tablero interactivo de lecciones aprendidas de CEPE: ejes temáticos, lecciones aprendidas y buenas prácticas documentadas en campo, por periodo, Comité de Cafeteros de Caldas.">
 <meta name="theme-color" content="#F5EFDD">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%97%BA%EF%B8%8F</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -145,6 +145,20 @@
     .switch{display:flex;width:100%}
     .switch-btn{flex:1 1 0;justify-content:center;padding:8px 10px;font-size:.84rem;gap:6px}
   }
+
+  .controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:14px}
+  .controls .switch{margin-bottom:0}
+  .period{display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+    letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--ink-soft)}
+  .period select{
+    font:inherit;font-family:'IBM Plex Sans',sans-serif;font-size:.92rem;font-weight:600;letter-spacing:0;text-transform:none;
+    color:var(--ink);background:var(--bg-2);border:1px solid var(--border-bright);border-radius:10px;
+    min-height:42px;padding:8px 12px;box-shadow:0 1px 3px var(--shadow);cursor:pointer;
+  }
+  .period select:hover{border-color:var(--cyan)}
+  .empty{grid-column:1 / -1;padding:36px 20px;text-align:center;color:var(--ink-soft);
+    border:1px dashed var(--border-bright);border-radius:10px;background:var(--bg-2)}
+  @media (max-width:520px){ .period{width:100%} .period select{flex:1} }
 
   .brandmarks{
     display:flex;align-items:center;gap:14px;flex:0 0 auto;
@@ -346,14 +360,23 @@
   <div class="topzone">
     <div class="titleblock">
       <p class="eyebrow"><span class="livedot"></span>Comité de Cafeteros de Caldas · Colombia Evidencia Potencial en Educación</p>
-      <div class="switch" role="group" aria-label="Cambiar de vista">
-        <button type="button" class="switch-btn" data-go="lecciones" aria-pressed="true">Lecciones aprendidas <span class="switch-n mono">15</span></button>
-        <button type="button" class="switch-btn" data-go="practicas" aria-pressed="false">Buenas prácticas <span class="switch-n mono">5</span></button>
+      <div class="controls">
+        <div class="switch" role="group" aria-label="Cambiar de vista">
+          <button type="button" class="switch-btn" data-go="lecciones" aria-pressed="true">Lecciones aprendidas <span class="switch-n mono" data-count="lecciones">15</span></button>
+          <button type="button" class="switch-btn" data-go="practicas" aria-pressed="false">Buenas prácticas <span class="switch-n mono" data-count="practicas">5</span></button>
+        </div>
+        <label class="period">Periodo
+          <select id="periodo">
+            <option value="ago">Marzo – Agosto</option>
+            <option value="sep">Septiembre</option>
+            <option value="todo" selected>Ver todo</option>
+          </select>
+        </label>
       </div>
 
       <div data-view="lecciones">
         <h1><span class="accent">Lecciones</span> aprendidas</h1>
-        <p class="lede">Informe de agosto — <strong>la información adquiere valor cuando se transforma en decisiones de acompañamiento.</strong></p>
+        <p class="lede"><span data-informe></span> — <strong id="ledeLecciones"></strong></p>
         <div class="legend">
           <span class="legend-item li"><span class="dot li"></span><b>Identificada</b> el hallazgo</span>
           <span class="legend-item ra"><span class="dot ra"></span><b>Respuesta</b> lo que se hizo</span>
@@ -365,7 +388,7 @@
 
       <div data-view="practicas" hidden>
         <h1><span class="accent">Buenas</span> prácticas</h1>
-        <p class="lede">Informe de agosto — <strong>cinco prácticas de La Universidad en el Campo que vale la pena destacar y que tienen potencial de réplica.</strong></p>
+        <p class="lede"><span data-informe></span> — <strong>prácticas de La Universidad en el Campo que vale la pena destacar y que tienen potencial de réplica.</strong></p>
         <div class="legend">
           <span class="legend-item qd"><span class="dot qd"></span><b>Destacado</b> lo que vale la pena</span>
           <span class="legend-item sl"><span class="dot sl"></span><b>Solución</b> lo que se implementó</span>
@@ -384,12 +407,12 @@
   </div>
 
   <div class="kpis" data-view="lecciones">
-    <div class="kpi"><div class="kpi-n mono">07</div><div class="kpi-l">Ejes</div></div>
-    <div class="kpi"><div class="kpi-n mono">15</div><div class="kpi-l">Lecciones aprendidas</div></div>
+    <div class="kpi"><div class="kpi-n mono" data-count="ejes">07</div><div class="kpi-l">Ejes</div></div>
+    <div class="kpi"><div class="kpi-n mono" data-count="lecciones">15</div><div class="kpi-l">Lecciones aprendidas</div></div>
   </div>
   <div class="kpis" data-view="practicas" hidden>
-    <div class="kpi"><div class="kpi-n mono">05</div><div class="kpi-l">Buenas prácticas</div></div>
-    <div class="kpi"><div class="kpi-n mono">25</div><div class="kpi-l">Criterios documentados</div></div>
+    <div class="kpi"><div class="kpi-n mono" data-count="practicas">05</div><div class="kpi-l">Buenas prácticas</div></div>
+    <div class="kpi"><div class="kpi-n mono" data-count="criterios">25</div><div class="kpi-l">Criterios documentados</div></div>
   </div>
 
   <div class="bento" id="bento"></div>
@@ -607,6 +630,87 @@
       rp:'La práctica puede transferirse a otros establecimientos, municipios o iniciativas educativas que requieran fortalecer la gobernanza participativa y la gestión basada en evidencia. Su réplica puede adaptarse a las características de cada territorio y mantener como elementos esenciales la participación de actores clave, la valoración conjunta de indicadores, la identificación de brechas, la definición de acuerdos y el seguimiento a una ruta de mejoramiento.' }
   ];
 
+  /* Periodos: 'ago' = Marzo – Agosto (informe anterior), 'sep' = Septiembre. */
+  DATA.forEach(function(d){ d.mes = 'ago'; });
+  PRACTICAS.forEach(function(p){ p.mes = 'ago'; });
+
+  /* Septiembre — fuente: "docs/Septiembre/CEPE Septiembre.docx". raLabel: la 2.ª columna del documento se titula "Buena práctica" en vez de "Respuesta adoptada". */
+  DATA.push(
+    { mes:'sep', title:'Vinculación de las familias a la trayectoria educativa',
+      dek:'Estrategias contextualizadas, participativas y orientadas a la acción: la experiencia de Acudientes a la U.',
+      cards:[
+        { title:'La participación familiar se fortalece con estrategias cercanas, lúdicas y contextualizadas',
+          li:'La baja participación de los acudientes evidenció la necesidad de revisar las estrategias tradicionales de convocatoria y desarrollar mecanismos de participación más cercanos al contexto y a las características de las familias.',
+          ra:'Se propone diseñar una estrategia mediante una metodología lúdica, participativa y contextualizada, incorporando el personaje Don Reinaldo “Repe” Restrepo como mediador para abordar el papel de las familias en la permanencia, el desempeño académico y la trayectoria educativa de los estudiantes.',
+          la:'La participación familiar se fortalece cuando las estrategias de acompañamiento generan identificación, cercanía y sentido. La contextualización del lenguaje, los personajes y las situaciones trabajadas facilita que los acudientes comprendan su papel como corresponsables de la trayectoria educativa.',
+          rt:'Diseñar estrategias de vinculación familiar contextualizadas, considerando características socioculturales, dinámicas territoriales y posibles barreras de participación, e incorporar metodologías lúdicas o narrativas que puedan ser adaptadas a diferentes instituciones y comunidades.' },
+        { title:'La información sobre la trayectoria vale más cuando se traduce en acciones para el hogar',
+          li:'La información relacionada con permanencia, asistencia y rendimiento puede resultar distante para las familias cuando se presenta únicamente como información institucional o académica.',
+          ra:'La socialización de la herramienta de seguimiento integral se articuló con situaciones cotidianas y con la mediación de Don Repe, permitiendo relacionar la información con acciones concretas que pueden desarrollar los acudientes desde el hogar.',
+          la:'La información sobre la trayectoria estudiantil adquiere mayor valor cuando se transforma en orientaciones concretas para la acción familiar. Identificar una dificultad debe permitir comprender qué hacer, a quién acudir y cómo realizar seguimiento. Esta lógica coincide con la necesidad de vincular las alertas con rutas de intervención, responsables y seguimiento.',
+          rt:'Consolidar una ruta de acompañamiento familiar asociada a las alertas de permanencia y desempeño, definiendo señales de alerta, acciones esperadas de la familia, responsables institucionales y mecanismos de seguimiento.' },
+        { title:'La corresponsabilidad de las familias se concreta en compromisos específicos y observables',
+          li:'La sensibilización sobre el papel de la familia requiere trascender el mensaje general de “acompañar” y traducirse en acciones específicas que puedan ser implementadas desde el hogar.',
+          ra:'Se socializaron responsabilidades concretas de los acudientes relacionadas con asistencia, acompañamiento académico, comunicación y prevención de situaciones que puedan afectar la permanencia, finalizando con compromisos individuales.',
+          la:'La corresponsabilidad se fortalece cuando se traduce en comportamientos concretos, observables y susceptibles de seguimiento. La participación familiar debe orientarse hacia acciones que contribuyan efectivamente a la permanencia y el desempeño.',
+          rt:'Establecer mecanismos para realizar seguimiento a los compromisos familiares, identificando avances, dificultades y necesidades de apoyo, y articulando estos resultados con los actores responsables del acompañamiento.' }
+      ]
+    },
+    { mes:'sep', title:'Formación de docentes de educación media',
+      dek:'El valor no está en que el docente conozca metodologías, sino en que use evidencias para decidir, implementar y comprobar el efecto en los aprendizajes.',
+      cards:[
+        { title:'La formación docente tiene mayor impacto cuando se organiza en ciclos de mejoramiento basados en evidencia',
+          raLabel:'Buena práctica',
+          li:'El proceso de formación evidenció que los docentes presentan un alto nivel de reconocimiento y valoración de las metodologías activas; sin embargo, persiste el desafío de demostrar cómo su implementación transforma efectivamente los desempeños de los estudiantes. La evidencia mostró que el reto trasciende el conocimiento metodológico y se ubica en la capacidad de articular evaluación, decisión pedagógica, intervención y seguimiento del aprendizaje.',
+          ra:'Se partió del análisis de la evidencia generada por la prueba de entrada de los estudiantes de grado 10 y se orientó a los docentes hacia la identificación de aprendizajes por fortalecer, la selección de metodologías activas y la formulación de propuestas de mejoramiento e investigación desde las redes de maestros por áreas.',
+          la:'La formación docente genera mayor potencial de impacto cuando transita de la apropiación conceptual de metodologías hacia ciclos de mejoramiento basados en evidencia. El aprendizaje central es que no basta con saber qué metodología utilizar: es necesario definir qué aprendizaje se quiere transformar, qué estrategia se implementará, qué evidencia permitirá valorar el cambio y qué decisiones se tomarán a partir de los resultados.',
+          rt:'Consolidar las redes de maestros como comunidades de investigación y mejoramiento pedagógico, capaces de implementar intervenciones sobre aprendizajes priorizados, recoger evidencias, analizar cambios en los desempeños y ajustar sus prácticas. El reto es avanzar de la formación y formulación de propuestas hacia la demostración verificable de cambios en los aprendizajes de los estudiantes.' }
+      ]
+    },
+    { mes:'sep', title:'Prácticas académicas como fuente de evidencia',
+      dek:'Convertir las prácticas académicas en fuentes de evidencia para la gestión de trayectorias: la práctica deja de ser una visita para convertirse en evidencia.',
+      cards:[
+        { title:'El seguimiento pospráctica convierte la experiencia en evidencia para decidir',
+          li:'Las prácticas académicas constituyen una oportunidad para fortalecer la motivación, afianzar aprendizajes y competencias y favorecer que los estudiantes encuentren sentido a su programa de formación al conectar los contenidos académicos con situaciones reales del mundo laboral y productivo. Sin embargo, la información sobre lo que ocurre después de la práctica permanece principalmente en el docente universitario que orienta la experiencia, lo que limita su aprovechamiento para el seguimiento de la trayectoria.',
+          ra:'Se desarrollaron experiencias prácticas articuladas con el programa de formación y con procesos de orientación socio-ocupacional, acercando a los estudiantes a contextos reales de desempeño y favoreciendo la relación entre formación, competencias, proyecto de vida y mundo laboral. Se reconoció la necesidad de complementar la experiencia con mecanismos de recolección de evidencias sobre aprendizajes, motivación, desempeño y proyección posterior a la práctica.',
+          la:'El valor de una práctica académica no termina con su realización: se concreta cuando la experiencia genera evidencia sobre lo que el estudiante aprendió, las competencias que fortaleció, el sentido que atribuye a su formación y las decisiones que toma frente a su trayectoria educativa y ocupacional. Por tanto, el seguimiento debe pasar de registrar la asistencia o realización de la práctica a documentar sus efectos y utilizarlos para orientar decisiones pedagógicas, académicas y de permanencia.',
+          rt:'Diseñar un mecanismo sistemático de seguimiento pospráctica, que permita acceder y triangular información que actualmente permanece en el docente universitario y recogerla mediante evidencias breves y comparables: valoración del estudiante, observación del docente, productos o desempeños de la práctica, competencias evidenciadas, nivel de motivación, relación con el programa, intereses ocupacionales y decisiones posteriores. El reto será integrar esta información al seguimiento de la trayectoria para orientar acciones de acompañamiento y mejoramiento.' },
+        { title:'La lista de chequeo pedagógica hace visible la conexión entre currículo, competencia y contexto real',
+          raLabel:'Buena práctica',
+          li:'Las prácticas académicas pueden convertirse en experiencias aisladas si el estudiante no cuenta con mecanismos que le permitan interpretar lo observado a la luz de los aprendizajes y competencias de su proceso de formación. Esto limita su potencial para fortalecer la motivación, la apropiación de la carrera y la conexión con el mundo laboral.',
+          ra:'Se implementó una lista de chequeo pedagógica como mediador de la práctica académica, mediante la cual cada estudiante identifica y relaciona situaciones, procesos y desempeños observados durante la visita con los aprendizajes del módulo que está cursando y con las competencias de su programa técnico profesional. La herramienta orienta la observación y genera evidencia individual sobre la manera en que el estudiante comprende y aplica los aprendizajes en un contexto real.',
+          la:'La práctica académica adquiere mayor valor cuando deja de ser una actividad de exposición al contexto y se convierte en una experiencia intencionada de aprendizaje y movilización de competencias. La lista de chequeo permite hacer visible la conexión currículo–competencia–contexto real–proyecto de formación, favoreciendo que el estudiante comprenda para qué aprende lo que aprende y encuentre mayor sentido a su trayectoria formativa.',
+          rt:'Escalar la práctica como un mecanismo sistemático de aprendizaje basado en experiencias reales, estandarizando una estructura mínima de preparación, observación, registro, reflexión y retroalimentación. El reto es consolidar las evidencias producidas por los estudiantes y docentes para alimentar decisiones curriculares, fortalecer la orientación socio-ocupacional y valorar posteriormente cambios en motivación, aprendizaje, competencias y proyección hacia el mundo laboral.' }
+      ]
+    },
+    { mes:'sep', title:'Acompañamiento entre pares',
+      dek:'Convertir el conocimiento acumulado de los rectores experimentados en capacidad instalada para acompañar a quienes inician su gestión, mediante un modelo de pares orientado por evidencia.',
+      cards:[
+        { title:'El conocimiento de los rectores experimentados se vuelve capacidad institucional cuando se moviliza entre pares',
+          raLabel:'Buena práctica',
+          li:'Los rectores nuevos presentan necesidades diferenciadas para el ejercicio de su liderazgo en los componentes administrativo, curricular, comunitario y de formación, mientras que los rectores con mayor trayectoria poseen conocimientos, fortalezas y experiencias que pueden responder directamente a dichas necesidades, pero que no siempre se movilizan como recurso de formación entre pares.',
+          ra:'Acompañamiento entre pares basado en evidencia: se aplicó un pretest para identificar las necesidades de los rectores nuevos y, simultáneamente, las fortalezas y aprendizajes de los rectores experimentados en los mismos componentes. El cruce de esta información permitió establecer relaciones de acompañamiento pertinentes, conectando necesidades reales con capacidades instaladas y favoreciendo un acompañamiento situado, práctico y contextualizado.',
+          la:'El conocimiento acumulado dentro del sistema educativo puede convertirse en una capacidad institucional de formación cuando se identifica, se conecta y se moviliza de manera intencionada. El acompañamiento entre pares adquiere mayor impacto cuando responde a necesidades previamente identificadas y permite aprender desde experiencias reales de gestión, fortaleciendo el liderazgo directivo desde la práctica.',
+          rt:'Institucionalizar un modelo de acompañamiento entre pares basado en evidencia, con instrumentos para identificar necesidades y fortalezas, criterios para la articulación de pares, mecanismos de documentación de aprendizajes y seguimiento a los cambios en las capacidades directivas. El reto es pasar de una experiencia focalizada a una estrategia sostenible de gestión del conocimiento y desarrollo del liderazgo escolar.' }
+      ]
+    }
+  );
+
+  /* ---------- periodo seleccionado y numeración dinámica ---------- */
+  var PERIODOS = {
+    ago:  { opt:'Marzo – Agosto', informe:'Informe de marzo a agosto' },
+    sep:  { opt:'Septiembre',     informe:'Informe de septiembre' },
+    todo: { opt:'Ver todo',       informe:'Informe acumulado, marzo a septiembre' }
+  };
+  var LEDE_LECCIONES = {
+    ago:  'la información adquiere valor cuando se transforma en decisiones de acompañamiento.',
+    sep:  'la evidencia adquiere valor cuando familias, docentes y directivos la traducen en acciones concretas.',
+    todo: 'la información y la evidencia adquieren valor cuando se transforman en decisiones y acciones de acompañamiento.'
+  };
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function inPeriod(x){ return state.month === 'todo' || x.mes === state.month; }
+  function items(){ return (state.mode === 'practicas' ? PRACTICAS : DATA).filter(inPeriod); }
+
   function el(tag, cls, html){
     var e = document.createElement(tag);
     if(cls) e.className = cls;
@@ -624,13 +728,18 @@
     var bento = document.getElementById('bento');
     bento.innerHTML = '';
     bento.classList.toggle('practicas', state.mode === 'practicas');
+    var list = items();
+    if(!list.length){
+      bento.appendChild(el('p','empty', 'Aún no hay ' + (state.mode === 'practicas' ? 'buenas prácticas' : 'lecciones') + ' documentadas para este periodo.'));
+      return;
+    }
 
     if(state.mode === 'practicas'){
-      PRACTICAS.forEach(function(p, pi){
+      list.forEach(function(p, pi){
         var tile = el('button','tile');
         tile.type = 'button';
-        tile.appendChild(el('span','tile-ghost mono', p.num));
-        tile.appendChild(el('span','tile-num mono', 'PRÁCTICA ' + p.num));
+        tile.appendChild(el('span','tile-ghost mono', pad(pi+1)));
+        tile.appendChild(el('span','tile-num mono', 'PRÁCTICA ' + pad(pi+1)));
         tile.appendChild(el('h3','tile-title', p.title));
         tile.appendChild(el('p','tile-dek', p.dek || p.qd));
 
@@ -646,11 +755,11 @@
       return;
     }
 
-    DATA.forEach(function(sec, si){
+    list.forEach(function(sec, si){
       var tile = el('button','tile');
       tile.type = 'button';
-      tile.appendChild(el('span','tile-ghost mono', sec.num));
-      tile.appendChild(el('span','tile-num mono', 'EJE ' + sec.num));
+      tile.appendChild(el('span','tile-ghost mono', pad(si+1)));
+      tile.appendChild(el('span','tile-num mono', 'EJE ' + pad(si+1)));
       tile.appendChild(el('h3','tile-title', sec.title));
       tile.appendChild(el('p','tile-dek', sec.dek));
 
@@ -679,23 +788,22 @@
   var closeBtn = document.getElementById('modalClose');
 
   /* mode: 'lecciones' | 'practicas'. En 'practicas', state.axis indexa PRACTICAS y state.lesson es siempre null. */
-  var state = { mode: 'lecciones', axis: 0, lesson: null, lastFocus: null };
-  function items(){ return state.mode === 'practicas' ? PRACTICAS : DATA; }
+  var state = { mode: 'lecciones', month: 'todo', axis: 0, lesson: null, lastFocus: null };
 
-  function quadBlock(type, text){
+  function quadBlock(type, text, label){
     var q = el('div','quad '+type);
-    q.appendChild(el('div','quad-label', ICONS[type] + LABELS[type]));
+    q.appendChild(el('div','quad-label', ICONS[type] + (label || LABELS[type])));
     q.appendChild(el('p', null, text));
     return q;
   }
 
   function renderAxis(){
-    var sec = DATA[state.axis];
-    kickerEl.textContent = 'Eje ' + sec.num + ' de 07';
+    var sec = items()[state.axis], num = pad(state.axis+1), total = pad(items().length);
+    kickerEl.textContent = 'Eje ' + num + ' de ' + total;
     titleEl.textContent = sec.title;
     dekEl.textContent = sec.dek;
     backBtn.hidden = true;
-    posEl.textContent = sec.num + ' / 07';
+    posEl.textContent = num + ' / ' + total;
 
     bodyEl.innerHTML = '';
     var list = el('ul','lesson-list');
@@ -703,7 +811,7 @@
       var li = el('li');
       var row = el('button','lesson-row');
       row.type = 'button';
-      row.appendChild(el('span','lesson-num mono', sec.num + '.' + (ci+1)));
+      row.appendChild(el('span','lesson-num mono', num + '.' + (ci+1)));
       row.appendChild(el('span','lesson-text', card.title));
       row.appendChild(dotsClusterInline());
       row.appendChild(el('span','lesson-go', CHEVRON_SM));
@@ -720,9 +828,9 @@
   }
 
   function renderLesson(){
-    var sec = DATA[state.axis];
+    var sec = items()[state.axis];
     var card = sec.cards[state.lesson];
-    kickerEl.textContent = 'Eje ' + sec.num + ' · Lección ' + (state.lesson+1) + ' de ' + sec.cards.length;
+    kickerEl.textContent = 'Eje ' + pad(state.axis+1) + ' · Lección ' + (state.lesson+1) + ' de ' + sec.cards.length;
     titleEl.textContent = card.title;
     dekEl.textContent = '';
     backBtn.hidden = false;
@@ -731,7 +839,7 @@
     bodyEl.innerHTML = '';
     var quads = el('div','quads');
     quads.appendChild(quadBlock('li', card.li));
-    quads.appendChild(quadBlock('ra', card.ra));
+    quads.appendChild(quadBlock('ra', card.ra, card.raLabel));
     quads.appendChild(quadBlock('la', card.la));
     quads.appendChild(quadBlock('rt', card.rt));
     bodyEl.appendChild(quads);
@@ -745,12 +853,12 @@
   }
 
   function renderPractica(){
-    var p = PRACTICAS[state.axis];
-    kickerEl.textContent = 'Buena práctica ' + p.num + ' de 0' + PRACTICAS.length;
+    var p = items()[state.axis], num = pad(state.axis+1), total = pad(items().length);
+    kickerEl.textContent = 'Buena práctica ' + num + ' de ' + total;
     titleEl.textContent = p.title;
     dekEl.textContent = p.dek || '';
     backBtn.hidden = true;
-    posEl.textContent = p.num + ' / 0' + PRACTICAS.length;
+    posEl.textContent = num + ' / ' + total;
 
     bodyEl.innerHTML = '';
     var quads = el('div','quads');
@@ -796,7 +904,7 @@
     if(state.lesson === null){
       state.axis = (state.axis - 1 + items().length) % items().length;
     } else {
-      var len = DATA[state.axis].cards.length;
+      var len = items()[state.axis].cards.length;
       state.lesson = (state.lesson - 1 + len) % len;
     }
     render();
@@ -805,7 +913,7 @@
     if(state.lesson === null){
       state.axis = (state.axis + 1) % items().length;
     } else {
-      var len = DATA[state.axis].cards.length;
+      var len = items()[state.axis].cards.length;
       state.lesson = (state.lesson + 1) % len;
     }
     render();
@@ -834,6 +942,26 @@
   var switchBtns = document.querySelectorAll('.switch-btn');
   var bentoEl = document.getElementById('bento');
 
+  function setText(sel, fn){
+    Array.prototype.forEach.call(document.querySelectorAll(sel), function(n){ n.textContent = fn(n); });
+  }
+  /* Reconstruye todo lo que depende del periodo: tablero, KPI, insignias y textos. */
+  function refresh(animate){
+    var ejes = DATA.filter(inPeriod), prac = PRACTICAS.filter(inPeriod);
+    var n = {
+      ejes: ejes.length,
+      lecciones: ejes.reduce(function(t, e){ return t + e.cards.length; }, 0),
+      practicas: prac.length,
+      criterios: prac.length * CRITERIA.length
+    };
+    setText('[data-count]', function(x){ return x.classList.contains('switch-n') ? n[x.dataset.count] : pad(n[x.dataset.count]); });
+    setText('[data-informe]', function(){ return PERIODOS[state.month].informe; });
+    setText('#ledeLecciones', function(){ return LEDE_LECCIONES[state.month]; });
+    bentoEl.classList.remove('swap');
+    buildBento();
+    if(animate){ void bentoEl.offsetWidth; bentoEl.classList.add('swap'); }
+  }
+
   function setView(mode, animate){
     state.mode = mode; state.axis = 0; state.lesson = null;
     Array.prototype.forEach.call(switchBtns, function(b){
@@ -842,9 +970,7 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-view]'), function(n){
       n.hidden = n.getAttribute('data-view') !== mode;
     });
-    bentoEl.classList.remove('swap');
-    buildBento();
-    if(animate){ void bentoEl.offsetWidth; bentoEl.classList.add('swap'); }
+    refresh(animate);
     try {
       history.replaceState(null, '', mode === 'practicas' ? '#buenas-practicas' : location.pathname + location.search);
     } catch(e){}
@@ -855,6 +981,12 @@
       var mode = b.getAttribute('data-go');
       if(mode !== state.mode){ setView(mode, true); }
     });
+  });
+
+  var periodoEl = document.getElementById('periodo');
+  periodoEl.addEventListener('change', function(){
+    state.month = periodoEl.value; state.axis = 0; state.lesson = null;
+    refresh(true);
   });
 
   function viewFromHash(){ return location.hash === '#buenas-practicas' ? 'practicas' : 'lecciones'; }
