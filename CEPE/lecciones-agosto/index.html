@@ -148,17 +148,25 @@
 
   .controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:14px}
   .controls .switch{margin-bottom:0}
-  .period{display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:.72rem;
-    letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--ink-soft)}
-  .period select{
-    font:inherit;font-family:'IBM Plex Sans',sans-serif;font-size:.92rem;font-weight:600;letter-spacing:0;text-transform:none;
-    color:var(--ink);background:var(--bg-2);border:1px solid var(--border-bright);border-radius:10px;
-    min-height:42px;padding:8px 12px;box-shadow:0 1px 3px var(--shadow);cursor:pointer;
+  .period{
+    display:inline-flex;align-items:center;gap:8px;padding:4px 4px 4px 14px;
+    background:var(--bg-2);border:1px solid var(--border-bright);border-radius:12px;box-shadow:0 1px 3px var(--shadow);
+    font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+    font-weight:600;color:var(--ink-soft);cursor:pointer;transition:border-color .16s ease;
   }
-  .period select:hover{border-color:var(--cyan)}
+  .period:hover,.period:focus-within{border-color:var(--cyan)}
+  .period svg{width:15px;height:15px;color:var(--cyan);flex:none}
+  .period select{
+    appearance:none;-webkit-appearance:none;border:none;cursor:pointer;
+    font-family:'IBM Plex Sans',sans-serif;font-size:.92rem;font-weight:600;letter-spacing:0;text-transform:none;
+    color:var(--bg-2);background-color:var(--ink);border-radius:9px;min-height:42px;padding:8px 38px 8px 16px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23EFA916' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;background-size:14px;
+  }
+  .period select option{background:var(--bg-2);color:var(--ink)}
   .empty{grid-column:1 / -1;padding:36px 20px;text-align:center;color:var(--ink-soft);
     border:1px dashed var(--border-bright);border-radius:10px;background:var(--bg-2)}
-  @media (max-width:520px){ .period{width:100%} .period select{flex:1} }
+  @media (max-width:520px){ .period{display:flex;width:100%} .period select{flex:1} }
 
   .brandmarks{
     display:flex;align-items:center;gap:14px;flex:0 0 auto;
@@ -365,7 +373,7 @@
           <button type="button" class="switch-btn" data-go="lecciones" aria-pressed="true">Lecciones aprendidas <span class="switch-n mono" data-count="lecciones">15</span></button>
           <button type="button" class="switch-btn" data-go="practicas" aria-pressed="false">Buenas prácticas <span class="switch-n mono" data-count="practicas">5</span></button>
         </div>
-        <label class="period">Periodo
+        <label class="period"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12.5" rx="2"/><path d="M3 8.5h14M7 2.8v3M13 2.8v3"/></svg>Periodo
           <select id="periodo">
             <option value="ago">Marzo – Agosto</option>
             <option value="sep">Septiembre</option>
