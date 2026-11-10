@@ -377,6 +377,7 @@
           <select id="periodo">
             <option value="ago">Marzo – Agosto</option>
             <option value="sep">Septiembre</option>
+            <option value="oct">Octubre</option>
             <option value="todo" selected>Ver todo</option>
           </select>
         </label>
@@ -704,15 +705,62 @@
     }
   );
 
+  /* Octubre — fuente: "docs/Octubre/TABLEROS DOCENTES UNIVERSITARIOS.docx". labels: nombres propios de los cuatro cuadrantes cuando difieren de los estándar. */
+  DATA.push(
+    { mes:'oct', title:'Formación de docentes universitarios',
+      dek:'Alta pertinencia (4,84/5) y apropiación favorable (4,45/5) en 38 docentes participantes; el reto ahora es verificar la transferencia al aula.',
+      cards:[
+        { title:'La pertinencia aumenta cuando la formación se conecta con la práctica docente',
+          li:'Los talleres registran una pertinencia promedio de 4,84/5. El 87% calificó la formación como “muy pertinente” y el 13% como “pertinente”. Los contenidos respondieron a necesidades reales de la práctica (4,84); las estrategias se consideraron pertinentes para el contexto de La Universidad en el Campo (4,87); los ejemplos facilitaron la comprensión (4,87) y las herramientas se valoraron como aplicables a la planeación y orientación de clases (4,84).',
+          ra:'La formación se organizó alrededor de necesidades de la práctica docente e incorporó estrategias, ejemplos y actividades para comprender los contenidos, planear las clases y promover la participación y el aprendizaje de los estudiantes. El abordaje incluyó Escuela Nueva, atención a la diversidad y empresarismo.',
+          la:'La pertinencia aumenta cuando los contenidos de formación se relacionan de manera explícita con el contexto, las necesidades de enseñanza y las situaciones que enfrentan los docentes en los módulos universitarios. La contextualización y los ejemplos prácticos facilitan la comprensión y la posibilidad de uso.',
+          rt:'Precisar las necesidades por programa y módulo; mantener ejemplos cercanos a los contextos productivos y educativos; y verificar la pertinencia mediante productos concretos de planeación y experiencias de aula, no solo mediante la valoración de satisfacción.' },
+        { title:'La apropiación de los componentes formativos no es homogénea',
+          li:'El promedio de apropiación fue 4,45/5. Por componente: estrategias del Modelo Escuela Nueva, 4,66 (35 respuestas y 3 N/A); atención a la diversidad, 4,44 (36 respuestas y 2 N/A); empresarismo, 4,26 (27 respuestas).',
+          ra:'El proceso formativo abordó tres campos: planeación de experiencias desde Escuela Nueva; reconocimiento de ritmos, necesidades y condiciones diversas de aprendizaje; e integración del contexto, identificación de oportunidades y formulación de iniciativas o planes de negocio.',
+          la:'La apropiación no es homogénea entre componentes. Escuela Nueva obtiene la valoración más alta; atención a la diversidad también presenta apropiación favorable. Empresarismo requiere mayor profundización y ejemplos ajustados a los programas y módulos.',
+          rt:'Desarrollar ejercicios específicos de empresarismo vinculados con los módulos; acompañar la adaptación de estrategias de atención a la diversidad; y aclarar en futuras mediciones cuándo corresponde marcar N/A para mejorar la interpretación de resultados.' },
+        { title:'La transferencia a las clases es progresiva y debe verificarse',
+          li:'El 76% (29/38) indicó que ya aplica o está incorporando los aprendizajes: 10 docentes (26%) reportan una experiencia concreta y 19 (50%) están incorporándolos a la planeación o al desarrollo de sus clases. Dos (5%) aún no los aplican, aunque identifican cómo hacerlo; siete (18%) señalaron no tener actualmente asignación de clases en el programa.',
+          ra:'Los talleres promovieron estrategias transferibles, entre ellas trabajo colaborativo (76%), aprendizaje activo y resolución de problemas (61%), uso de guías y actividades contextualizadas (55%), ajustes didácticos (55%) y evaluación formativa y retroalimentación (53%).',
+          la:'El dato de 76% combina dos etapas distintas: aplicación con experiencia concreta e incorporación en proceso. Por ello, no debe presentarse como 76% de aplicación consolidada. La evidencia disponible muestra avances de transferencia, pero también la necesidad de acompañar la puesta en práctica y diferenciar a quienes tienen asignación docente.',
+          rt:'Dar seguimiento diferenciado a los 19 docentes que están incorporando estrategias y a los 10 que reportan experiencias; acordar productos de aplicación; y mantener una ruta para quienes aún no tienen asignación, sin incluirlos indebidamente en el denominador de aplicación en aula.' },
+        { title:'La transferencia requiere tiempo, acompañamiento y evidencias',
+          li:'Las principales dificultades reportadas son tiempo para planear y adaptar (47%), conectividad o condiciones del contexto (45%), tamaño o heterogeneidad del grupo (39%) y disponibilidad de recursos o materiales (37%). Como apoyos, se solicitan acompañamiento pedagógico a la planeación (50%), intercambio entre docentes (47%) y materiales adaptados (37%).',
+          ra:'El instrumento recogió las evidencias que los docentes podrían aportar: guías o materiales adaptados (55%), actividades o proyectos de estudiantes (39%), instrumentos de evaluación (37%), planeaciones ajustadas (34%) y registros de actividad (34%). También identificó apoyos concretos para facilitar la incorporación.',
+          la:'La transferencia no depende únicamente de la comprensión individual. Requiere condiciones de tiempo, recursos, pertinencia curricular y acompañamiento posterior. La existencia de evidencias permite pasar del autorreporte a una verificación más sólida de la incorporación de los aprendizajes.',
+          rt:'Implementar seguimiento posterior con acompañamiento a la planeación (solicitado por 50%), intercambio de experiencias (47%) y materiales adaptados (37%). Definir una evidencia mínima por docente o equipo: planeación ajustada, guía/material, actividad aplicada y breve reflexión; resguardar registros y autorizaciones cuando haya fotografías.' }
+      ]
+    },
+    { mes:'oct', title:'Liderazgo directivo y formación de rectores',
+      dek:'La mayor valoración está en bienestar socioemocional (3,76) y liderazgo transformador y territorial (3,61); la corresponsabilidad familia–escuela–estudiante es el principal desafío (3,28).',
+      cards:[
+        { title:'La formación de rectores debe ser diferenciada y centrada en el liderazgo pedagógico',
+          li:'Los rectores presentan estilos, capacidades y niveles de desarrollo del liderazgo diferentes, lo que demanda procesos formativos diferenciados y acordes con las necesidades de cada institución.',
+          ra:'Orientar la formación al fortalecimiento del liderazgo pedagógico, la gestión curricular, el acompañamiento a docentes y el seguimiento a los aprendizajes.',
+          la:'La formación directiva es más pertinente cuando reconoce las particularidades de cada rector y prioriza su capacidad para liderar transformaciones pedagógicas, más allá de la gestión administrativa.',
+          rt:'Diseñar rutas diferenciadas de formación y acompañamiento, promoviendo la aplicación del liderazgo pedagógico mediante acciones verificables de mejoramiento institucional y de las prácticas docentes.' },
+        { title:'Las microcredenciales reconocen los aprendizajes de los rectores y los acercan a la formación universitaria',
+          labels:{ li:'Buena práctica identificada', ra:'Implementación', la:'Valor generado', rt:'Retos para su sostenibilidad y transferencia' },
+          li:'Incorporación de microcredenciales como estrategia de formación y reconocimiento de los aprendizajes de los rectores.',
+          ra:'Desarrollo de espacios formativos mediante microcredenciales que permiten reconocer progresivamente los aprendizajes y acercar a los directivos a nuevas oportunidades de formación universitaria.',
+          la:'La estrategia favorece la motivación y sensibilización de los rectores frente al valor de la formación continua, al reconocer la posibilidad de acreditar sus aprendizajes y articularse a proyectos formativos universitarios a lo largo de la vida.',
+          rt:'Consolidar rutas de formación progresivas, establecer mecanismos de reconocimiento y certificación con las universidades y facilitar la continuidad de los rectores en nuevas experiencias de cualificación.' }
+      ]
+    }
+  );
+
   /* ---------- periodo seleccionado y numeración dinámica ---------- */
   var PERIODOS = {
     ago:  { opt:'Marzo – Agosto', informe:'Informe de marzo a agosto' },
     sep:  { opt:'Septiembre',     informe:'Informe de septiembre' },
-    todo: { opt:'Ver todo',       informe:'Informe acumulado, marzo a septiembre' }
+    oct:  { opt:'Octubre',        informe:'Informe de octubre' },
+    todo: { opt:'Ver todo',       informe:'Informe acumulado, marzo a octubre' }
   };
   var LEDE_LECCIONES = {
     ago:  'la información adquiere valor cuando se transforma en decisiones de acompañamiento.',
     sep:  'la evidencia adquiere valor cuando familias, docentes y directivos la traducen en acciones concretas.',
+    oct:  'la transferencia al aula y el liderazgo directivo avanzan cuando se verifican con evidencias.',
     todo: 'la información y la evidencia adquieren valor cuando se transforman en decisiones y acciones de acompañamiento.'
   };
   function pad(n){ return (n < 10 ? '0' : '') + n; }
@@ -798,6 +846,7 @@
   /* mode: 'lecciones' | 'practicas'. En 'practicas', state.axis indexa PRACTICAS y state.lesson es siempre null. */
   var state = { mode: 'lecciones', month: 'todo', axis: 0, lesson: null, lastFocus: null };
 
+  function cardLabel(card, type){ return (card.labels && card.labels[type]) || (type === 'ra' ? card.raLabel : undefined); }
   function quadBlock(type, text, label){
     var q = el('div','quad '+type);
     q.appendChild(el('div','quad-label', ICONS[type] + (label || LABELS[type])));
@@ -846,10 +895,10 @@
 
     bodyEl.innerHTML = '';
     var quads = el('div','quads');
-    quads.appendChild(quadBlock('li', card.li));
-    quads.appendChild(quadBlock('ra', card.ra, card.raLabel));
-    quads.appendChild(quadBlock('la', card.la));
-    quads.appendChild(quadBlock('rt', card.rt));
+    quads.appendChild(quadBlock('li', card.li, cardLabel(card, 'li')));
+    quads.appendChild(quadBlock('ra', card.ra, cardLabel(card, 'ra')));
+    quads.appendChild(quadBlock('la', card.la, cardLabel(card, 'la')));
+    quads.appendChild(quadBlock('rt', card.rt, cardLabel(card, 'rt')));
     bodyEl.appendChild(quads);
   }
 
